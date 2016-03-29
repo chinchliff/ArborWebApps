@@ -5,9 +5,84 @@
 
     $(document).ready(function () {
         girder.apiRoot = '/girder/api/v1';
-        var app = new flow.App();
+        
+        // setting up the tree timer request to get a tree with branch lengths
+        var treeTimerRequest = new flow.App();
+        treeTimerRequest.analysisName = "treeTimerRequest";
+        girder.restRequest({
+            path: 'resource/search',
+            data: {
+                q: treeTimerRequest.analysisName,
+                types: JSON.stringify(["item"])
+            }
+        }).done(function (results) {
+            treeTimerRequest.treeId = results["item"][0]._id;
+            treeTimerRequest.readyToAnalyze();
+        });
+
+        treeTimerRequest.readyToAnalyze = function () {
+/*            if ("taxonOttIdList" in this) {
+                d3.select("#send-tree-timer-request").classed('disabled', false);
+            } */
+        };
+
+        $("#send-tree-timer-request").click(function() {
+//            $("#send-tree-timer-request").attr("disabled", "disabled");
+            $("#send-tree-timer-request").text("Re-send request");
+            $("#notice").text("Requesting tree...");
+
+            var inputs = {
+                ott_id_string: {type: "string", format: "text", data: $("#taxon-ids-input".value)}
+            };
+            
+            alert(inputs.ott_id_string)
+
+            var outputs = {
+                res: {type: "table", format: "rows"},
+                treePlot: {type: "image", format: "png.base64"}
+            };
+
+            flow.performAnalysis(treeTimerRequest.treeId, inputs, outputs,
+                _.bind(function (error, result) {
+                    treeTimerRequest.taskId = result._id;
+                    setTimeout(_.bind(treeTimerRequest.checkTreeTimerResult, app), 1000);
+                }, treeTimerRequest));
+
+            treeTimerRequest.checkTreeTimerResult = function () {
+                var check_url = '/item/' + this.treeId + '/romanesco/' + this.taskId + '/status'
+                girder.restRequest({path: check_url}).done(_.bind(function (result) {
+                    console.log(result.status);
+                    if (result.status === 'SUCCESS') {
+                        // get result data
+                        var result_url = '/item/' + this.treeId + '/romanesco/' + this.taskId + '/result'
+                        girder.restRequest({path: result_url}).done(_.bind(function (data) {
+                            treeTimerRequest.treePlot = data.result.treePlot.data;
+
+                            // render tree plot
+                            $("#tree-plot").image({ data: treeTimerRequest.treePlot });
+                            $("#analyze").removeAttr("disabled");
+                            $("#notice").text("Ancestral state reconstruction succeeded!");
+                            $('html, body').animate({
+                                scrollTop: $("#tree-plot").offset().top
+                            }, 1000);
+                        }, this));
+
+                    } else if (result.status === 'FAILURE') {
+                        $("#analyze").removeAttr("disabled");
+                        $("#notice").text("Analysis failed. " + result.message);
+                    } else {
+                        setTimeout(_.bind(this.checkTreeTimerResult, this), 1000);
+                    }
+                }, this));
+            };
+
+        });
+        
+        /* --------------- original code below here --------------- */
+
 
         // Lookup the ID of the analysis that we wish to perform.
+        var app = new flow.App();
         app.analysisName = "aceArbor";
         girder.restRequest({
             path: 'resource/search',
@@ -163,33 +238,33 @@
                     setTimeout(_.bind(app.checkASRResult, app), 1000);
                 }, app));
 
-        app.checkASRResult = function () {
-            var check_url = '/item/' + this.ASRId + '/romanesco/' + this.taskId + '/status'
-            girder.restRequest({path: check_url}).done(_.bind(function (result) {
-                console.log(result.status);
-                if (result.status === 'SUCCESS') {
-                    // get result data
-                    var result_url = '/item/' + this.ASRId + '/romanesco/' + this.taskId + '/result'
-                    girder.restRequest({path: result_url}).done(_.bind(function (data) {
-                        app.treePlot = data.result.treePlot.data;
+            app.checkASRResult = function () {
+                var check_url = '/item/' + this.ASRId + '/romanesco/' + this.taskId + '/status'
+                girder.restRequest({path: check_url}).done(_.bind(function (result) {
+                    console.log(result.status);
+                    if (result.status === 'SUCCESS') {
+                        // get result data
+                        var result_url = '/item/' + this.ASRId + '/romanesco/' + this.taskId + '/result'
+                        girder.restRequest({path: result_url}).done(_.bind(function (data) {
+                            app.treePlot = data.result.treePlot.data;
 
-                        // render tree plot
-                        $("#tree-plot").image({ data: app.treePlot });
+                            // render tree plot
+                            $("#tree-plot").image({ data: app.treePlot });
+                            $("#analyze").removeAttr("disabled");
+                            $("#notice").text("Ancestral state reconstruction succeeded!");
+                            $('html, body').animate({
+                                scrollTop: $("#tree-plot").offset().top
+                            }, 1000);
+                        }, this));
+
+                    } else if (result.status === 'FAILURE') {
                         $("#analyze").removeAttr("disabled");
-                        $("#notice").text("Ancestral state reconstruction succeeded!");
-                        $('html, body').animate({
-                            scrollTop: $("#tree-plot").offset().top
-                        }, 1000);
-                    }, this));
-
-                } else if (result.status === 'FAILURE') {
-                    $("#analyze").removeAttr("disabled");
-                    $("#notice").text("Analysis failed. " + result.message);
-                } else {
-                    setTimeout(_.bind(this.checkASRResult, this), 1000);
-                }
-            }, this));
-        };
+                        $("#notice").text("Analysis failed. " + result.message);
+                    } else {
+                        setTimeout(_.bind(this.checkASRResult, this), 1000);
+                    }
+                }, this));
+            };
 
         });
 
