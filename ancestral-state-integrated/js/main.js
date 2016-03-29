@@ -6,7 +6,7 @@
     $(document).ready(function () {
         girder.apiRoot = '/girder/api/v1';
         
-        // setting up the tree timer request to get a tree with branch lengths
+        // Look up the id of the analysis we wish to perform
         var treeTimerRequest = new flow.App();
         treeTimerRequest.analysisName = "treeTimerRequest";
         girder.restRequest({
@@ -16,7 +16,7 @@
                 types: JSON.stringify(["item"])
             }
         }).done(function (results) {
-            treeTimerRequest.treeId = results["item"][0]._id;
+            treeTimerRequest.analysisId = results["item"][0]._id;
             treeTimerRequest.readyToAnalyze();
         });
 
@@ -35,26 +35,26 @@
                 ott_id_string: {type: "string", format: "text", data: $("#taxon-ids-input").val()}
             };
             
-            alert(inputs.ott_id_string)
+            alert(inputs.ott_id_string.data)
 
             var outputs = {
                 res: {type: "table", format: "rows"},
                 treePlot: {type: "image", format: "png.base64"}
             };
 
-            flow.performAnalysis(treeTimerRequest.treeId, inputs, outputs,
+            flow.performAnalysis(treeTimerRequest.analysisId, inputs, outputs,
                 _.bind(function (error, result) {
                     treeTimerRequest.taskId = result._id;
                     setTimeout(_.bind(treeTimerRequest.checkTreeTimerResult, app), 1000);
                 }, treeTimerRequest));
 
             treeTimerRequest.checkTreeTimerResult = function () {
-                var check_url = '/item/' + this.treeId + '/romanesco/' + this.taskId + '/status'
+                var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
                 girder.restRequest({path: check_url}).done(_.bind(function (result) {
                     console.log(result.status);
                     if (result.status === 'SUCCESS') {
                         // get result data
-                        var result_url = '/item/' + this.treeId + '/romanesco/' + this.taskId + '/result'
+                        var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
                             treeTimerRequest.treePlot = data.result.treePlot.data;
 
