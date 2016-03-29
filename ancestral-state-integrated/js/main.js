@@ -32,7 +32,7 @@
             $("#notice").text("Requesting tree...");
 
             var inputs = {
-                ott_id_string: {type: "string", format: "text", data: $("#taxon-ids-input".value)}
+                ott_id_string: {type: "string", format: "text", data: $("#taxon-ids-input").val()}
             };
             
             alert(inputs.ott_id_string)
