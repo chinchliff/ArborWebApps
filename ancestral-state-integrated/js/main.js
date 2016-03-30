@@ -16,6 +16,7 @@
                 types: JSON.stringify(["item"])
             }
         }).done(function (results) {
+            alert(JSON.stringify(results))
             treeTimerRequest.analysisId = results["item"][0]._id;
             treeTimerRequest.readyToAnalyze();
         });
