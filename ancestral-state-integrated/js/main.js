@@ -18,7 +18,8 @@
                 types: JSON.stringify(["item"])
             }
         }).done(function (results) {
-            console.log(JSON.stringify(results))
+            alert('received results');
+            console.log(JSON.stringify(results));
             treeRequest.analysisId = results["item"][0]._id;
             treeRequest.readyToAnalyze();
         });
