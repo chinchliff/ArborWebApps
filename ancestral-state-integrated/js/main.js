@@ -18,16 +18,16 @@
                 types: JSON.stringify(["item"])
             }
         }).done(function (results) {
-            alert('received results');
-            console.log(JSON.stringify(results));
+//            alert('received results');
+            console.log(JSON.stringify(results)results["item"][0]);
             treeRequest.analysisId = results["item"][0]._id;
             treeRequest.readyToAnalyze();
         });
 
         treeRequest.readyToAnalyze = function () {
-/*            if ("taxonOttIdList" in this) {
-                d3.select("#send-tree-timer-request").classed('disabled', false);
-            } */
+//            if ("taxonOttIdList" in this) {
+                d3.select("#send-tree-request").classed('disabled', false);
+//            }
         };
 
         $("#send-tree-request").click(function() {
@@ -49,7 +49,7 @@
             flow.performAnalysis(treeRequest.analysisId, inputs, outputs,
                 _.bind(function (error, result) {
                     treeRequest.taskId = result._id;
-                    setTimeout(_.bind(treeRequest.checkTreeResult, app), 1000);
+                    setTimeout(_.bind(treeRequest.checkTreeResult, treeRequest), 1000);
                 }, treeRequest));
 
             treeRequest.checkTreeResult = function () {
@@ -83,7 +83,7 @@
         });
         
         /* --------------- original code below here --------------- */
-
+/*
 
         // Lookup the ID of the analysis that we wish to perform.
         var app = new flow.App();
@@ -301,5 +301,5 @@
         });
 
         app.render();
-    });
+    }); */
 }(window.flow, window.$, window.girder));
