@@ -42,8 +42,9 @@
             console.log(inputs.ott_id_string.data)
 
             var outputs = {
-                res: {type: "table", format: "rows"},
-                treePlot: {type: "image", format: "png.base64"}
+//                res: {type: "table", format: "rows"},
+//                treePlot: {type: "image", format: "png.base64"}
+                tree: {type: "string", format: "string"}
             };
 
             flow.performAnalysis(treeRequest.analysisId, inputs, outputs,
@@ -85,23 +86,23 @@
 //        treeRequest.render(); // necessary?
         
         /* --------------- original code below here --------------- */
-/*
+
 
         // Lookup the ID of the analysis that we wish to perform.
-        var app = new flow.App();
-        app.analysisName = "aceArbor";
+        var aceApp = new flow.App();
+        aceApp.analysisName = "aceArbor";
         girder.restRequest({
             path: 'resource/search',
             data: {
-                q: app.analysisName,
+                q: aceApp.analysisName,
                 types: JSON.stringify(["item"])
             }
         }).done(function (results) {
-            app.ASRId = results["item"][0]._id;
-            app.readyToAnalyze();
+            aceApp.ASRId = results["item"][0]._id;
+            aceApp.readyToAnalyze();
         });
 
-        app.readyToAnalyze = function () {
+        aceApp.readyToAnalyze = function () {
             if ("column" in this && "table" in this && "tree" in this && "ASRId" in this) {
                 d3.select("#analyze").classed('disabled', false);
             }
@@ -143,8 +144,8 @@
                 // modifications for simple app begin here
                 // if its a table, get the column names
                 if (typeFormat.type == "table") {
-                    app.table = dataset.get('data');
-                    app.tableFormat = typeFormat.format;
+                    aceApp.table = dataset.get('data');
+                    aceApp.tableFormat = typeFormat.format;
                     d3.select("#table-name").html('Table: ' + file.name + ' <span class="glyphicon glyphicon-ok-circle"></span>');
                     $("#column-input").text("Parsing column names...");
                     $("#column-names").empty();
@@ -182,10 +183,11 @@
                 }
 
                 else if (typeFormat.type == "tree") {
-                    app.tree = dataset.get('data');
+                    aceApp.tree = dataset.get('data');
+                    console.log(aceApp.tree);
                     d3.select("#tree-name").html('Tree: ' + file.name + ' <span class="glyphicon glyphicon-ok-circle"></span>');
                 }
-                app.readyToAnalyze();
+                aceApp.readyToAnalyze();
 
                 this.datasets.off('add', null, 'set-collection').add(dataset);
             }, this);
@@ -196,17 +198,17 @@
         $("#column-input").droppable({
             drop: function( event, ui ) {
                 var COI = ui.draggable.text();
-                app.type = "discrete";
+                aceApp.type = "discrete";
                 if (ui.draggable.hasClass("continuous")) {
-                    app.type = "continuous";
+                    aceApp.type = "continuous";
                 }
-                app.column = COI;
+                aceApp.column = COI;
                 d3.select("#column-input")
                     .classed('btn-primary', true)
                     .classed('btn-success', false)
                     .classed('bg-warning', false)
                     .html(COI + ' <span class="glyphicon glyphicon-ok-circle"></span>');
-                app.readyToAnalyze();
+                aceApp.readyToAnalyze();
             },
             over: function (event, ui) {
                 d3.select("#column-input")
@@ -226,10 +228,10 @@
             $("#notice").text("Performing ancestral state reconstruction analysis...");
 
             var inputs = {
-                table:  {type: "table",  format: app.tableFormat,    data: app.table},
-                tree:   {type: "tree",   format: "newick",           data: app.tree},
-                column: {type: "string", format: "text",             data: app.column},
-                type:   {type: "string", format: "text",             data: app.type},
+                table:  {type: "table",  format: aceApp.tableFormat,    data: aceApp.table},
+                tree:   {type: "tree",   format: "newick",           data: aceApp.tree},
+                column: {type: "string", format: "text",             data: aceApp.column},
+                type:   {type: "string", format: "text",             data: aceApp.type},
                 method: {type: "string", format: "text",             data: "marginal"}
             };
 
@@ -238,13 +240,13 @@
                 treePlot: {type: "image", format: "png.base64"}
             };
 
-            flow.performAnalysis(app.ASRId, inputs, outputs,
+            flow.performAnalysis(aceApp.ASRId, inputs, outputs,
                 _.bind(function (error, result) {
-                    app.taskId = result._id;
-                    setTimeout(_.bind(app.checkASRResult, app), 1000);
-                }, app));
+                    aceApp.taskId = result._id;
+                    setTimeout(_.bind(aceApp.checkASRResult, aceApp), 1000);
+                }, aceApp));
 
-            app.checkASRResult = function () {
+            aceApp.checkASRResult = function () {
                 var check_url = '/item/' + this.ASRId + '/romanesco/' + this.taskId + '/status'
                 girder.restRequest({path: check_url}).done(_.bind(function (result) {
                     console.log(result.status);
@@ -252,10 +254,10 @@
                         // get result data
                         var result_url = '/item/' + this.ASRId + '/romanesco/' + this.taskId + '/result'
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
-                            app.treePlot = data.result.treePlot.data;
+                            aceApp.treePlot = data.result.treePlot.data;
 
                             // render tree plot
-                            $("#tree-plot").image({ data: app.treePlot });
+                            $("#tree-plot").image({ data: aceApp.treePlot });
                             $("#analyze").removeAttr("disabled");
                             $("#notice").text("Ancestral state reconstruction succeeded!");
                             $('html, body').animate({
@@ -302,6 +304,6 @@
             toggleInputTablePreview();
         });
 
-        app.render(); */
+        aceApp.render(); */
     }); 
 }(window.flow, window.$, window.girder));
