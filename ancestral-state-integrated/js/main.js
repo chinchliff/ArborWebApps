@@ -7,49 +7,51 @@
         girder.apiRoot = '/girder/api/v1';
         
         // Look up the id of the analysis we wish to perform
-        var treeTimerRequest = new flow.App();
-        treeTimerRequest.analysisName = "treeTimerRequest";
+        // the analysis specified here is a placeholder. it generates an ultrametric tree
+        // but the branch length are not meaningful
+        var treeRequest = new flow.App();
+        treeRequest.analysisName = "Get induced subtree from OpenTree";
         girder.restRequest({
             path: 'resource/search',
             data: {
-                q: treeTimerRequest.analysisName,
+                q: treeRequest.analysisName,
                 types: JSON.stringify(["item"])
             }
         }).done(function (results) {
-            alert(JSON.stringify(results))
-            treeTimerRequest.analysisId = results["item"][0]._id;
-            treeTimerRequest.readyToAnalyze();
+            console.log(JSON.stringify(results))
+            treeRequest.analysisId = results["item"][0]._id;
+            treeRequest.readyToAnalyze();
         });
 
-        treeTimerRequest.readyToAnalyze = function () {
+        treeRequest.readyToAnalyze = function () {
 /*            if ("taxonOttIdList" in this) {
                 d3.select("#send-tree-timer-request").classed('disabled', false);
             } */
         };
 
-        $("#send-tree-timer-request").click(function() {
+        $("#send-tree-request").click(function() {
 //            $("#send-tree-timer-request").attr("disabled", "disabled");
-            $("#send-tree-timer-request").text("Re-send request");
+            $("#send-tree-request").text("Re-send request");
             $("#notice").text("Requesting tree...");
 
             var inputs = {
                 ott_id_string: {type: "string", format: "text", data: $("#taxon-ids-input").val()}
             };
             
-            alert(inputs.ott_id_string.data)
+            console.log(inputs.ott_id_string.data)
 
             var outputs = {
                 res: {type: "table", format: "rows"},
                 treePlot: {type: "image", format: "png.base64"}
             };
 
-            flow.performAnalysis(treeTimerRequest.analysisId, inputs, outputs,
+            flow.performAnalysis(treeRequest.analysisId, inputs, outputs,
                 _.bind(function (error, result) {
-                    treeTimerRequest.taskId = result._id;
-                    setTimeout(_.bind(treeTimerRequest.checkTreeTimerResult, app), 1000);
-                }, treeTimerRequest));
+                    treeRequest.taskId = result._id;
+                    setTimeout(_.bind(treeRequest.checkTreeResult, app), 1000);
+                }, treeRequest));
 
-            treeTimerRequest.checkTreeTimerResult = function () {
+            treeRequest.checkTreeResult = function () {
                 var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
                 girder.restRequest({path: check_url}).done(_.bind(function (result) {
                     console.log(result.status);
@@ -57,10 +59,10 @@
                         // get result data
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
-                            treeTimerRequest.treePlot = data.result.treePlot.data;
+                            treeRequest.treePlot = data.result.treePlot.data;
 
                             // render tree plot
-                            $("#tree-plot").image({ data: treeTimerRequest.treePlot });
+                            $("#tree-plot").image({ data: treeRequest.treePlot });
                             $("#analyze").removeAttr("disabled");
                             $("#notice").text("Ancestral state reconstruction succeeded!");
                             $('html, body').animate({
@@ -72,7 +74,7 @@
                         $("#analyze").removeAttr("disabled");
                         $("#notice").text("Analysis failed. " + result.message);
                     } else {
-                        setTimeout(_.bind(this.checkTreeTimerResult, this), 1000);
+                        setTimeout(_.bind(this.checkTreeResult, this), 1000);
                     }
                 }, this));
             };
