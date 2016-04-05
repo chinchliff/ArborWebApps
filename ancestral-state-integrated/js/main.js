@@ -19,7 +19,7 @@
             }
         }).done(function (results) {
 //            alert('received results');
-            console.log(JSON.stringify(results)results["item"][0]);
+            console.log(JSON.stringify(resultsresults["item"][0]));
             treeRequest.analysisId = results["item"][0]._id;
             treeRequest.readyToAnalyze();
         });
