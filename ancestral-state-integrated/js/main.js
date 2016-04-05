@@ -82,6 +82,8 @@
 
         });
         
+//        treeRequest.render(); // necessary?
+        
         /* --------------- original code below here --------------- */
 /*
 
@@ -300,6 +302,6 @@
             toggleInputTablePreview();
         });
 
-        app.render();
-    }); */
+        app.render(); */
+    }); 
 }(window.flow, window.$, window.girder));
