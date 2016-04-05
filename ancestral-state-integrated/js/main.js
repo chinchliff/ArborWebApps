@@ -73,7 +73,7 @@
 //                            $("#notice").text("Ancestral state reconstruction succeeded!");
 //                            $('html, body').animate({
 //                                scrollTop: $("#tree-plot").offset().top
-                            }, 1000);
+//                            }, 1000);
                         }, this));
 
                     } else if (result.status === 'FAILURE') {
