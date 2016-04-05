@@ -61,14 +61,18 @@
                         // get result data
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
-                            treeRequest.treePlot = data.result.treePlot.data;
+//                            treeRequest.treePlot = data.result.treePlot.data;
+                            treeRequest.tree = data.result.newick_result
 
+                            aceApp.tree = dataset.get('data');
+                            console.log(aceApp.tree);
+                            d3.select("#tree-name").html('Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>');
                             // render tree plot
-                            $("#tree-plot").image({ data: treeRequest.treePlot });
-                            $("#analyze").removeAttr("disabled");
-                            $("#notice").text("Ancestral state reconstruction succeeded!");
-                            $('html, body').animate({
-                                scrollTop: $("#tree-plot").offset().top
+//                            $("#tree-plot").image({ data: treeRequest.treePlot });
+//                            $("#analyze").removeAttr("disabled");
+//                            $("#notice").text("Ancestral state reconstruction succeeded!");
+//                            $('html, body').animate({
+//                                scrollTop: $("#tree-plot").offset().top
                             }, 1000);
                         }, this));
 
