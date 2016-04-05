@@ -18,7 +18,6 @@
                 types: JSON.stringify(["item"])
             }
         }).done(function (results) {
-//            alert('received results');
             console.log(JSON.stringify(results["item"][0]));
             treeRequest.analysisId = results["item"][0]._id;
             treeRequest.readyToAnalyze();
@@ -44,7 +43,7 @@
             var outputs = {
 //                res: {type: "table", format: "rows"},
 //                treePlot: {type: "image", format: "png.base64"}
-                tree: {type: "string", format: "string"}
+                newick_result: {type: "string", format: "text"}
             };
 
             flow.performAnalysis(treeRequest.analysisId, inputs, outputs,
@@ -62,9 +61,9 @@
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
 //                            treeRequest.treePlot = data.result.treePlot.data;
-                            treeRequest.tree = data.result.newick_result
+                            treeRequest.tree = data.result.newick_result;
 
-                            aceApp.tree = dataset.get('data');
+                            aceApp.tree = treeRequest.tree;
                             console.log(aceApp.tree);
                             d3.select("#tree-name").html('Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>');
                             // render tree plot
