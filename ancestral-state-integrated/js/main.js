@@ -304,6 +304,6 @@
             toggleInputTablePreview();
         });
 
-        aceApp.render(); */
+        aceApp.render();
     }); 
 }(window.flow, window.$, window.girder));
