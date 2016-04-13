@@ -44,7 +44,7 @@
 //                res: {type: "table", format: "rows"},
 //                treePlot: {type: "image", format: "png.base64"}
                 newick_result: {type: "string", format: "text"},
-                taxon_names: {type: "table", format: "table"}
+                taxon_names: {type: "string", format: "text"}
             };
 
             flow.performAnalysis(treeRequest.analysisId, inputs, outputs,
