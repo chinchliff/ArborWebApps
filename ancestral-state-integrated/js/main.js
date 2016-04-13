@@ -43,7 +43,7 @@
             var outputs = {
 //                res: {type: "table", format: "rows"},
 //                treePlot: {type: "image", format: "png.base64"}
-                newick_result: {type: "string", format: "text"}
+                newick_result: {type: "string", format: "text"},
                 taxon_names: {type: "table", format: "table"}
             };
 
@@ -63,9 +63,11 @@
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
 //                            treeRequest.treePlot = data.result.treePlot.data;
                             treeRequest.tree = data.result.newick_result;
+                            treeRequest.taxonNames = data.result.taxon_names;
 
                             aceApp.tree = treeRequest.tree;
                             console.log(aceApp.tree);
+                            console.log(treeRequest.taxonNames);
                             d3.select("#tree-name").html('Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>');
                             // render tree plot
 //                            $("#tree-plot").image({ data: treeRequest.treePlot });
