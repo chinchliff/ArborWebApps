@@ -8,7 +8,7 @@
         
         // Look up the id of the analysis we wish to perform
         // the analysis specified here is a placeholder. it generates an ultrametric tree
-        // but the branch length are not meaningful
+        // but the branch lengths are not meaningful
         var treeRequest = new flow.App();
         treeRequest.analysisName = "Get induced subtree from OpenTree";
         girder.restRequest({
@@ -44,6 +44,7 @@
 //                res: {type: "table", format: "rows"},
 //                treePlot: {type: "image", format: "png.base64"}
                 newick_result: {type: "string", format: "text"}
+                taxon_names: {type: "table", format: "table"}
             };
 
             flow.performAnalysis(treeRequest.analysisId, inputs, outputs,
