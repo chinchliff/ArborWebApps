@@ -10,7 +10,7 @@
         // the analysis specified here is a placeholder. it generates an ultrametric tree
         // but the branch lengths are not meaningful
         var treeRequest = new flow.App();
-        treeRequest.analysisName = "Get induced subtree from OpenTree";
+        treeRequest.analysisName = "Get complete subtree for a given taxon";
         girder.restRequest({
             path: 'resource/search',
             data: {
@@ -35,7 +35,7 @@
             $("#notice").text("Requesting tree...");
 
             var inputs = {
-                ott_id_string: {type: "string", format: "text", data: $("#taxon-ids-input").val()}
+                ott_id_string: {type: "string", format: "text", data: $("#complete-subtree-ott-id-input").val()}
             };
             
             console.log(inputs.ott_id_string.data)
