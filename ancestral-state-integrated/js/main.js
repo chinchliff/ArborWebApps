@@ -35,10 +35,10 @@
             $("#notice").text("Requesting tree...");
 
             var inputs = {
-                ott_id_string: {type: "string", format: "text", data: $("#complete-subtree-ott-id-input").val()}
+                ott_id: {type: "string", format: "text", data: $("#complete-subtree-ott-id-input").val()}
             };
             
-            console.log(inputs.ott_id_string.data)
+            console.log(inputs.ott_id.data)
 
             var outputs = {
 //                res: {type: "table", format: "rows"},
