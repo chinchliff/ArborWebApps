@@ -10,7 +10,7 @@
         // the analysis specified here is a placeholder. it generates an ultrametric tree
         // but the branch lengths are not meaningful
         var treeRequest = new flow.App();
-        treeRequest.analysisName = "Get complete subtree from OpenTree for a given ott id - Python";
+        treeRequest.analysisName = "Get complete subtree from OpenTree for a given ott id";
         girder.restRequest({
             path: 'resource/search',
             data: {
