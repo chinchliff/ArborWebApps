@@ -65,6 +65,7 @@ function getFlowAppByNameLookup(name) {
 //                res: {type: "table", format: "rows"},
 //                treePlot: {type: "image", format: "png.base64"}
                 newick_result: {type: "string", format: "text"},
+                tree: {type: "tree", format: "newick"},
                 taxon_names: {type: "string", format: "text"}
             };
 
