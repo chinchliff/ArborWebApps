@@ -53,7 +53,7 @@ function getFlowAppByNameLookup(name) {
 
         $("#send-tree-request").click(function() {
             $("#send-tree-request").text("Search for a different tree");
-            $("#notice").text("Requesting tree...");
+            $("#tree-notice").text("Requesting tree...");
 
             var inputs = {
                 ott_id: {type: "string", format: "text", data: $("#complete-subtree-ott-id-input").val()}
@@ -110,7 +110,7 @@ function getFlowAppByNameLookup(name) {
 
                     } else if (result.status === 'FAILURE') {
 //                        $("#analyze").addAttr("disabled");
-                        $("#notice").text("Could not retrieve tree from OpenTree. " + result.message);
+                        $("#tree-notice").text("Could not retrieve tree from OpenTree. " + result.message);
                     } else {
                         setTimeout(_.bind(this.checkTreeResult, this), 1000);
                     }
@@ -121,7 +121,7 @@ function getFlowAppByNameLookup(name) {
         
         $("#send-trait-request").click(function() {
             $("#send-trait-request").text("Re-submit trait request");
-            $("#notice").text("Gathering available trait data...");
+            $("#trait-notice").text("Gathering available trait data...");
 
             var inputs = {
                 taxon_names: {type: "string", format: "text", data: traitRequest.taxonNames}
@@ -166,7 +166,7 @@ function getFlowAppByNameLookup(name) {
 
                     } else if (result.status === 'FAILURE') {
 //                        $("#analyze").removeAttr("disabled");
-                        $("#notice").text("There was a problem attempting to collect trait data. " + result.message);
+                        $("#trait-notice").text("There was a problem attempting to collect trait data. " + result.message);
                     } else {
                         setTimeout(_.bind(this.checkTraitResult, this), 1000);
                     }
@@ -296,7 +296,7 @@ function getFlowAppByNameLookup(name) {
         $("#analyze").click(function() {
             $("#analyze").attr("disabled", "disabled");
             $("#analyze").text("Re-run");
-            $("#notice").text("Performing ancestral state reconstruction analysis...");
+            $("#ace-notice").text("Performing ancestral state reconstruction analysis...");
 
             var inputs = {
                 table:  {type: "table",  format: aceApp.tableFormat,    data: aceApp.table},
@@ -330,7 +330,7 @@ function getFlowAppByNameLookup(name) {
                             // render tree plot
                             $("#tree-plot").image({ data: aceApp.treePlot });
                             $("#analyze").removeAttr("disabled");
-                            $("#notice").text("Ancestral state reconstruction succeeded!");
+                            $("#ace-notice").text("Ancestral state reconstruction succeeded!");
                             $('html, body').animate({
                                 scrollTop: $("#tree-plot").offset().top
                             }, 1000);
@@ -338,7 +338,7 @@ function getFlowAppByNameLookup(name) {
 
                     } else if (result.status === 'FAILURE') {
                         $("#analyze").removeAttr("disabled");
-                        $("#notice").text("Analysis failed. " + result.message);
+                        $("#ace-notice").text("Analysis failed. " + result.message);
                     } else {
                         setTimeout(_.bind(this.checkASRResult, this), 1000);
                     }
