@@ -157,7 +157,7 @@ function getFlowAppByNameLookup(name) {
                                     $(headerCell).children("div").click(function() {
 
                                         $("#trait-selection").html('Selected trait: ' +
-                                                traitName + '<span class="glyphicon glyphicon-exclamation-sign"></span>');
+                                                traitName + ' <span class="glyphicon glyphicon-ok-circle"></span>');
                                         $("#filter").removeClass("disabled");
                                         $("#filter-notice").html('Tree needs to be filtered to match selected data <span class="glyphicon glyphicon-exclamation-sign"></span>');
 
@@ -166,7 +166,7 @@ function getFlowAppByNameLookup(name) {
                             });
 
                             $("#trait-notice").text("Trait data request was successful! Select the data to be used for ancestral character estimation:");
-                            $("#trait-selection").text("No trait has been selected.");
+                            $("#trait-selection").html('No trait has been selected. <span class="glyphicon glyphicon-exclamation-sign"></span>');
 
 /*                            aceApp.traitData = traitRequest.tree;
                             console.log(aceApp.traitData);

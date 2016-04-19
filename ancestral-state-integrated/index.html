@@ -60,24 +60,14 @@ html, body {
                     <!--div id="column-names" class="btn-group-vertical full-width btn"></div>
                 </div -->
                 <div class="col-sm-9">
-                        <!--div id="dataset-management">
-                            <div class="btn btn-primary full-width" id="upload">
-                                <i class="glyphicon glyphicon-file"></i> Browse or drop files here
-                            </div>
-                            <div class="form-group hide">
-                                <input id="g-files" type="file" multiple="multiple">
-                            </div>
-                            <div class="form-inline">
-                                <select class="form-control datasets hidden"></select>
-                            </div>
-                        </div-->
+
                         <div id="collect-tree">
                             <h4>Step 1: Get a tree from Open Tree of Life </h4>
                             <div id="taxon-lookup">
                                 <input type="text" id="taxon-name-input" value="<lookup taxon - not yet supported>"></input>
                                 <input type="text" id="complete-subtree-ott-id-input" value="698424"></input>
                             </div>
-                            <span id="send-tree-request" class="btn btn-success spacer disabled" style="width:250px">
+                            <span id="send-tree-request" class="btn btn-success spacer disabled" style="width:350px">
                                 Get tree for taxon ids
                             </span>
                             <div id="tree-notice" class="spacer">
@@ -88,7 +78,7 @@ html, body {
 
                         <div id="collect-trait-data">
                             <h4>Step 2: collect available trait data from EOL TraitBank</h4>
-                            <span id="send-trait-request" class="btn btn-success spacer disabled" style="width:250px">
+                            <span id="send-trait-request" class="btn btn-success spacer disabled" style="width:350px">
                                 Gather trait data for tree taxa
                             </span>
                             <div id="trait-notice" class="spacer">
@@ -106,12 +96,12 @@ html, body {
                         
                         <div id="run-asr">
                             <h4>Step 3: run ancestral state reconstruction using selected tree and data</h4>
-                            <span id="filter" class="btn btn-success spacer disabled" style="width:250px">
-                                Filter tree
+                            <span id="filter" class="btn btn-success spacer disabled" style="width:350px">
+                                Filter tree and estimate branch lengths
                             </span>
                             <div id="filter-notice" class="spacer"></div>
                             <div id="filtered-tree-vis"></div>
-                            <span id="analyze" class="btn btn-success spacer disabled" style="width:250px">
+                            <span id="analyze" class="btn btn-success spacer disabled" style="width:350px">
                                 Run ancestral character estimation!
                             </span>
                             <div id="asr-notice" class="spacer"></div>
