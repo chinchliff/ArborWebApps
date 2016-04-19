@@ -92,7 +92,7 @@ function getFlowAppByNameLookup(name) {
                             traitRequest.readyToAnalyze();
 
                             // record the tree
-                            aceApp.tree = treeRequest.tree;
+                            aceApp.tree = data.result.tree.data;
                             console.log(aceApp.tree);
                             d3.select("#tree-name").html(
                                 'Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>');
