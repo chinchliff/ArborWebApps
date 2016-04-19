@@ -159,7 +159,7 @@ function getFlowAppByNameLookup(name) {
                                 var traitName = headerCell.textContent;
                                 $(headerCell).click(function() {
                                     console.log("selected cell: " + traitName);
-                                }).html('<a href="#" data-toggle="tooltip" title="" data-original-title="Use ' + textContent + '">traitName</a>');
+                                }).html('<a href="#" data-toggle="tooltip" title="" data-original-title="Use ' + traitName + '">traitName</a>');
 //                                var btn = $();
 //                                $(headerCell).html("test");
                             });
