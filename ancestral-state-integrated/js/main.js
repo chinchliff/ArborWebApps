@@ -166,8 +166,16 @@ function getFlowAppByNameLookup(name) {
                                         $("#trait-selection").html('Selected trait: ' +
                                                 traitName + ' <span class="glyphicon glyphicon-ok-circle"></span>');
                                         $("#filter-notice").html('Tree needs to be filtered to match trait: ' +
-                                                traitName + '<span class="glyphicon glyphicon-exclamation-sign"></span>');
-                                                
+                                                traitName + ' <span class="glyphicon glyphicon-exclamation-sign"></span>');
+                                        
+                                        // collect the taxon names that have data for this trait 
+                                        var names = [];
+                                        for (row in rowData) {
+                                            if (row[traitName] != null) {
+                                                names.push(row["name"]);
+                                            }
+                                        }
+                                        filterRequest.namesToKeep = names.join();
                                         filterRequest.readyToAnalyze();
                                     });
                                 }
