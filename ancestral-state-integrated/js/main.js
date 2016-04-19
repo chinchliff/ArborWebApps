@@ -33,6 +33,9 @@ function getFlowAppByNameLookup(name) {
         // this analysis collects trait data for a set of taxon names
         var traitRequest = getFlowAppByNameLookup("Get trait data from TraitBank");
 
+        // this analysis filters a tree using a list of names
+        var filterRequest = getFlowAppByNameLookup("Filter tree based on taxon list");
+
         // this analysis performs asr using the specified tree and trait data
         var aceApp = getFlowAppByNameLookup("aceArbor");
 
@@ -44,7 +47,12 @@ function getFlowAppByNameLookup(name) {
             if ("taxonNames" in this) {
                 d3.select("#send-trait-request").classed('disabled', false);
             }
-        };        
+        };
+        filterRequest.readyToAnalyze = function () {
+            if ("namesToKeep" in this && "tree" in this) {
+                d3.select("#send-filter-request").classed('disabled', false);
+            }
+        };
         aceApp.readyToAnalyze = function () {
             if ("column" in this && "table" in this && "tree" in this && "ASRId" in this) {
                 d3.select("#analyze").classed('disabled', false);
@@ -92,7 +100,7 @@ function getFlowAppByNameLookup(name) {
                             traitRequest.readyToAnalyze();
 
                             // record the tree
-                            treeRequest.tree = data.result.tree.data;
+                            filterRequest.tree = data.result.tree.data;
                             
                             // render tree plot
 //                            $("#tree-plot").image({ data: treeRequest.treePlot });
@@ -155,12 +163,12 @@ function getFlowAppByNameLookup(name) {
                                 if (traitName != "name") {
                                     $(headerCell).html('<div class="btn btn-primary :hover">' + traitName + '</div>');
                                     $(headerCell).children("div").click(function() {
-
                                         $("#trait-selection").html('Selected trait: ' +
                                                 traitName + ' <span class="glyphicon glyphicon-ok-circle"></span>');
-                                        $("#filter").removeClass("disabled");
-                                        $("#filter-notice").html('Tree needs to be filtered to match selected data <span class="glyphicon glyphicon-exclamation-sign"></span>');
-
+                                        $("#filter-notice").html('Tree needs to be filtered to match trait: ' +
+                                                traitName + '<span class="glyphicon glyphicon-exclamation-sign"></span>');
+                                                
+                                        filterRequest.readyToAnalyze();
                                     });
                                 }
                             });
@@ -180,6 +188,76 @@ function getFlowAppByNameLookup(name) {
                         $("#trait-notice").text("There was a problem attempting to collect trait data. " + result.message);
                     } else {
                         setTimeout(_.bind(this.checkTraitResult, this), 1000);
+                    }
+                }, this));
+            };
+
+        });
+        
+        $("#send-filter-request").click(function() {
+            $("#send-filter-request").text("Re-filter tree");
+            $("#filter-notice").text("Filtering tree based on availability of trait data...");
+
+            var inputs = {
+                tips_to_keep: {type: "string", format: "text", data: filterRequest.namesToKeep},
+                newick_tree: {type: "string", format: "text", data: filterRequest.tree}
+            };
+            
+            var outputs = {
+                filtered_tree: {type: "tree", format: "newick"}
+            };
+
+            flow.performAnalysis(filterRequest.analysisId, inputs, outputs,
+                _.bind(function (error, result) {
+                    filterRequest.taskId = result._id;
+                    setTimeout(_.bind(filterRequest.checkFilterResult, filterRequest), 1000);
+                }, filterRequest));
+
+            filterRequest.checkFilterResult = function () {
+                var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
+                girder.restRequest({path: check_url}).done(_.bind(function (result) {
+                    console.log(result.status);
+                    if (result.status === 'SUCCESS') {
+                        // get result data
+                        var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
+                        girder.restRequest({path: result_url}).done(_.bind(function (data) {
+
+                            console.log(data.result.filtered_tree.data);
+                            
+                            // display the available data to the user
+/*                            var rowData = data.result.trait_name_table.data;
+                            d3.select("#trait-table-vis-container").classed('hidden', false);
+                            $("#trait-table-vis").table({ data: rowData });
+                            
+                            // enable buttons to select the trait to be used for ASR
+                            $.each($("#trait-table-vis").find("th"), function(i, headerCell) {
+                                var traitName = headerCell.textContent;
+                                if (traitName != "name") {
+                                    $(headerCell).html('<div class="btn btn-primary :hover">' + traitName + '</div>');
+                                    $(headerCell).children("div").click(function() {
+                                        $("#trait-selection").html('Selected trait: ' +
+                                                traitName + ' <span class="glyphicon glyphicon-ok-circle"></span>');
+                                        $("#filter").removeClass("disabled");
+                                        $("#filter-notice").html('Tree needs to be filtered to match trait: ' +
+                                                traitName + '<span class="glyphicon glyphicon-exclamation-sign"></span>');
+                                    });
+                                }
+                            });
+
+                            $("#trait-notice").text("Trait data request was successful! Select the data to be used for ancestral character estimation:");
+                            $("#trait-selection").html('No trait has been selected. <span class="glyphicon glyphicon-exclamation-sign"></span>'); */
+
+/*                            aceApp.traitData = traitRequest.tree;
+                            console.log(aceApp.traitData);
+                            console.log(traitRequest.tra);
+                            d3.select("#tree-name").html('Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>'); */
+
+                        }, this));
+
+                    } else if (result.status === 'FAILURE') {
+                        $("#filter-notice").text("There was a problem filtering the tree. " + result.message);
+                    } else {
+                        setTimeout(_.bind(this.checkFilterResult, this), 1000);
                     }
                 }, this));
             };
