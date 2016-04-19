@@ -161,8 +161,8 @@ function getFlowAppByNameLookup(name) {
 //                                    console.log("selected cell: " + traitName);
 //                                    console.log('test');
 //                                });
-                                var btn = $("div");
-                                $(headerCell).html(btn);
+//                                var btn = $();
+                                $(headerCell).html($("div"));
                             });
 
                             $("#trait-notice").text("Trait data request was successful! Click on a column header to select data for ancestral character estimation:");
