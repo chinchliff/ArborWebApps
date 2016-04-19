@@ -161,7 +161,7 @@ function getFlowAppByNameLookup(name) {
 //                                    console.log("selected cell: " + traitName);
 //                                    console.log('test');
 //                                });
-                                btn = $("div");
+                                var btn = $("div");
                                 $(headerCell).html(btn);
                             });
 
