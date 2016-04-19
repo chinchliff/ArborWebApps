@@ -52,7 +52,7 @@ function getFlowAppByNameLookup(name) {
         };
 
         $("#send-tree-request").click(function() {
-            $("#send-tree-request").text("Re-send tree request");
+            $("#send-tree-request").text("Search for a different tree");
             $("#notice").text("Requesting tree...");
 
             var inputs = {
@@ -93,14 +93,15 @@ function getFlowAppByNameLookup(name) {
 
                             // record the tree
                             aceApp.tree = data.result.tree.data;
-                            console.log(aceApp.tree);
+//                            console.log(aceApp.tree);
                             d3.select("#tree-name").html(
                                 'Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>');
                             
                             // render tree plot
 //                            $("#tree-plot").image({ data: treeRequest.treePlot });
 //                            $("#analyze").removeAttr("disabled");
-//                            $("#notice").text("Ancestral state reconstruction succeeded!");
+
+                            $("#tree-notice").text("Tree request was successful!");
 //                            $('html, body').animate({
 //                                scrollTop: $("#tree-plot").offset().top
 //                            }, 1000);
@@ -119,7 +120,7 @@ function getFlowAppByNameLookup(name) {
         });
         
         $("#send-trait-request").click(function() {
-            $("#send-trait-request").text("Re-send trait request");
+            $("#send-trait-request").text("Re-submit trait request");
             $("#notice").text("Gathering available trait data...");
 
             var inputs = {
@@ -147,12 +148,14 @@ function getFlowAppByNameLookup(name) {
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
-                            console.log(data.result.trait_name_table.data);
+//                            console.log(data.result.trait_name_table.data);
 
+                            // display the available data to the user
                             var rowData = data.result.trait_name_table.data;
-//                            rowData.rows = rowData.rows.slice(0, 3);
                             d3.select("#input-table-vis-container").classed('hidden', false);
                             $("#input-table-vis").table({ data: rowData });
+
+                            $("#trait-notice").text("Trait data request was successful!<br/>Click on a column header to select data for ancestral character estimation");
 
 /*                            aceApp.traitData = traitRequest.tree;
                             console.log(aceApp.traitData);
