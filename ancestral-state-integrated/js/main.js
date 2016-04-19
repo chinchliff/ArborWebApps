@@ -92,10 +92,7 @@ function getFlowAppByNameLookup(name) {
                             traitRequest.readyToAnalyze();
 
                             // record the tree
-                            aceApp.tree = data.result.tree.data;
-//                            console.log(aceApp.tree);
-//                            d3.select("#tree-name").html(
-//                                'Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>');
+                            treeRequest.tree = data.result.tree.data;
                             
                             // render tree plot
 //                            $("#tree-plot").image({ data: treeRequest.treePlot });
@@ -109,7 +106,6 @@ function getFlowAppByNameLookup(name) {
                         }, this));
 
                     } else if (result.status === 'FAILURE') {
-//                        $("#analyze").addAttr("disabled");
                         $("#tree-notice").text("Could not retrieve tree from OpenTree. " + result.message);
                     } else {
                         setTimeout(_.bind(this.checkTreeResult, this), 1000);
@@ -148,25 +144,28 @@ function getFlowAppByNameLookup(name) {
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
-//                            console.log(data.result.trait_name_table.data);
-
                             // display the available data to the user
                             var rowData = data.result.trait_name_table.data;
                             d3.select("#trait-table-vis-container").classed('hidden', false);
                             $("#trait-table-vis").table({ data: rowData });
                             
+                            // enable buttons to select the trait to be used for ASR
                             $.each($("#trait-table-vis").find("th"), function(i, headerCell) {
                                 var traitName = headerCell.textContent;
-                                $(headerCell).html('<div class="btn btn-primary :hover">' + traitName + '</div>');
-                                $(headerCell).children("div").click(function() {
-                                    console.log("selected cell: " + traitName);
-                                });
-// ' + traitName + '">' + traitName + '</a>');
-//                                var btn = $();
-//                                $(headerCell).html("test");
+                                if (traitName != "name") {
+                                    $(headerCell).html('<div class="btn btn-primary :hover">' + traitName + '</div>');
+                                    $(headerCell).children("div").click(function() {
+
+                                        $("#trait-selection").text("Selected trait: " + traitName);
+                                        $("#filter").removeClass("disabled");
+                                        $("#filter-notice").text('Tree needs to be filtered to match selected data <span class="glyphicon glyphicon-exclamation-sign"></span>');
+
+                                    });
+                                }
                             });
 
-                            $("#trait-notice").text("Trait data request was successful! Click on a column header to select data for ancestral character estimation:");
+                            $("#trait-notice").text("Trait data request was successful! Select the data to be used for ancestral character estimation:");
+                            $("#trait-selection").text("No trait has been selected.");
 
 /*                            aceApp.traitData = traitRequest.tree;
                             console.log(aceApp.traitData);

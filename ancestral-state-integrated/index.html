@@ -72,7 +72,7 @@ html, body {
                             </div>
                         </div-->
                         <div id="collect-tree">
-                            <h3>Step 1: Get a tree from Open Tree of Life </h3>
+                            <h4>Step 1: Get a tree from Open Tree of Life </h4>
                             <div id="taxon-lookup">
                                 <input type="text" id="taxon-name-input" value="<lookup taxon - not yet supported>"></input>
                                 <input type="text" id="complete-subtree-ott-id-input" value="698424"></input>
@@ -84,43 +84,39 @@ html, body {
                                 No tree has been loaded.
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                             </div>
-                            <!--div id="tree-name"class="text-justify">
-                                Tree: (none)
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            </div-->
                         </div>
 
                         <div id="collect-trait-data">
-                            <h3>Step 2: collect available trait data from EOL TraitBank</h3>
+                            <h4>Step 2: collect available trait data from EOL TraitBank</h4>
                             <span id="send-trait-request" class="btn btn-success spacer disabled" style="width:250px">
                                 Gather trait data for tree taxa
                             </span>
                             <div id="trait-notice" class="spacer">
                                 No trait data have been loaded.
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                <span id="trait-selection" class="spacer"></span>
                             </div>
                             <div class="row hidden spacer" id="trait-table-vis-container">
                                 <div class="col-sm-3">
-                                    <!--div class="btn btn-default full-width" id="table-preview">
-                                        <i class="glyphicon glyphicon-folder-open" id="table-preview-icon"></i>
-                                        <span id="table-preview-text">Hide input table preview</span>
-                                    </div-->
                                     <div class="spacer" id="trait-table-vis"></div>
                                 </div>
                             </div>
-
                         </div>
 
                         
-
-                        <!--div class="col-sm-8 spacer full-width">
-                        </div -->
-                        <!--div id="column-input" class="bg-warning btn spacer full-width">
-                            Load data above to proceed
-                        </div-->
-                        <span id="analyze" class="btn btn-success spacer disabled full-width">
-                            Run ancestral character estimation!
-                        </span>
+                        <div id="run-asr">
+                            <h4>Step 3: run ancestral state reconstruction using selected tree and data</h4>
+                            <span id="filter" class="btn btn-success spacer disabled" style="width:250px">
+                                Filter tree based on selected character data
+                            </span>
+                            <div id="filter-notice" class="spacer"></div>
+                            <div id="filtered-tree-vis"></div>
+                            <span id="analyze" class="btn btn-success spacer disabled" style="width:250px">
+                                Run ancestral character estimation!
+                            </span>
+                            <div id="asr-notice" class="spacer"></div>
+                            <div id="asr-vis"></div>
+                        </div>
                 </div>
             </div>
             <div class="row">
