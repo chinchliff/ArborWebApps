@@ -1,37 +1,58 @@
 /*jslint browser: true, nomen: true */
 
+function getFlowAppByNameLookup(name) {
+
+    var app = new flow.App();
+    app.analysisName = name;
+    girder.restRequest({
+        path: 'resource/search',
+        data: {
+            q: app.analysisName,
+            types: JSON.stringify(["item"])
+        }
+    }).done(function (results) {
+        console.log(JSON.stringify(results["item"][0]));
+        app.analysisId = results["item"][0]._id;
+        app.readyToAnalyze();
+    });
+    
+    return app;
+}
+
 (function (flow, $, girder) {
     'use strict';
 
     $(document).ready(function () {
         girder.apiRoot = '/girder/api/v1';
         
-        // Look up the id of the analysis we wish to perform
-        // the analysis specified here is a placeholder. it generates an ultrametric tree
-        // but the branch lengths are not meaningful
-        var treeRequest = new flow.App();
-        treeRequest.analysisName = "Get complete subtree from OpenTree for a given ott id";
-        girder.restRequest({
-            path: 'resource/search',
-            data: {
-                q: treeRequest.analysisName,
-                types: JSON.stringify(["item"])
-            }
-        }).done(function (results) {
-            console.log(JSON.stringify(results["item"][0]));
-            treeRequest.analysisId = results["item"][0]._id;
-            treeRequest.readyToAnalyze();
-        });
+        // Look up the ids of the analyses we wish to perform
 
+        // this analysis generates an ultrametric tree with arbitrary branch lengths
+        var treeRequest = getFlowAppByNameLookup("Get complete subtree from OpenTree for a given ott id");
+
+        // this analysis collects trait data for a set of taxon names
+        var traitRequest = getFlowAppByNameLookup("Get trait data from TraitBank");
+
+        // this analysis performs asr using the specified tree and trait data
+        var aceApp = getFlowAppByNameLookup("aceArbor");
+
+        // control access to ui elements
         treeRequest.readyToAnalyze = function () {
-//            if ("taxonOttIdList" in this) {
-                d3.select("#send-tree-request").classed('disabled', false);
-//            }
+            d3.select("#send-tree-request").classed('disabled', false);
+        };
+        traitRequest.readyToAnalyze = function () {
+            if ("taxonNames" in this) {
+                d3.select("#send-trait-request").classed('disabled', false);
+            }
+        };        
+        aceApp.readyToAnalyze = function () {
+            if ("column" in this && "table" in this && "tree" in this && "ASRId" in this) {
+                d3.select("#analyze").classed('disabled', false);
+            }
         };
 
         $("#send-tree-request").click(function() {
-//            $("#send-tree-timer-request").attr("disabled", "disabled");
-            $("#send-tree-request").text("Re-send request");
+            $("#send-tree-request").text("Re-send tree request");
             $("#notice").text("Requesting tree...");
 
             var inputs = {
@@ -62,13 +83,19 @@
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
 //                            treeRequest.treePlot = data.result.treePlot.data;
-                            treeRequest.tree = data.result.newick_result;
-                            treeRequest.taxonNames = data.result.taxon_names;
+//                            treeRequest.tree = data.result.newick_result;
 
+                            // record the taxon names
+                            traitRequest.taxonNames = data.result.taxon_names;
+                            console.log(traitRequest.taxonNames);
+                            traitRequest.readyToAnalyze();
+
+                            // record the tree
                             aceApp.tree = treeRequest.tree;
                             console.log(aceApp.tree);
-                            console.log(treeRequest.taxonNames);
-                            d3.select("#tree-name").html('Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>');
+                            d3.select("#tree-name").html(
+                                'Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>');
+                            
                             // render tree plot
 //                            $("#tree-plot").image({ data: treeRequest.treePlot });
 //                            $("#analyze").removeAttr("disabled");
@@ -76,13 +103,69 @@
 //                            $('html, body').animate({
 //                                scrollTop: $("#tree-plot").offset().top
 //                            }, 1000);
+
                         }, this));
 
                     } else if (result.status === 'FAILURE') {
-                        $("#analyze").removeAttr("disabled");
-                        $("#notice").text("Analysis failed. " + result.message);
+//                        $("#analyze").addAttr("disabled");
+                        $("#notice").text("Could not retrieve tree from OpenTree. " + result.message);
                     } else {
                         setTimeout(_.bind(this.checkTreeResult, this), 1000);
+                    }
+                }, this));
+            };
+
+        });
+        
+        $("#send-trait-request").click(function() {
+            $("#send-trait-request").text("Re-send trait request");
+            $("#notice").text("Gathering available trait data...");
+
+            var inputs = {
+                taxon_names: {type: "string", format: "text", data: this.taxonNames}
+            };
+            
+            console.log("requesting trait data for taxon names: " + inputs.taxon_names.data)
+
+            var outputs = {
+                trait_name_table: {type: "table", format: "rows"}
+            };
+
+            flow.performAnalysis(traitRequest.analysisId, inputs, outputs,
+                _.bind(function (error, result) {
+                    traitRequest.taskId = result._id;
+                    setTimeout(_.bind(traitRequest.checkTreeResult, traitRequest), 1000);
+                }, traitRequest));
+
+            traitRequest.checkTraitResult = function () {
+                var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
+                girder.restRequest({path: check_url}).done(_.bind(function (result) {
+                    console.log(result.status);
+                    if (result.status === 'SUCCESS') {
+                        // get result data
+                        var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
+                        girder.restRequest({path: result_url}).done(_.bind(function (data) {
+
+                            console.log(data.result.trait_name_table);
+
+/*                            aceApp.traitData = traitRequest.tree;
+                            console.log(aceApp.traitData);
+                            console.log(traitRequest.tra);
+                            d3.select("#tree-name").html('Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>');
+                            // render tree plot
+//                            $("#tree-plot").image({ data: treeRequest.treePlot });
+//                            $("#analyze").removeAttr("disabled");
+//                            $("#notice").text("Ancestral state reconstruction succeeded!");
+//                            $('html, body').animate({
+//                                scrollTop: $("#tree-plot").offset().top
+//                            }, 1000); */
+                        }, this));
+
+                    } else if (result.status === 'FAILURE') {
+//                        $("#analyze").removeAttr("disabled");
+                        $("#notice").text("There was a problem attempting to collect trait data. " + result.message);
+                    } else {
+                        setTimeout(_.bind(this.checkTraitResult, this), 1000);
                     }
                 }, this));
             };
@@ -93,26 +176,6 @@
         
         /* --------------- original code below here --------------- */
 
-
-        // Lookup the ID of the analysis that we wish to perform.
-        var aceApp = new flow.App();
-        aceApp.analysisName = "aceArbor";
-        girder.restRequest({
-            path: 'resource/search',
-            data: {
-                q: aceApp.analysisName,
-                types: JSON.stringify(["item"])
-            }
-        }).done(function (results) {
-            aceApp.ASRId = results["item"][0]._id;
-            aceApp.readyToAnalyze();
-        });
-
-        aceApp.readyToAnalyze = function () {
-            if ("column" in this && "table" in this && "tree" in this && "ASRId" in this) {
-                d3.select("#analyze").classed('disabled', false);
-            }
-        };
 
         function toggleInputTablePreview() {
             if ($("#table-preview-icon").hasClass("glyphicon-folder-close")) {
