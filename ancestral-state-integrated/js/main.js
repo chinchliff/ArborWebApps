@@ -134,7 +134,7 @@ function getFlowAppByNameLookup(name) {
             flow.performAnalysis(traitRequest.analysisId, inputs, outputs,
                 _.bind(function (error, result) {
                     traitRequest.taskId = result._id;
-                    setTimeout(_.bind(traitRequest.checkTreeResult, traitRequest), 1000);
+                    setTimeout(_.bind(traitRequest.checkTraitResult, traitRequest), 1000);
                 }, traitRequest));
 
             traitRequest.checkTraitResult = function () {
