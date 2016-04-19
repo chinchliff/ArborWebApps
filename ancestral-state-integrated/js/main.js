@@ -156,13 +156,12 @@ function getFlowAppByNameLookup(name) {
                             $("#trait-table-vis").table({ data: rowData });
                             
                             $.each($("#trait-table-vis").find("th"), function(i, headerCell) {
-//                                var traitName = headerCell.textContent;
-//                                var btn = $("div").addClass("btn btn-primary :hover").click(function() {
-//                                    console.log("selected cell: " + traitName);
-//                                    console.log('test');
-//                                });
+                                var traitName = headerCell.textContent;
+                                $(headerCell).click(function() {
+                                    console.log("selected cell: " + traitName);
+                                }).html('<a href="#" data-toggle="tooltip" title="" data-original-title="Use ' + textContent + '">traitName</a>');
 //                                var btn = $();
-                                $(headerCell).html("test");
+//                                $(headerCell).html("test");
                             });
 
                             $("#trait-notice").text("Trait data request was successful! Click on a column header to select data for ancestral character estimation:");
