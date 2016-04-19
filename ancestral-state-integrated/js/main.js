@@ -158,7 +158,7 @@ function getFlowAppByNameLookup(name) {
                             $.each($("#trait-table-vis").find("th"), function(i, headerCell) {
                                 var traitName = headerCell.text();
                                 var btn = $("div").addClass("btn btn-primary :hover").click(function() {
-                                    console.log("selected cell: " + traitName;
+                                    console.log("selected cell: " + traitName);
                                 });
                                 $(headerCell).html(btn);
                             });
