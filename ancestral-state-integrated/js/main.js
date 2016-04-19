@@ -152,10 +152,16 @@ function getFlowAppByNameLookup(name) {
 
                             // display the available data to the user
                             var rowData = data.result.trait_name_table.data;
-                            d3.select("#input-table-vis-container").classed('hidden', false);
-                            $("#input-table-vis").table({ data: rowData });
+                            d3.select("#trait-table-vis-container").classed('hidden', false);
+                            $("#trait-table-vis").table({ data: rowData });
+                            
+                            $.each($("#trait-table-vis").find("th"), function(i, headerCell) {
+                                $(headerCell).click() = function() {
+                                    console.log("selected cell: " + $(headerCell).text());
+                                }
+                            }
 
-                            $("#trait-notice").text("Trait data request was successful!<br/>Click on a column header to select data for ancestral character estimation");
+                            $("#trait-notice").text("Trait data request was successful! Click on a column header to select data for ancestral character estimation:");
 
 /*                            aceApp.traitData = traitRequest.tree;
                             console.log(aceApp.traitData);
