@@ -156,9 +156,9 @@ function getFlowAppByNameLookup(name) {
                                     $(headerCell).html('<div class="btn btn-primary :hover">' + traitName + '</div>');
                                     $(headerCell).children("div").click(function() {
 
-                                        $("#trait-selection").text("Selected trait: " + traitName);
+                                        $("#trait-selection").html("<br/>Selected trait: " + traitName);
                                         $("#filter").removeClass("disabled");
-                                        $("#filter-notice").text('Tree needs to be filtered to match selected data <span class="glyphicon glyphicon-exclamation-sign"></span>');
+                                        $("#filter-notice").html('Tree needs to be filtered to match selected data <span class="glyphicon glyphicon-exclamation-sign"></span>');
 
                                     });
                                 }
