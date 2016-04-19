@@ -147,19 +147,18 @@ function getFlowAppByNameLookup(name) {
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
-                            console.log(data.result.trait_name_table);
+                            console.log(data.result.trait_name_table.data);
+
+                            var rowData = data.result.trait_name_table.data;
+//                            rowData.rows = rowData.rows.slice(0, 3);
+                            d3.select("#input-table-vis-container").classed('hidden', false);
+                            $("#input-table-vis").table({ data: rowData });
 
 /*                            aceApp.traitData = traitRequest.tree;
                             console.log(aceApp.traitData);
                             console.log(traitRequest.tra);
-                            d3.select("#tree-name").html('Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>');
-                            // render tree plot
-//                            $("#tree-plot").image({ data: treeRequest.treePlot });
-//                            $("#analyze").removeAttr("disabled");
-//                            $("#notice").text("Ancestral state reconstruction succeeded!");
-//                            $('html, body').animate({
-//                                scrollTop: $("#tree-plot").offset().top
-//                            }, 1000); */
+                            d3.select("#tree-name").html('Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>'); */
+
                         }, this));
 
                     } else if (result.status === 'FAILURE') {
@@ -173,7 +172,6 @@ function getFlowAppByNameLookup(name) {
 
         });
         
-//        treeRequest.render(); // necessary?
         
         /* --------------- original code below here --------------- */
 
