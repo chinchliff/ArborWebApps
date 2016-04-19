@@ -94,14 +94,14 @@ function getFlowAppByNameLookup(name) {
                             // record the tree
                             aceApp.tree = data.result.tree.data;
 //                            console.log(aceApp.tree);
-                            d3.select("#tree-name").html(
-                                'Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>');
+//                            d3.select("#tree-name").html(
+//                                'Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>');
                             
                             // render tree plot
 //                            $("#tree-plot").image({ data: treeRequest.treePlot });
 //                            $("#analyze").removeAttr("disabled");
 
-                            $("#tree-notice").text("Tree request was successful!");
+                            d3.select("#tree-notice").html('Tree request was successful! Tree loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>');
 //                            $('html, body').animate({
 //                                scrollTop: $("#tree-plot").offset().top
 //                            }, 1000);
