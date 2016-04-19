@@ -101,7 +101,7 @@ function getFlowAppByNameLookup(name) {
 //                            $("#tree-plot").image({ data: treeRequest.treePlot });
 //                            $("#analyze").removeAttr("disabled");
 
-                            d3.select("#tree-notice").html('Tree request was successful! Tree loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>');
+                            d3.select("#tree-notice").html('Tree loaded successfully from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>');
 //                            $('html, body').animate({
 //                                scrollTop: $("#tree-plot").offset().top
 //                            }, 1000);
@@ -156,7 +156,7 @@ function getFlowAppByNameLookup(name) {
                             $("#trait-table-vis").table({ data: rowData });
                             
                             $.each($("#trait-table-vis").find("th"), function(i, headerCell) {
-                                var traitName = $(headerCell).text();
+                                var traitName = headerCell.textContent;
                                 var btn = $("div").addClass("btn btn-primary :hover").click(function() {
                                     console.log("selected cell: " + traitName);
                                 });
