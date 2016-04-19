@@ -159,6 +159,7 @@ function getFlowAppByNameLookup(name) {
                                 $(headerCell).click(function() {
                                     console.log("selected cell: " + $(headerCell).text());
                                 });
+                                $(headerCell).addClass("btn btn-primary :hover");
                             });
 
                             $("#trait-notice").text("Trait data request was successful! Click on a column header to select data for ancestral character estimation:");
