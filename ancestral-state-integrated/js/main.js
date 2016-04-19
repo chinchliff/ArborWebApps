@@ -122,7 +122,7 @@ function getFlowAppByNameLookup(name) {
             $("#notice").text("Gathering available trait data...");
 
             var inputs = {
-                taxon_names: {type: "string", format: "text", data: this.taxonNames}
+                taxon_names: {type: "string", format: "text", data: traitRequest.taxonNames}
             };
             
             console.log("requesting trait data for taxon names: " + inputs.taxon_names.data)
