@@ -86,7 +86,7 @@ function getFlowAppByNameLookup(name) {
 //                            treeRequest.tree = data.result.newick_result;
 
                             // record the taxon names
-                            traitRequest.taxonNames = data.result.taxon_names;
+                            traitRequest.taxonNames = data.result.taxon_names.data;
                             console.log(traitRequest.taxonNames);
                             traitRequest.readyToAnalyze();
 
