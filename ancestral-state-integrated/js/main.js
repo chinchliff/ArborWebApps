@@ -162,7 +162,7 @@ function getFlowAppByNameLookup(name) {
 //                                    console.log('test');
 //                                });
 //                                var btn = $();
-                                $(headerCell).html($("div"));
+                                $(headerCell).html("test");
                             });
 
                             $("#trait-notice").text("Trait data request was successful! Click on a column header to select data for ancestral character estimation:");
