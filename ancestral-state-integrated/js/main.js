@@ -193,7 +193,7 @@ function getFlowAppByNameLookup(name) {
                                         for (var i = 0; i < rowData["rows"].length; i++) {
 //                                            console.log(rowData["rows"][i]);
                                             if (rowData["rows"][i][traitName] != null) {
-                                                names.push(rowData["rows"][i]["name"].replace(' ','_'));
+                                                names.push(rowData["rows"][i]["name"]);
                                             }
                                         }
                                         filterRequest.namesToKeep = names.join();
