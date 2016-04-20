@@ -64,6 +64,7 @@ function getFlowAppByNameLookup(name) {
         };
 
         $("#send-tree-request").click(function() {
+            $("#send-tree-request").attr("disabled","disabled");
             $("#send-tree-request").text("Search for a different tree");
             $("#tree-notice").text("Requesting tree...");
 
@@ -90,17 +91,16 @@ function getFlowAppByNameLookup(name) {
             treeRequest.checkTreeResult = function () {
                 var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
                 girder.restRequest({path: check_url}).done(_.bind(function (result) {
-                    console.log(result.status);
+//                    console.log(result.status);
                     if (result.status === 'SUCCESS') {
                         // get result data
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
 //                            treeRequest.treePlot = data.result.treePlot.data;
-//                            treeRequest.tree = data.result.newick_result;
 
                             // record the taxon names
+//                            console.log(traitRequest.taxonNames);
                             traitRequest.taxonNames = data.result.taxon_names.data;
-                            console.log(traitRequest.taxonNames);
                             traitRequest.readyToAnalyze();
 
                             // record the tree
@@ -112,14 +112,17 @@ function getFlowAppByNameLookup(name) {
 
                             d3.select("#tree-notice").html('Tree loaded successfully from OpenTree ' + 
                                     ' <span class="glyphicon glyphicon-ok-circle"></span>');
+
 //                            $('html, body').animate({
 //                                scrollTop: $("#tree-plot").offset().top
 //                            }, 1000);
 
+                            $("#send-tree-request").removeAttr("disabled");
                         }, this));
 
                     } else if (result.status === 'FAILURE') {
                         $("#tree-notice").text("Could not retrieve tree from OpenTree. " + result.message);
+                        $("#send-tree-request").removeAttr("disabled");
                     } else {
                         setTimeout(_.bind(this.checkTreeResult, this), 1000);
                     }
@@ -129,6 +132,7 @@ function getFlowAppByNameLookup(name) {
         });
         
         $("#send-trait-request").click(function() {
+            $("#send-trait-request").attr("disabled","disabled");
             $("#send-trait-request").text("Re-submit trait request");
             $("#trait-notice").text("Gathering available trait data...");
 
@@ -203,16 +207,12 @@ function getFlowAppByNameLookup(name) {
                             $("#trait-selection").html('No trait has been selected. ' + 
                                     '<span class="glyphicon glyphicon-exclamation-sign"></span>');
 
-/*                            asrRequest.traitData = traitRequest.tree;
-                            console.log(asrRequest.traitData);
-                            console.log(traitRequest.tra);
-                            d3.select("#tree-name").html('Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>'); */
-
+                            $("#send-trait-request").removeAttr("disabled");
                         }, this));
 
                     } else if (result.status === 'FAILURE') {
-//                        $("#analyze").removeAttr("disabled");
                         $("#trait-notice").text("There was a problem attempting to collect trait data. " + result.message);
+                        $("#send-trait-request").removeAttr("disabled");
                     } else {
                         setTimeout(_.bind(this.checkTraitResult, this), 1000);
                     }
@@ -257,10 +257,12 @@ function getFlowAppByNameLookup(name) {
                             $("#filter-notice").text('Tree was successfully filtered for taxa with ' + 
                                     asrRequest.column + ' data. <span class="glyphicon glyphicon-ok-circle"></span>');
                             
+                            $("#send-filter-request").removeAttr("disabled");
                         }, this));
 
                     } else if (result.status === 'FAILURE') {
                         $("#filter-notice").text("There was a problem filtering the tree. " + result.message);
+                        $("#send-filter-request").removeAttr("disabled");
                     } else {
                         setTimeout(_.bind(this.checkFilterResult, this), 1000);
                     }
@@ -303,6 +305,7 @@ function getFlowAppByNameLookup(name) {
                         // get result data
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
+
                             asrRequest.treePlot = data.result.treePlot.data;
 
                             // render tree plot
@@ -313,11 +316,13 @@ function getFlowAppByNameLookup(name) {
 //                            $('html, body').animate({
 //                                scrollTop: $("#tree-plot").offset().top
 //                            }, 1000);
+
+                        $("#send-asr-request").removeAttr("disabled");
                         }, this));
 
                     } else if (result.status === 'FAILURE') {
-                        $("#send-asr-request").removeAttr("disabled");
                         $("#asr-notice").text("Analysis failed. " + result.message);
+                        $("#send-asr-request").removeAttr("disabled");
                     } else {
                         setTimeout(_.bind(this.checkASRResult, this), 1000);
                     }
