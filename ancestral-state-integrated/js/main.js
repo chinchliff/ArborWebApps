@@ -162,7 +162,7 @@ function getFlowAppByNameLookup(name) {
                                 if ($(dataCell).html == "null") {
                                     $(dataCell).text = "";
                                 }
-                            }
+                            });
                             
                             // enable buttons to select the trait to be used for ASR
                             $.each($("#trait-table-vis").find("th"), function(i, headerCell) {
