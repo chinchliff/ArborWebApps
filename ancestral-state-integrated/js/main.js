@@ -26,6 +26,7 @@ function getFlowAppByNameLookup(name) {
 
         // this analysis generates an ultrametric tree with arbitrary branch lengths
         var treeRequest = getFlowAppByNameLookup("Get complete subtree from OpenTree for a given ott id");
+        treeRequest.readyToAnalyze();
 
         // this analysis collects trait data for a set of taxon names
         var traitRequest = getFlowAppByNameLookup("Get trait data from TraitBank");
