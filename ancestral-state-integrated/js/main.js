@@ -307,6 +307,7 @@ function getFlowAppByNameLookup(name) {
                 var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
                 girder.restRequest({path: check_url}).done(_.bind(function (result) {
                     console.log(result.status);
+                    console.log(result);
                     if (result.status === 'SUCCESS') {
                         // get result data
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
