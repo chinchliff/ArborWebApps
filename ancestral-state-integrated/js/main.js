@@ -336,14 +336,14 @@ function getFlowAppByNameLookup(name) {
 
         });
         
-        $("#select-continuous").click(function() {
+        $("#select-continuous-label").click(function() {
             asrRequest.type = 'continuous';
             asrRequest.readyToAnalyze();
             console.log(asrRequest);
 //            $("#select-continuous").button('toggle')
         });
 
-        $("#select-discrete").click(function() {
+        $("#select-discrete-label").click(function() {
             asrRequest.type = 'discrete';
             asrRequest.readyToAnalyze();
             console.log(asrRequest);
