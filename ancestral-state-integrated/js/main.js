@@ -160,7 +160,7 @@ function getFlowAppByNameLookup(name) {
 
                             // display the available data to the user
                             var rowData = data.result.trait_name_table.data;
-                            asrRequest.table = rowData;
+//                            asrRequest.table = rowData;
                             asrRequest.tableFormat = 'rows';
                             d3.select("#trait-table-vis-container").classed('hidden', false);
                             $("#trait-table-vis").table({ data: rowData });
@@ -187,9 +187,7 @@ function getFlowAppByNameLookup(name) {
                                         
                                         // collect the taxon names that have data for this trait 
                                         var names = [];
-                                        var dummyData = {};
-                                        
-                                        var dummyData = {
+                                        var filteredData = {
                                             "fields": ["name", traitName],
                                             "rows": []
                                         };
@@ -202,13 +200,14 @@ function getFlowAppByNameLookup(name) {
                                                 names.push(name);
                                                 var r = {"name": name}
                                                 r[traitName] = traitValue;
-                                                dummyData.rows.push(r);
+                                                filteredData.rows.push(r);
                                             }
                                         }
                                         filterRequest.namesToKeep = names.join();
                                         console.log("will filter tree to contain only: " + filterRequest.namesToKeep);
                                         console.log("filtered data: ");
-                                        console.log(dummyData)
+                                        console.log(filteredData)
+                                        asrRequest.table = filteredData;
                                         filterRequest.readyToAnalyze();
                                     });
                                 }
