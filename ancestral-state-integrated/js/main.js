@@ -180,6 +180,7 @@ function getFlowAppByNameLookup(name) {
                                         // collect the taxon names that have data for this trait 
                                         var names = [];
                                         for (var row in rowData["rows"]) {
+                                            console.log(row.stringify())
                                             if (row[traitName] != null) {
                                                 names.push(row["name"]);
                                             }
