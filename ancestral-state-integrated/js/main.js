@@ -157,6 +157,13 @@ function getFlowAppByNameLookup(name) {
                             d3.select("#trait-table-vis-container").classed('hidden', false);
                             $("#trait-table-vis").table({ data: rowData });
                             
+                            // remove null entries from the table to improve readability
+                            $.each($("#trait-table-vis").find("td"), function(i, dataCell) {
+                                if ($(dataCell).html == "null") {
+                                    $(dataCell).text = "";
+                                }
+                            }
+                            
                             // enable buttons to select the trait to be used for ASR
                             $.each($("#trait-table-vis").find("th"), function(i, headerCell) {
                                 var traitName = headerCell.textContent;
