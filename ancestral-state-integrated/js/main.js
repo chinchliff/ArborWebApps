@@ -173,6 +173,7 @@ function getFlowAppByNameLookup(name) {
                             // enable buttons to select the trait to be used for ASR
                             $.each($("#trait-table-vis").find("th"), function(i, headerCell) {
                                 var traitName = headerCell.textContent;
+                                console.log('"'+traitName+'"');
                                 if (traitName != "name") {
                                     $(headerCell).html('<div class="btn btn-primary :hover">' + traitName + '</div>');
                                     $(headerCell).children("div").click(function() {
