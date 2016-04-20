@@ -33,6 +33,9 @@ function getFlowAppByNameLookup(name) {
         // this analysis collects trait data for a set of taxon names
         var traitRequest = getFlowAppByNameLookup("Get trait data from TraitBank");
 
+        // this analysis just renders a tree into a PNG graphic
+        var treeRenderRequest = getFlowAppByNameLookup("Render tree");
+
         // this analysis filters a tree using a list of names
         var filterRequest = getFlowAppByNameLookup("Filter tree based on taxon list");
 
@@ -159,9 +162,7 @@ function getFlowAppByNameLookup(name) {
                             
                             // remove null entries from the table to improve readability
                             $.each($("#trait-table-vis").find("td"), function(i, dataCell) {
-                                if ($(dataCell).html == "null") {
-                                    $(dataCell).text = "";
-                                }
+                                if ($(dataCell).html() == "null") { $(dataCell).text(""); }
                             });
                             
                             // enable buttons to select the trait to be used for ASR
