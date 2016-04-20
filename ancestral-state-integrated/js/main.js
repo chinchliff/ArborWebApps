@@ -10,7 +10,7 @@ function getFlowAppByNameLookup(name) {
             types: JSON.stringify(["item"])
         }
     }).done(function (results) {
-        console.log(JSON.stringify(results["item"][0]));
+//        console.log(JSON.stringify(results["item"][0]));
         app.analysisId = results["item"][0]._id;
         app.readyToAnalyze();
     });
@@ -72,7 +72,7 @@ function getFlowAppByNameLookup(name) {
                 ott_id: {type: "string", format: "text", data: $("#complete-subtree-ott-id-input").val()}
             };
             
-            console.log(inputs.ott_id.data)
+//            console.log(inputs.ott_id.data)
 
             var outputs = {
 //                res: {type: "table", format: "rows"},
@@ -105,6 +105,7 @@ function getFlowAppByNameLookup(name) {
 
                             // record the tree
                             filterRequest.tree = data.result.tree.data;
+                            console.log(filterRequest.tree);
                             
                             // render tree plot
 //                            $("#tree-plot").image({ data: treeRequest.treePlot });
