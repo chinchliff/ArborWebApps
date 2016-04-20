@@ -1,7 +1,6 @@
 /*jslint browser: true, nomen: true */
 
 function getFlowAppByNameLookup(name) {
-
     var app = new flow.App();
     app.analysisName = name;
     girder.restRequest({
@@ -13,9 +12,7 @@ function getFlowAppByNameLookup(name) {
     }).done(function (results) {
         console.log(JSON.stringify(results["item"][0]));
         app.analysisId = results["item"][0]._id;
-        app.readyToAnalyze();
     });
-    
     return app;
 }
 
@@ -40,25 +37,27 @@ function getFlowAppByNameLookup(name) {
         var filterRequest = getFlowAppByNameLookup("Filter tree based on taxon list");
 
         // this analysis performs asr using the specified tree and trait data
-        var aceApp = getFlowAppByNameLookup("aceArbor");
+        var asrRequest = getFlowAppByNameLookup("aceArbor");
 
         // control access to ui elements
         treeRequest.readyToAnalyze = function () {
-            d3.select("#send-tree-request").classed('disabled', false);
+            if ("analysisId" in this) {
+                d3.select("#send-tree-request").classed('disabled', false);
+            }
         };
         traitRequest.readyToAnalyze = function () {
-            if ("taxonNames" in this) {
+            if ("taxonNames" in this && "analysisId" in this) {
                 d3.select("#send-trait-request").classed('disabled', false);
             }
         };
         filterRequest.readyToAnalyze = function () {
-            if ("namesToKeep" in this && "tree" in this) {
+            if ("namesToKeep" in this && "tree" in this && "analysisId" in this) {
                 d3.select("#send-filter-request").classed('disabled', false);
             }
         };
-        aceApp.readyToAnalyze = function () {
-            if ("column" in this && "table" in this && "tree" in this && "ASRId" in this) {
-                d3.select("#analyze").classed('disabled', false);
+        asrRequest.readyToAnalyze = function () {
+            if ("column" in this && "table" in this && "tree" in this && "analysisId" in this) {
+                d3.select("#send-asr-request").classed('disabled', false);
             }
         };
 
@@ -158,6 +157,8 @@ function getFlowAppByNameLookup(name) {
 
                             // display the available data to the user
                             var rowData = data.result.trait_name_table.data;
+                            asrRequest.table = rowData;
+                            asrRequest.tableFormat = 'rows';
                             d3.select("#trait-table-vis-container").classed('hidden', false);
                             $("#trait-table-vis").table({ data: rowData });
                             
@@ -176,17 +177,20 @@ function getFlowAppByNameLookup(name) {
                                                 traitName + ' <span class="glyphicon glyphicon-ok-circle"></span>');
                                         $("#filter-notice").html('Tree needs to be filtered to match trait: ' +
                                                 traitName + ' <span class="glyphicon glyphicon-exclamation-sign"></span>');
+
+                                        // set the column to be used for the ASR request
+                                        asrRequest.column = traitName;
                                         
                                         // collect the taxon names that have data for this trait 
                                         var names = [];
                                         for (var i = 0; i < rowData["rows"].length; i++) {
-                                            console.log(rowData["rows"][i]);
+//                                            console.log(rowData["rows"][i]);
                                             if (rowData["rows"][i][traitName] != null) {
                                                 names.push(rowData["rows"][i]["name"]);
                                             }
                                         }
                                         filterRequest.namesToKeep = names.join();
-                                        console.log(filterRequest.namesToKeep);
+                                        console.log("will filter tree to contain only: " + filterRequest.namesToKeep);
                                         filterRequest.readyToAnalyze();
                                     });
                                 }
@@ -197,8 +201,8 @@ function getFlowAppByNameLookup(name) {
                             $("#trait-selection").html('No trait has been selected. ' + 
                                     '<span class="glyphicon glyphicon-exclamation-sign"></span>');
 
-/*                            aceApp.traitData = traitRequest.tree;
-                            console.log(aceApp.traitData);
+/*                            asrRequest.traitData = traitRequest.tree;
+                            console.log(asrRequest.traitData);
                             console.log(traitRequest.tra);
                             d3.select("#tree-name").html('Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>'); */
 
@@ -216,6 +220,7 @@ function getFlowAppByNameLookup(name) {
         });
         
         $("#send-filter-request").click(function() {
+            $("#send-filter-request").attr("disabled", "disabled");
             $("#send-filter-request").text("Re-filter tree");
             $("#filter-notice").text("Filtering tree based on availability of trait data...");
 
@@ -243,8 +248,10 @@ function getFlowAppByNameLookup(name) {
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
-                            console.log(data.result.filtered_tree.data);
-                            
+                            asrRequest.tree = data.result.filtered_tree.data
+                            asrRequest.readyToAnalyze();
+                            console.log(asrRequest.tree);
+
                             // display the available data to the user
 /*                            var rowData = data.result.trait_name_table.data;
                             d3.select("#trait-table-vis-container").classed('hidden', false);
@@ -268,8 +275,8 @@ function getFlowAppByNameLookup(name) {
                             $("#trait-notice").text("Trait data request was successful! Select the data to be used for ancestral character estimation:");
                             $("#trait-selection").html('No trait has been selected. <span class="glyphicon glyphicon-exclamation-sign"></span>'); */
 
-/*                            aceApp.traitData = traitRequest.tree;
-                            console.log(aceApp.traitData);
+/*                            asrRequest.traitData = traitRequest.tree;
+                            console.log(asrRequest.traitData);
                             console.log(traitRequest.tra);
                             d3.select("#tree-name").html('Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>'); */
 
@@ -282,9 +289,62 @@ function getFlowAppByNameLookup(name) {
                     }
                 }, this));
             };
-
         });
         
+        $("#send-asr-request").click(function() {
+            $("#send-asr-request").attr("disabled", "disabled");
+            $("#send-asr-request").text("Re-run ancestral state reconstruction");
+            $("#ace-notice").text("Performing ancestral state reconstruction analysis...");
+
+            var inputs = {
+                table:  {type: "table",  format: asrRequest.tableFormat,    data: asrRequest.table},
+                tree:   {type: "tree",   format: "newick",           data: asrRequest.tree},
+                column: {type: "string", format: "text",             data: asrRequest.column},
+                type:   {type: "string", format: "text",             data: asrRequest.type},
+                method: {type: "string", format: "text",             data: "marginal"}
+            };
+
+            var outputs = {
+                res: {type: "table", format: "rows"},
+                treePlot: {type: "image", format: "png.base64"}
+            };
+
+            flow.performAnalysis(asrRequest.analysisId, inputs, outputs,
+                _.bind(function (error, result) {
+                    asrRequest.taskId = result._id;
+                    setTimeout(_.bind(asrRequest.checkASRResult, asrRequest), 1000);
+                }, asrRequest));
+
+            asrRequest.checkASRResult = function () {
+                var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
+                girder.restRequest({path: check_url}).done(_.bind(function (result) {
+                    console.log(result.status);
+                    if (result.status === 'SUCCESS') {
+                        // get result data
+                        var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
+                        girder.restRequest({path: result_url}).done(_.bind(function (data) {
+                            asrRequest.treePlot = data.result.treePlot.data;
+
+                            // render tree plot
+                            $("#tree-plot").image({ data: asrRequest.treePlot });
+                            $("#send-asr-request").removeAttr("disabled");
+                            $("#asr-notice").text("Ancestral state reconstruction succeeded!" + 
+                                    ' <span class="glyphicon glyphicon-ok-circle"></span>');
+//                            $('html, body').animate({
+//                                scrollTop: $("#tree-plot").offset().top
+//                            }, 1000);
+                        }, this));
+
+                    } else if (result.status === 'FAILURE') {
+                        $("#send-asr-request").removeAttr("disabled");
+                        $("#asr-notice").text("Analysis failed. " + result.message);
+                    } else {
+                        setTimeout(_.bind(this.checkASRResult, this), 1000);
+                    }
+                }, this));
+            };
+
+        });
         
         /* --------------- original code below here --------------- */
 
@@ -325,8 +385,8 @@ function getFlowAppByNameLookup(name) {
                 // modifications for simple app begin here
                 // if its a table, get the column names
                 if (typeFormat.type == "table") {
-                    aceApp.table = dataset.get('data');
-                    aceApp.tableFormat = typeFormat.format;
+                    asrRequest.table = dataset.get('data');
+                    asrRequest.tableFormat = typeFormat.format;
                     d3.select("#table-name").html('Table: ' + file.name + ' <span class="glyphicon glyphicon-ok-circle"></span>');
                     $("#column-input").text("Parsing column names...");
                     $("#column-names").empty();
@@ -364,11 +424,11 @@ function getFlowAppByNameLookup(name) {
                 }
 
                 else if (typeFormat.type == "tree") {
-                    aceApp.tree = dataset.get('data');
-                    console.log(aceApp.tree);
+                    asrRequest.tree = dataset.get('data');
+                    console.log(asrRequest.tree);
                     d3.select("#tree-name").html('Tree: ' + file.name + ' <span class="glyphicon glyphicon-ok-circle"></span>');
                 }
-                aceApp.readyToAnalyze();
+                asrRequest.readyToAnalyze();
 
                 this.datasets.off('add', null, 'set-collection').add(dataset);
             }, this);
@@ -379,17 +439,17 @@ function getFlowAppByNameLookup(name) {
         $("#column-input").droppable({
             drop: function( event, ui ) {
                 var COI = ui.draggable.text();
-                aceApp.type = "discrete";
+                asrRequest.type = "discrete";
                 if (ui.draggable.hasClass("continuous")) {
-                    aceApp.type = "continuous";
+                    asrRequest.type = "continuous";
                 }
-                aceApp.column = COI;
+                asrRequest.column = COI;
                 d3.select("#column-input")
                     .classed('btn-primary', true)
                     .classed('btn-success', false)
                     .classed('bg-warning', false)
                     .html(COI + ' <span class="glyphicon glyphicon-ok-circle"></span>');
-                aceApp.readyToAnalyze();
+                asrRequest.readyToAnalyze();
             },
             over: function (event, ui) {
                 d3.select("#column-input")
@@ -402,60 +462,6 @@ function getFlowAppByNameLookup(name) {
                     .classed('bg-warning', true);
             }
             });
-
-        $("#analyze").click(function() {
-            $("#analyze").attr("disabled", "disabled");
-            $("#analyze").text("Re-run");
-            $("#ace-notice").text("Performing ancestral state reconstruction analysis...");
-
-            var inputs = {
-                table:  {type: "table",  format: aceApp.tableFormat,    data: aceApp.table},
-                tree:   {type: "tree",   format: "newick",           data: aceApp.tree},
-                column: {type: "string", format: "text",             data: aceApp.column},
-                type:   {type: "string", format: "text",             data: aceApp.type},
-                method: {type: "string", format: "text",             data: "marginal"}
-            };
-
-            var outputs = {
-                res: {type: "table", format: "rows"},
-                treePlot: {type: "image", format: "png.base64"}
-            };
-
-            flow.performAnalysis(aceApp.ASRId, inputs, outputs,
-                _.bind(function (error, result) {
-                    aceApp.taskId = result._id;
-                    setTimeout(_.bind(aceApp.checkASRResult, aceApp), 1000);
-                }, aceApp));
-
-            aceApp.checkASRResult = function () {
-                var check_url = '/item/' + this.ASRId + '/romanesco/' + this.taskId + '/status'
-                girder.restRequest({path: check_url}).done(_.bind(function (result) {
-                    console.log(result.status);
-                    if (result.status === 'SUCCESS') {
-                        // get result data
-                        var result_url = '/item/' + this.ASRId + '/romanesco/' + this.taskId + '/result'
-                        girder.restRequest({path: result_url}).done(_.bind(function (data) {
-                            aceApp.treePlot = data.result.treePlot.data;
-
-                            // render tree plot
-                            $("#tree-plot").image({ data: aceApp.treePlot });
-                            $("#analyze").removeAttr("disabled");
-                            $("#ace-notice").text("Ancestral state reconstruction succeeded!");
-                            $('html, body').animate({
-                                scrollTop: $("#tree-plot").offset().top
-                            }, 1000);
-                        }, this));
-
-                    } else if (result.status === 'FAILURE') {
-                        $("#analyze").removeAttr("disabled");
-                        $("#ace-notice").text("Analysis failed. " + result.message);
-                    } else {
-                        setTimeout(_.bind(this.checkASRResult, this), 1000);
-                    }
-                }, this));
-            };
-
-        });
 
         $("#help").click(function() {
             $("#upload").popover({
@@ -485,6 +491,6 @@ function getFlowAppByNameLookup(name) {
             toggleInputTablePreview();
         });
 
-        aceApp.render();
+        asrRequest.render();
     }); 
 }(window.flow, window.$, window.girder));
