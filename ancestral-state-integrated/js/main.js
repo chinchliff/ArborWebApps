@@ -187,14 +187,26 @@ function getFlowAppByNameLookup(name) {
                                         
                                         // collect the taxon names that have data for this trait 
                                         var names = [];
+                                        var dummyData = {};
+                                        
+                                        var dummyData = {
+                                            "fields": ["name", traitName],
+                                            "rows": []
+                                        };
+                                        
                                         for (var i = 0; i < rowData["rows"].length; i++) {
 //                                            console.log(rowData["rows"][i]);
-                                            if (rowData["rows"][i][traitName] != null) {
-                                                names.push(rowData["rows"][i]["name"]);
+                                            var traitValue = rowData["rows"][i][traitName];
+                                            if (traitValue != null) {
+                                                var name = rowData["rows"][i]["name"];
+                                                names.push(name);
+                                                rows.push({"name": name, traitName: traitValue});
                                             }
                                         }
                                         filterRequest.namesToKeep = names.join();
                                         console.log("will filter tree to contain only: " + filterRequest.namesToKeep);
+                                        console.log("filtered data: ");
+                                        console.log(dummyData)
                                         filterRequest.readyToAnalyze();
                                     });
                                 }
