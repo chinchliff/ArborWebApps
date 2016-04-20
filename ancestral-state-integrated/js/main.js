@@ -38,7 +38,8 @@ function getFlowAppByNameLookup(name) {
         var filterRequest = getFlowAppByNameLookup("Filter tree based on taxon list");
 
         // this analysis performs asr using the specified tree and trait data
-        var asrRequest = getFlowAppByNameLookup("aceArbor");
+        var asrRequest = getFlowAppByNameLookup("Do ancestral state reconstruction using aRbor");
+        console.log(asrRequest);
 
         // control access to ui elements
         treeRequest.readyToAnalyze = function () {
@@ -105,7 +106,7 @@ function getFlowAppByNameLookup(name) {
 
                             // record the tree
                             filterRequest.tree = data.result.tree.data;
-                            console.log(filterRequest.tree);
+                            console.log("will use tree: " + filterRequest.tree);
                             
                             // render tree plot
 //                            $("#tree-plot").image({ data: treeRequest.treePlot });
@@ -156,7 +157,7 @@ function getFlowAppByNameLookup(name) {
             traitRequest.checkTraitResult = function () {
                 var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
                 girder.restRequest({path: check_url}).done(_.bind(function (result) {
-                    console.log(result.status);
+//                    console.log(result.status);
                     if (result.status === 'SUCCESS') {
                         // get result data
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
@@ -245,7 +246,7 @@ function getFlowAppByNameLookup(name) {
             filterRequest.checkFilterResult = function () {
                 var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
                 girder.restRequest({path: check_url}).done(_.bind(function (result) {
-                    console.log(result.status);
+//                    console.log(result.status);
                     if (result.status === 'SUCCESS') {
                         // get result data
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
@@ -294,8 +295,8 @@ function getFlowAppByNameLookup(name) {
                 treePlot: {type: "image", format: "png.base64"}
             };
 
-            console.log(inputs);
-            console.log(outputs);
+//            console.log(inputs);
+//            console.log(outputs);
 
             flow.performAnalysis(asrRequest.analysisId, inputs, outputs,
                 _.bind(function (error, result) {
@@ -306,8 +307,8 @@ function getFlowAppByNameLookup(name) {
             asrRequest.checkASRResult = function () {
                 var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
                 girder.restRequest({path: check_url}).done(_.bind(function (result) {
-                    console.log(result.status);
-                    console.log(result);
+//                    console.log(result.status);
+//                    console.log(result);
                     if (result.status === 'SUCCESS') {
                         // get result data
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
@@ -342,14 +343,14 @@ function getFlowAppByNameLookup(name) {
         $("#select-continuous-label").click(function() {
             asrRequest.type = 'continuous';
             asrRequest.readyToAnalyze();
-            console.log(asrRequest);
+//            console.log(asrRequest);
 //            $("#select-continuous").button('toggle')
         });
 
         $("#select-discrete-label").click(function() {
             asrRequest.type = 'discrete';
             asrRequest.readyToAnalyze();
-            console.log(asrRequest);
+//            console.log(asrRequest);
 //            $("#select-continuous").button('toggle')
         });
 
