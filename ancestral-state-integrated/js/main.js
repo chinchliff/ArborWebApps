@@ -251,11 +251,13 @@ function getFlowAppByNameLookup(name) {
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
                             asrRequest.tree = data.result.filtered_tree.data
-                            asrRequest.readyToAnalyze();
-                            console.log(asrRequest.tree);
+//                            console.log(asrRequest.tree);
 
                             $("#filter-notice").html('Tree was successfully filtered for taxa with ' + 
                                     asrRequest.column + ' data. <span class="glyphicon glyphicon-ok-circle"></span>');
+
+                            $("#select-discrete").removeAttr("disabled").removeClass("disabled");
+                            $("#select-continuous").removeAttr("disabled").removeClass("disabled");
                             
                             $("#send-filter-request").removeAttr("disabled");
                         }, this));
@@ -334,11 +336,13 @@ function getFlowAppByNameLookup(name) {
         
         $("#select-continuous").click(function() {
             asrRequest.type = 'continuous';
+            asrRequest.readyToAnalyze();
 //            $("#select-continuous").button('toggle')
         }
 
         $("#select-discrete").click(function() {
             asrRequest.type = 'discrete';
+            asrRequest.readyToAnalyze();
 //            $("#select-continuous").button('toggle')
         }
 
