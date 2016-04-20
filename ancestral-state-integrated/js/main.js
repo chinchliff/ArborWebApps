@@ -109,7 +109,8 @@ function getFlowAppByNameLookup(name) {
 //                            $("#tree-plot").image({ data: treeRequest.treePlot });
 //                            $("#analyze").removeAttr("disabled");
 
-                            d3.select("#tree-notice").html('Tree loaded successfully from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>');
+                            d3.select("#tree-notice").html('Tree loaded successfully from OpenTree ' + 
+                                    ' <span class="glyphicon glyphicon-ok-circle"></span>');
 //                            $('html, body').animate({
 //                                scrollTop: $("#tree-plot").offset().top
 //                            }, 1000);
@@ -184,13 +185,16 @@ function getFlowAppByNameLookup(name) {
                                             }
                                         }
                                         filterRequest.namesToKeep = names.join();
+                                        console.log(filterRequest.namesToKeep);
                                         filterRequest.readyToAnalyze();
                                     });
                                 }
                             });
 
-                            $("#trait-notice").text("Trait data request was successful! Select the data to be used for ancestral character estimation:");
-                            $("#trait-selection").html('No trait has been selected. <span class="glyphicon glyphicon-exclamation-sign"></span>');
+                            $("#trait-notice").text("Trait data request was successful! " + 
+                                    "Select the data to be used for ancestral character estimation:");
+                            $("#trait-selection").html('No trait has been selected. ' + 
+                                    '<span class="glyphicon glyphicon-exclamation-sign"></span>');
 
 /*                            aceApp.traitData = traitRequest.tree;
                             console.log(aceApp.traitData);
