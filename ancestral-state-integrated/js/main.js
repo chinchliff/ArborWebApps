@@ -179,10 +179,10 @@ function getFlowAppByNameLookup(name) {
                                         
                                         // collect the taxon names that have data for this trait 
                                         var names = [];
-                                        for (var row in rowData["rows"]) {
-                                            console.log(row);
-                                            if (row[traitName] != null) {
-                                                names.push(row["name"]);
+                                        for (var i = 0; i < rowData["rows"].length; i++) {
+                                            console.log(rowData["rows"][i]);
+                                            if (rowData["rows"][i][traitName] != null) {
+                                                names.push(rowData["rows"][i]["name"]);
                                             }
                                         }
                                         filterRequest.namesToKeep = names.join();
