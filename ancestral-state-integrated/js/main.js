@@ -278,15 +278,15 @@ function getFlowAppByNameLookup(name) {
         $("#send-asr-request").click(function() {
             $("#send-asr-request").attr("disabled", "disabled");
             $("#send-asr-request").text("Re-run ancestral state reconstruction");
-            $("#ace-notice").text("Performing ancestral state reconstruction analysis...");
+            $("#asr-notice").text("Performing ancestral state reconstruction analysis...");
 
             var inputs = {
-                table:  {type: "table",  format: asrRequest.tableFormat,    data: asrRequest.table},
-                tree:   {type: "tree",   format: "newick",           data: asrRequest.tree},
-                column: {type: "string", format: "text",             data: asrRequest.column},
-                type:   {type: "string", format: "text",             data: asrRequest.type},
-                name_column: {type: "string", format: "text",        data: "name"},
-                method: {type: "string", format: "text",             data: "marginal"}
+                table:       {type: "table",  format: asrRequest.tableFormat,    data: asrRequest.table},
+                tree:        {type: "tree",   format: "newick",                  data: asrRequest.tree},
+                column:      {type: "string", format: "text",                    data: asrRequest.column},
+                type:        {type: "string", format: "text",                    data: asrRequest.type},
+                name_column: {type: "string", format: "text",                    data: "name"},
+                method:      {type: "string", format: "text",                    data: "marginal"}
             };
 
             var outputs = {
