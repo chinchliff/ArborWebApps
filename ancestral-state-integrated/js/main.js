@@ -278,7 +278,7 @@ function getFlowAppByNameLookup(name) {
 
             var inputs = {
                 table:       {type: "table",  format: asrRequest.tableFormat,    data: asrRequest.table},
-                tree:        {type: "string", format: "text",                    data: asrRequest.tree},
+                tree:        {type: "tree",   format: "newick",                  data: asrRequest.tree},
                 column:      {type: "string", format: "text",                    data: asrRequest.column},
                 type:        {type: "string", format: "text",                    data: asrRequest.type},
                 name_column: {type: "string", format: "text",                    data: "name"},
