@@ -248,7 +248,7 @@ function getFlowAppByNameLookup(name) {
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
                             asrRequest.tree = data.result.filtered_tree.data
-//                            console.log(asrRequest.tree);
+                            console.log(asrRequest.tree);
 
                             $("#filter-notice").html('Tree was successfully filtered for taxa with ' + 
                                     asrRequest.column + ' data. <span class="glyphicon glyphicon-ok-circle"></span>');
