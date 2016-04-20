@@ -200,7 +200,7 @@ function getFlowAppByNameLookup(name) {
                                             if (traitValue != null) {
                                                 var name = rowData["rows"][i]["name"];
                                                 names.push(name);
-                                                rows.push({"name": name, traitName: traitValue});
+                                                dummyData.rows.push({"name": name, traitName: traitValue});
                                             }
                                         }
                                         filterRequest.namesToKeep = names.join();
