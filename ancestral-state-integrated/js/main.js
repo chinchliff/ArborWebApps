@@ -195,8 +195,8 @@ function getFlowAppByNameLookup(name) {
                                         for (var i = 0; i < rowData["rows"].length; i++) {
 //                                            console.log(rowData["rows"][i]);
                                             var traitValue = rowData["rows"][i][traitName];
-                                            if (traitValue != null) {
-                                                var name = rowData["rows"][i]["name"];
+                                            var name = rowData["rows"][i]["name"];
+                                            if (traitValue != null and name != "name") {
                                                 names.push(name);
                                                 var r = {"name": name}
                                                 r[traitName] = traitValue;
