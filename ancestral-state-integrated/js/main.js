@@ -58,7 +58,7 @@ function getFlowAppByNameLookup(name) {
             }
         };
         asrRequest.readyToAnalyze = function () {
-            if ("column" in this && "table" in this && "tree" in this && "analysisId" in this) {
+            if ("column" in this && "table" in this && "tree" in this && "analysisId" in this && "type" in this) {
                 d3.select("#send-asr-request").classed('disabled', false);
             }
         };
@@ -254,7 +254,7 @@ function getFlowAppByNameLookup(name) {
                             asrRequest.readyToAnalyze();
                             console.log(asrRequest.tree);
 
-                            $("#filter-notice").text('Tree was successfully filtered for taxa with ' + 
+                            $("#filter-notice").html('Tree was successfully filtered for taxa with ' + 
                                     asrRequest.column + ' data. <span class="glyphicon glyphicon-ok-circle"></span>');
                             
                             $("#send-filter-request").removeAttr("disabled");
@@ -311,8 +311,9 @@ function getFlowAppByNameLookup(name) {
                             // render tree plot
                             $("#tree-plot").image({ data: asrRequest.treePlot });
                             $("#send-asr-request").removeAttr("disabled");
-                            $("#asr-notice").text("Ancestral state reconstruction succeeded!" + 
+                            $("#asr-notice").html("Ancestral state reconstruction succeeded!" + 
                                     ' <span class="glyphicon glyphicon-ok-circle"></span>');
+
 //                            $('html, body').animate({
 //                                scrollTop: $("#tree-plot").offset().top
 //                            }, 1000);
@@ -331,6 +332,16 @@ function getFlowAppByNameLookup(name) {
 
         });
         
+        $("#select-continuous").click(function() {
+            asrRequest.type = 'continuous';
+//            $("#select-continuous").button('toggle')
+        }
+
+        $("#select-discrete").click(function() {
+            asrRequest.type = 'discrete';
+//            $("#select-continuous").button('toggle')
+        }
+
         /* --------------- original code below here --------------- */
 
 

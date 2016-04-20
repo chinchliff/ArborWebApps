@@ -54,61 +54,65 @@ html, body {
         </nav>
 
         <div class="container-fluid">
-            <div class="row">
-                <!--div class="col-sm-3"-->
-                    <div class="btn btn-default" id="help" data-toggle="button">Show help</div>
-                    <!--div id="column-names" class="btn-group-vertical full-width btn"></div>
-                </div -->
-                <div class="col-sm-9">
-
-                        <div id="collect-tree">
-                            <h4>Step 1: Get a tree from Open Tree of Life </h4>
-                            <div id="taxon-lookup">
-                                <input type="text" id="taxon-name-input" value="<lookup taxon - not yet supported>"></input>
-                                <input type="text" id="complete-subtree-ott-id-input" value="698424"></input>
-                            </div>
-                            <span id="send-tree-request" class="btn btn-success spacer disabled" style="width:350px">
-                                Get tree for taxon ids
-                            </span>
-                            <div id="tree-notice" class="spacer">
-                                No tree has been loaded.
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            </div>
-                        </div>
-
-                        <div id="collect-trait-data">
-                            <h4>Step 2: collect available trait data from EOL TraitBank</h4>
-                            <span id="send-trait-request" class="btn btn-success spacer disabled" style="width:350px">
-                                Gather trait data for tree taxa
-                            </span>
-                            <div id="trait-notice" class="spacer">
-                                No trait data have been loaded.
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            </div>
-                            <div id="trait-selection"></div>
-                            <div class="row hidden spacer" id="trait-table-vis-container">
-                                <div class="col-sm-3">
-                                    <div class="spacer" id="trait-table-vis"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        
-                        <div id="run-asr">
-                            <h4>Step 3: run ancestral state reconstruction using selected tree and data</h4>
-                            <span id="send-filter-request" class="btn btn-success spacer disabled" style="width:350px">
-                                Filter tree and estimate branch lengths
-                            </span>
-                            <div id="filter-notice" class="spacer"></div>
-                            <div id="filtered-tree-vis"></div>
-                            <span id="send-asr-request" class="btn btn-success spacer disabled" style="width:350px">
-                                Run ancestral character estimation!
-                            </span>
-                            <div id="asr-notice" class="spacer"></div>
-                            <div id="asr-vis"></div>
-                            <div id="tree-plot"></div>
-                        </div>
+            <div class="btn btn-default" id="help" data-toggle="button">Show help</div>
+            
+            <div id="collect-tree">
+                <h4>Step 1: Get a tree from Open Tree of Life </h4>
+                <div id="taxon-lookup">
+                    <input type="text" id="taxon-name-input" value="<lookup taxon - not yet supported>"></input>
+                    <input type="text" id="complete-subtree-ott-id-input" value="698424"></input>
                 </div>
+                <span id="send-tree-request" class="btn btn-success spacer disabled" style="width:350px">
+                    Get tree for taxon ids
+                </span>
+                <div id="tree-notice" class="spacer">
+                    No tree has been loaded.
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                </div>
+            </div>
+
+            <div id="collect-trait-data">
+                <h4>Step 2: collect available trait data from EOL TraitBank</h4>
+                <span id="send-trait-request" class="btn btn-success spacer disabled" style="width:350px">
+                    Gather trait data for tree taxa
+                </span>
+                <div id="trait-notice" class="spacer">
+                    No trait data have been loaded.
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                </div>
+                <div id="trait-selection"></div>
+                <div class="row hidden spacer" id="trait-table-vis-container">
+                    <div class="col-sm-3">
+                        <div class="spacer" id="trait-table-vis"></div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div id="run-asr">
+                <h4>Step 3: run ancestral state reconstruction using selected tree and data</h4>
+                <span id="send-filter-request" class="btn btn-success spacer disabled" style="width:350px">
+                    Filter tree and estimate branch lengths
+                </span>
+                <div id="filter-notice" class="spacer"></div>
+                <div id="filtered-tree-vis"></div>
+                <span id="select-asr-type" class="btn btn-success spacer disabled" style="width:350px">
+                    Run ancestral character estimation!
+                </span>
+                <div class="btn-group" data-toggle="buttons" id="select-asr-type" disabled="disabled">
+                    <label class="btn btn-primary">
+                        <input type="radio" name="select-asr-type" id="select-discrete" autocomplete="off"> Discrete
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="select-asr-type" id="select-continuous" autocomplete="off"> Continuous
+                    </label>
+                </div>
+                <span id="send-asr-request" class="btn btn-success spacer disabled" style="width:350px">
+                    Run ancestral character estimation!
+                </span>
+                <div id="asr-notice" class="spacer"></div>
+                <div id="asr-vis"></div>
+                <div id="tree-plot"></div>
             </div>
         </div>
         <div id="vis" class="hidden"></div>
