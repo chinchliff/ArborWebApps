@@ -73,14 +73,10 @@ function getFlowAppByNameLookup(name) {
                 ott_id: {type: "string", format: "text", data: $("#complete-subtree-ott-id-input").val()}
             };
             
-//            console.log(inputs.ott_id.data)
-
             var outputs = {
-//                res: {type: "table", format: "rows"},
-//                treePlot: {type: "image", format: "png.base64"}
                 newick_result: {type: "string", format: "text"},
-                tree: {type: "tree", format: "newick"},
-                taxon_names: {type: "string", format: "text"}
+                tree:          {type: "tree", format: "newick"},
+                taxon_names:   {type: "string", format: "text"}
             };
 
             flow.performAnalysis(treeRequest.analysisId, inputs, outputs,
@@ -94,7 +90,6 @@ function getFlowAppByNameLookup(name) {
                 girder.restRequest({path: check_url}).done(_.bind(function (result) {
 //                    console.log(result.status);
                     if (result.status === 'SUCCESS') {
-                        // get result data
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
 //                            treeRequest.treePlot = data.result.treePlot.data;
@@ -230,7 +225,7 @@ function getFlowAppByNameLookup(name) {
 
             var inputs = {
                 tips_to_keep: {type: "string", format: "text", data: filterRequest.namesToKeep},
-                newick_tree: {type: "string", format: "text", data: filterRequest.tree}
+                newick_tree:  {type: "string", format: "text", data: filterRequest.tree}
             };
             
             var outputs = {
@@ -283,10 +278,10 @@ function getFlowAppByNameLookup(name) {
 
             var inputs = {
                 table:       {type: "table",  format: asrRequest.tableFormat,    data: asrRequest.table},
-                tree:        {type: "tree",   format: "newick",                  data: asrRequest.tree},
+                tree:        {type: "string", format: "text",                    data: asrRequest.tree},
                 column:      {type: "string", format: "text",                    data: asrRequest.column},
                 type:        {type: "string", format: "text",                    data: asrRequest.type},
-//                name_column: {type: "string", format: "text",                    data: "name"},
+                name_column: {type: "string", format: "text",                    data: "name"},
                 method:      {type: "string", format: "text",                    data: "marginal"}
             };
 
@@ -308,7 +303,8 @@ function getFlowAppByNameLookup(name) {
                 var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
                 girder.restRequest({path: check_url}).done(_.bind(function (result) {
 //                    console.log(result.status);
-//                    console.log(result);
+                    console.log(asrRequest);
+                    console.log(result);
                     if (result.status === 'SUCCESS') {
                         // get result data
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
