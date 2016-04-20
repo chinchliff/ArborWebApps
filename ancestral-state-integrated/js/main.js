@@ -256,8 +256,10 @@ function getFlowAppByNameLookup(name) {
                             $("#filter-notice").html('Tree was successfully filtered for taxa with ' + 
                                     asrRequest.column + ' data. <span class="glyphicon glyphicon-ok-circle"></span>');
 
-                            $("#select-discrete").removeAttr("disabled").removeClass("disabled");
-                            $("#select-continuous").removeAttr("disabled").removeClass("disabled");
+                            $("#select-discrete").removeAttr("disabled");
+                            $("#select-discrete-label").removeClass("disabled");
+                            $("#select-continuous").removeAttr("disabled");
+                            $("#select-continuous-label").removeClass("disabled");
                             
                             $("#send-filter-request").removeAttr("disabled");
                         }, this));
