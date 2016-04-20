@@ -286,6 +286,8 @@ function getFlowAppByNameLookup(name) {
                 method:      {type: "string", format: "text",                    data: "marginal"}
             };
 
+            console.log('will use column: "'+inputs.column.data+'"');
+ 
             var outputs = {
                 res: {type: "table", format: "rows"},
                 treePlot: {type: "image", format: "png.base64"}
