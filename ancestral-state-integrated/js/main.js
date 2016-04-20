@@ -338,13 +338,13 @@ function getFlowAppByNameLookup(name) {
             asrRequest.type = 'continuous';
             asrRequest.readyToAnalyze();
 //            $("#select-continuous").button('toggle')
-        }
+        });
 
         $("#select-discrete").click(function() {
             asrRequest.type = 'discrete';
             asrRequest.readyToAnalyze();
 //            $("#select-continuous").button('toggle')
-        }
+        });
 
         /* --------------- original code below here --------------- */
 
