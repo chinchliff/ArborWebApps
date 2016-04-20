@@ -51,6 +51,7 @@ function getFlowAppByNameLookup(name) {
                 d3.select("#send-trait-request").classed('disabled', false);
             }
         };
+        treeRenderRequest.readyToAnalyze = function () {};
         filterRequest.readyToAnalyze = function () {
             if ("namesToKeep" in this && "tree" in this && "analysisId" in this) {
                 d3.select("#send-filter-request").classed('disabled', false);
@@ -253,34 +254,9 @@ function getFlowAppByNameLookup(name) {
                             asrRequest.readyToAnalyze();
                             console.log(asrRequest.tree);
 
-                            // display the available data to the user
-/*                            var rowData = data.result.trait_name_table.data;
-                            d3.select("#trait-table-vis-container").classed('hidden', false);
-                            $("#trait-table-vis").table({ data: rowData });
+                            $("#filter-notice").text('Tree was successfully filtered for taxa with ' + 
+                                    asrRequest.column + ' data. <span class="glyphicon glyphicon-ok-circle"></span>');
                             
-                            // enable buttons to select the trait to be used for ASR
-                            $.each($("#trait-table-vis").find("th"), function(i, headerCell) {
-                                var traitName = headerCell.textContent;
-                                if (traitName != "name") {
-                                    $(headerCell).html('<div class="btn btn-primary :hover">' + traitName + '</div>');
-                                    $(headerCell).children("div").click(function() {
-                                        $("#trait-selection").html('Selected trait: ' +
-                                                traitName + ' <span class="glyphicon glyphicon-ok-circle"></span>');
-                                        $("#filter").removeClass("disabled");
-                                        $("#filter-notice").html('Tree needs to be filtered to match trait: ' +
-                                                traitName + '<span class="glyphicon glyphicon-exclamation-sign"></span>');
-                                    });
-                                }
-                            });
-
-                            $("#trait-notice").text("Trait data request was successful! Select the data to be used for ancestral character estimation:");
-                            $("#trait-selection").html('No trait has been selected. <span class="glyphicon glyphicon-exclamation-sign"></span>'); */
-
-/*                            asrRequest.traitData = traitRequest.tree;
-                            console.log(asrRequest.traitData);
-                            console.log(traitRequest.tra);
-                            d3.select("#tree-name").html('Tree: loaded from OpenTree <span class="glyphicon glyphicon-ok-circle"></span>'); */
-
                         }, this));
 
                     } else if (result.status === 'FAILURE') {
@@ -309,6 +285,9 @@ function getFlowAppByNameLookup(name) {
                 res: {type: "table", format: "rows"},
                 treePlot: {type: "image", format: "png.base64"}
             };
+
+            console.log(inputs);
+            console.log(outputs);
 
             flow.performAnalysis(asrRequest.analysisId, inputs, outputs,
                 _.bind(function (error, result) {
