@@ -285,6 +285,7 @@ function getFlowAppByNameLookup(name) {
                 tree:   {type: "tree",   format: "newick",           data: asrRequest.tree},
                 column: {type: "string", format: "text",             data: asrRequest.column},
                 type:   {type: "string", format: "text",             data: asrRequest.type},
+                name_column: {type: "string", format: "text",        data: "name"},
                 method: {type: "string", format: "text",             data: "marginal"}
             };
 
