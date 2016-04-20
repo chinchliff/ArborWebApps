@@ -247,7 +247,7 @@ function getFlowAppByNameLookup(name) {
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
-                            asrRequest.tree = data.result.filtered_tree.data
+                            asrRequest.tree = data.result.filtered_tree
 //                            console.log(asrRequest.tree);
 
                             $("#filter-notice").html('Tree was successfully filtered for taxa with ' + 
