@@ -80,7 +80,7 @@ function getFlowAppByNameLookup(name) {
             },
             onSelect: function (suggestion) {
                 console.log(suggestion.data);
-                treeRequest.ottId = suggestion.data;
+                treeRequest.ottId = suggestion.data.toString();
                 treeRequest.readyToAnalyze(function() {
                     $("#send-tree-request").html("Request tree for: " + suggestion.value);
                 });
