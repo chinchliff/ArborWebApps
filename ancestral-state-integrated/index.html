@@ -129,7 +129,7 @@ html, body {
         <link rel="stylesheet" href="../lib/jquery.autocomplete.css">
         <script> // using devbridge jquery autocomplete for taxon name suggestions
         $(document).ready(function () {
-            $('#taxon-id').autocomplete({
+            $('#ott-id-input').autocomplete({
                 serviceUrl: "https://api.opentreeoflife.org/v3/tnrs/autocomplete_name",
                 type: "POST",
                 paramName: "name",
