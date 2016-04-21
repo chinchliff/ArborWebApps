@@ -45,6 +45,7 @@ function getFlowAppByNameLookup(name) {
         treeRequest.readyToAnalyze = function (callback) {
             if ("ottId" in this && "analysisId" in this) {
                 d3.select("#send-tree-request").classed('disabled', false);
+                $("#send-tree-request").removeAttr("disabled");
                 callback();
             }
         };
