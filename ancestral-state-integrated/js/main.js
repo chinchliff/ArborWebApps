@@ -83,6 +83,7 @@ function getFlowAppByNameLookup(name) {
                 treeRequest.ottId = suggestion.data.toString();
                 treeRequest.readyToAnalyze(function() {
                     $("#send-tree-request").html("Request tree for: " + suggestion.value);
+                    $("#send-trait-request").html("Request trait data for: " + suggestion.value);
                 });
             }
 //            onSearchComplete: function(query, suggestions) { console.log(query); console.log(suggestions); }
