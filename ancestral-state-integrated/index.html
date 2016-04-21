@@ -70,7 +70,7 @@ html, body {
         </nav>
 
         <div class="container-fluid">
-            <div class="btn btn-default" id="help" data-toggle="button">Show help</div>
+            <!--div class="btn btn-default" id="help" data-toggle="button">Show help</div-->
             
             <div id="collect-tree">
                 <h4>Step 1: Get a tree from Open Tree of Life </h4>
@@ -96,9 +96,11 @@ html, body {
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
                 </div>
                 <div id="trait-selection"></div>
-                <div class="row hidden spacer" id="trait-table-vis-container">
+                <div class="row hidden spacer" id="trait-table-container">
+                    <span id="trait-table-toggle" class="btn btn-primary disabled">Show full trait table</span>
                     <div class="col-sm-3">
-                        <div class="spacer" id="trait-table-vis"></div>
+                        <div class="spacer" id="trait-list"></div>
+                        <div class="spacer" id="trait-table" style="display:none"></div>
                     </div>
                 </div>
             </div>

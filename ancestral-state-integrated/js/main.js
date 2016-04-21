@@ -17,6 +17,50 @@ function getFlowAppByNameLookup(name) {
     return app;
 }
 
+function setTrait(traitName) {
+    // set the column to be used for the ASR request
+    asrRequest.column = traitName;
+
+    // collect the taxon names that have data for this trait 
+    // WARNING: cannot seem to use tables with R scripts in arbor
+    // right now, conversion issues
+    var names = [];
+    var filteredData = {
+        "fields": ["name", traitName],
+        "rows": []
+    };
+
+    // temporary hack to circumvent table conversion issue
+    var measurements = []
+
+    for (var i = 0; i < rowData["rows"].length; i++) {
+//                                            console.log(rowData["rows"][i]);
+        var traitValue = rowData["rows"][i][traitName];
+        var name = rowData["rows"][i]["name"];
+        if (traitValue != null && name != "(number of tips with trait)") {
+            names.push(name);
+            var r = {"name": name}
+            r[traitName] = traitValue;
+            filteredData.rows.push(r);
+        
+            // temporary hack to circumvent table conversion issue
+            measurements.push(traitValue);
+        }
+    }
+    filterRequest.namesToKeep = names.join();
+    console.log("will filter tree to contain only: " + filterRequest.namesToKeep);
+    console.log("filtered data: ");
+    console.log(filteredData)
+    asrRequest.table = filteredData;
+
+    // temporary hack to circumvent table conversion issue
+    asrRequest.measurements_string = measurements.join('\t');
+    asrRequest.names_string = names.join('\t'); 
+
+    filterRequest.readyToAnalyze();
+}
+
+
 (function (flow, $, girder) {
     'use strict';
 
@@ -157,11 +201,21 @@ function getFlowAppByNameLookup(name) {
 
         });
         
+        $("#trait-table-toggle").click(function() {
+            $("#trait-table").toggle();
+            $("#trait-list").toggle();
+            if ($("#trait-table-toggle").html() == "Show full trait table") {
+                $("#trait-table-toggle").text("Switch to trait list view");
+            } else {
+                $("#trait-table-toggle").text("Show full trait table");
+            }
+        });
+        
         $("#send-trait-request").click(function() {
             $("#send-trait-request").attr("disabled","disabled");
             $("#send-trait-request").text("Re-submit trait request");
             $("#trait-notice").text("Gathering available trait data...");
-            $("#trait-table-vis").html(""); // clear any previous results
+            $("#trait-table").html(""); // clear any previous results
 
             var inputs = {
                 taxon_names: {type: "string", format: "text", data: traitRequest.taxonNames}
@@ -192,67 +246,41 @@ function getFlowAppByNameLookup(name) {
                             var rowData = data.result.trait_name_table.data;
 //                            asrRequest.table = rowData;
                             asrRequest.tableFormat = 'rows';
-                            d3.select("#trait-table-vis-container").classed('hidden', false);
-                            $("#trait-table-vis").table({ data: rowData });
+
+                            $("#trait-table").table({ data: rowData });
+
+                            d3.select("#trait-table-container").classed('hidden', false);
                             
                             // remove null entries from the table to improve readability
-                            $.each($("#trait-table-vis").find("td"), function(i, dataCell) {
+                            $.each($("#trait-table").find("td"), function(i, dataCell) {
                                 if ($(dataCell).html() == "null") { $(dataCell).text(""); }
                             });
                             
                             // enable buttons to select the trait to be used for ASR
-                            $.each($("#trait-table-vis").find("th"), function(i, headerCell) {
+                            $.each($("#trait-table").find("th"), function(i, headerCell) {
                                 var traitName = headerCell.textContent;
                                 console.log('"'+traitName+'"');
                                 if (traitName != "name") {
-                                    $(headerCell).html('<div class="btn btn-primary :hover">' + traitName + '</div>');
-                                    $(headerCell).children("div").click(function() {
+
+                                    // add a button to the table header
+                                    var selectTraitButtonForTable = $('<div></div>')
+                                    .addClass("btn btn-primary :hover")
+                                    .html(traitName)
+                                    .click(function() {
                                         $("#trait-selection").html('Selected trait: ' +
                                                 traitName + ' <span class="glyphicon glyphicon-ok-circle"></span>');
                                         $("#filter-notice").html('Tree needs to be filtered to match trait: ' +
                                                 traitName + ' <span class="glyphicon glyphicon-exclamation-sign"></span>');
 
-                                        // set the column to be used for the ASR request
-                                        asrRequest.column = traitName;
-                                        
-                                        // collect the taxon names that have data for this trait 
-                                        // WARNING: cannot seem to use tables with R scripts in arbor
-                                        // right now, conversion issues
-                                        var names = [];
-                                        var filteredData = {
-                                            "fields": ["name", traitName],
-                                            "rows": []
-                                        };
-
-                                        // temporary hack to circumvent table conversion issue
-                                        var measurements = []
-                                        
-                                        for (var i = 0; i < rowData["rows"].length; i++) {
-//                                            console.log(rowData["rows"][i]);
-                                            var traitValue = rowData["rows"][i][traitName];
-                                            var name = rowData["rows"][i]["name"];
-                                            if (traitValue != null && name != "(number of tips with trait)") {
-                                                names.push(name);
-                                                var r = {"name": name}
-                                                r[traitName] = traitValue;
-                                                filteredData.rows.push(r);
-                                                
-                                                // temporary hack to circumvent table conversion issue
-                                                measurements.push(traitValue);
-                                            }
-                                        }
-                                        filterRequest.namesToKeep = names.join();
-                                        console.log("will filter tree to contain only: " + filterRequest.namesToKeep);
-                                        console.log("filtered data: ");
-                                        console.log(filteredData)
-                                        asrRequest.table = filteredData;
-
-                                        // temporary hack to circumvent table conversion issue
-                                        asrRequest.measurements_string = measurements.join('\t');
-                                        asrRequest.names_string = names.join('\t'); 
-
-                                        filterRequest.readyToAnalyze();
+                                        setTrait(traitName);
                                     });
+                                    $(headerCell).html(selectTraitButtonForTable);                                    
+
+                                    // add a button to the trait list
+                                    var selectTraitButtonForList = $.clone(selectTraitButtonForTable)
+                                    .html(traitName + " " + rowData["(number of tips with trait)"][traitName];
+                                    
+                                    $("#trait-list").append(selectTraitButtonForList);
                                 }
                             });
 
