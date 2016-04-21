@@ -68,6 +68,8 @@ function setTrait(traitName) {
     $(document).ready(function () {
         girder.apiRoot = '/girder/api/v1';
         
+        $("trait-table").hide();
+        
         // Look up the ids of the analyses we wish to perform
 
         // this analysis generates an ultrametric tree with arbitrary branch lengths
