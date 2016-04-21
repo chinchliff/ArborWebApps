@@ -277,7 +277,7 @@ function setTrait(traitName) {
                                 if (traitName != "name") {
 
                                     // add a button to the table header
-                                    var selectTraitButtonForTable = $('<div></div>')
+                                    var selectTraitButtonForTable = $('<span></span>')
                                     .addClass("btn btn-primary :hover")
                                     .html(traitName)
                                     .click(function() {
@@ -290,12 +290,14 @@ function setTrait(traitName) {
                                     });
                                     $(headerCell).html(selectTraitButtonForTable);                                    
 
-                                    // add a button to the trait list
-                                    var selectTraitButtonForList = $(selectTraitButtonForTable).clone()
-                                    .html(traitName + " (" + taxCountsForTrait[traitName] + ")");
-                                    console.log(selectTraitButtonForList);
+                                    if (taxCountsForTrait[traitName] > 2) {
+                                        // add a button to the trait list
+                                        var selectTraitButtonForList = $(selectTraitButtonForTable).clone()
+                                        .html(traitName + " (" + taxCountsForTrait[traitName] + ")");
+                                        console.log(selectTraitButtonForList);
                                     
-                                    $("#trait-list").append(selectTraitButtonForList);
+                                        $("#trait-list").append(selectTraitButtonForList);
+                                    }
                                 }
                             });
 
