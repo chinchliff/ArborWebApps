@@ -141,7 +141,7 @@ function getFlowAppByNameLookup(name) {
 //                                scrollTop: $("#tree-plot").offset().top
 //                            }, 1000);
 
-                            $("#send-tree-request").removeAttr("disabled");
+                            $("#send-tree-request").text("Request tree");
                         }, this));
 
                     } else if (result.status === 'FAILURE') {
