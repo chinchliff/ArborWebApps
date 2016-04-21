@@ -45,28 +45,6 @@ html, body {
 }
         </style>
         
-    <script src="../lib/jquery.autocomplete.min.js"></script>
-    <link rel="stylesheet" href="../lib/jquery.autocomplete.css">
-    <script> // using devbridge jquery autocomplete for taxon name suggestions
-    $(document).ready(function () {
-        $('#taxon-id').autocomplete({
-            serviceUrl: "https://api.opentreeoflife.org/v3/tnrs/autocomplete_name",
-            type: "POST",
-            paramName: "name",
-            minChars: 2,
-            transformResult: function(response) {
-                return {
-                    suggestions: $.map(JSON.parse(response), function(result) {
-                        return { value: result.unique_name, data: result.ott_id };
-                    })
-                };
-            },
-//            onSearchComplete: function(query, suggestions) { console.log(query); console.log(suggestions); }
-//            lookup: ["Test result 1","Test result 2", "another one"]
-        });
-    });
-    </script>
-        
     </head>
     <body>
 
@@ -146,5 +124,27 @@ html, body {
         <script src="/girder/static/built/app.min.js" charset="utf-8"></script>
         <script src="../app.min.js" charset="utf-8"></script>
         <script src="js/main.js" charset="utf-8"></script>
+
+        <script src="../lib/jquery.autocomplete.min.js"></script>
+        <link rel="stylesheet" href="../lib/jquery.autocomplete.css">
+        <script> // using devbridge jquery autocomplete for taxon name suggestions
+        $(document).ready(function () {
+            $('#taxon-id').autocomplete({
+                serviceUrl: "https://api.opentreeoflife.org/v3/tnrs/autocomplete_name",
+                type: "POST",
+                paramName: "name",
+                minChars: 2,
+                transformResult: function(response) {
+                    return {
+                        suggestions: $.map(JSON.parse(response), function(result) {
+                            return { value: result.unique_name, data: result.ott_id };
+                        })
+                    };
+                },
+    //            onSearchComplete: function(query, suggestions) { console.log(query); console.log(suggestions); }
+    //            lookup: ["Test result 1","Test result 2", "another one"]
+            });
+        });
+        </script>
     </body>
 </html>
