@@ -37,6 +37,7 @@ function setTrait(traitName) {
 //                                            console.log(rowData["rows"][i]);
         var traitValue = rowData["rows"][i][traitName];
         var name = rowData["rows"][i]["name"];
+        var taxCountsForTrait = {};
         if (traitValue != null && name != "(number of tips with trait)") {
             names.push(name);
             var r = {"name": name}
@@ -247,6 +248,19 @@ function setTrait(traitName) {
 //                            asrRequest.table = rowData;
                             asrRequest.tableFormat = 'rows';
 
+                            // collect the number of taxa represented for each trait
+                            var taxCountsForTrait = {}
+                            for (var i = 0; i < rowData["rows"].length; i++) {
+                                if (rowData["rows"][i]["name"] == "(number of tips with trait)") {
+                                    for (traitName in rowData["rows"][i]) {
+                                        if (traitName != "name") {
+                                            taxCountsForTrait[traitName] = rowData["rows"][i][traitName];
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+
                             $("#trait-table").table({ data: rowData });
 
                             d3.select("#trait-table-container").classed('hidden', false);
@@ -255,7 +269,7 @@ function setTrait(traitName) {
                             $.each($("#trait-table").find("td"), function(i, dataCell) {
                                 if ($(dataCell).html() == "null") { $(dataCell).text(""); }
                             });
-                            
+                                                        
                             // enable buttons to select the trait to be used for ASR
                             $.each($("#trait-table").find("th"), function(i, headerCell) {
                                 var traitName = headerCell.textContent;
@@ -278,7 +292,7 @@ function setTrait(traitName) {
 
                                     // add a button to the trait list
                                     var selectTraitButtonForList = $(selectTraitButtonForTable).clone()
-                                    .html(traitName + " " + rowData["(number of tips with trait)"][traitName]);
+                                    .html(traitName + " (" + taxCountsForTrait[traitName] + ")");
                                     console.log(selectTraitButtonForList);
                                     
                                     $("#trait-list").append(selectTraitButtonForList);
