@@ -42,9 +42,10 @@ function getFlowAppByNameLookup(name) {
         console.log(asrRequest);
 
         // control access to ui elements
-        treeRequest.readyToAnalyze = function () {
+        treeRequest.readyToAnalyze = function (callback) {
             if ("ottId" in this && "analysisId" in this) {
                 d3.select("#send-tree-request").classed('disabled', false);
+                callback();
             }
         };
         traitRequest.readyToAnalyze = function () {
@@ -78,9 +79,11 @@ function getFlowAppByNameLookup(name) {
                 };
             },
             onSelect: function (suggestion) {
-               console.log(suggestion.data);
-               treeRequest.ottId = suggestion.data;
-               treeRequest.readyToAnalyze();
+                console.log(suggestion.data);
+                treeRequest.ottId = suggestion.data;
+                treeRequest.readyToAnalyze(function() {
+                    $("#send-tree-request").html("Request tree for: " + suggestion.value);
+                });
             }
 //            onSearchComplete: function(query, suggestions) { console.log(query); console.log(suggestions); }
 //            lookup: ["Test result 1","Test result 2", "another one"]
