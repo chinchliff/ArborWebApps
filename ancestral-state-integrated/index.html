@@ -43,6 +43,16 @@ html, body {
 } #send-tree-request, #send-trait-request, #send-filter-request, #send-asr-request {
     width: 350px;
 }
+
+/* styles for autcomplete results */
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { padding: 3px 5px; white-space: nowrap; overflow: hidden; font-family: "Droid Sans",Arial,Helvetica,sans-serif;}
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+
+
         </style>
         
     </head>
@@ -64,10 +74,7 @@ html, body {
             
             <div id="collect-tree">
                 <h4>Step 1: Get a tree from Open Tree of Life </h4>
-                <div id="taxon-lookup">
-                    <input type="text" id="ott-id-select">
-                    <input type="hidden" id="ott-id-input">
-                </div>
+                <input type="text" id="ott-id-select" value="<search for a taxon name>">
                 <span id="send-tree-request" class="btn btn-success spacer disabled">
                     Get tree for taxon ids
                 </span>
@@ -128,28 +135,6 @@ html, body {
 
         <script src="../lib/jquery.autocomplete.min.js"></script>
         <link rel="stylesheet" href="../lib/jquery.autocomplete.css">
-        <script> // using devbridge jquery autocomplete for taxon name suggestions
-        $(document).ready(function () {
-            $('#ott-id-input').autocomplete({
-                serviceUrl: "https://api.opentreeoflife.org/v3/tnrs/autocomplete_name",
-                type: "POST",
-                paramName: "name",
-                minChars: 2,
-                transformResult: function(response) {
-                    return {
-                        suggestions: $.map(JSON.parse(response), function(result) {
-                            return { value: result.unique_name, data: result.ott_id };
-                        })
-                    };
-                },
-                onSelect: function (suggestion) {
-                   console.log(suggestion.data);
-                   $("#ott-id-input").val(suggestion.data);
-                }
-    //            onSearchComplete: function(query, suggestions) { console.log(query); console.log(suggestions); }
-    //            lookup: ["Test result 1","Test result 2", "another one"]
-            });
-        });
         </script>
     </body>
 </html>

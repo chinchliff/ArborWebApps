@@ -43,7 +43,7 @@ function getFlowAppByNameLookup(name) {
 
         // control access to ui elements
         treeRequest.readyToAnalyze = function () {
-            if ("analysisId" in this) {
+            if ("ottId" in this && "analysisId" in this) {
                 d3.select("#send-tree-request").classed('disabled', false);
             }
         };
@@ -64,13 +64,35 @@ function getFlowAppByNameLookup(name) {
             }
         };
 
+        // using devbridge jquery.autocomplete.js for taxon name suggestions
+        $('#ott-id-select').autocomplete({
+            serviceUrl: "https://api.opentreeoflife.org/v3/tnrs/autocomplete_name",
+            type: "POST",
+            paramName: "name",
+            minChars: 2,
+            transformResult: function(response) {
+                return {
+                    suggestions: $.map(JSON.parse(response), function(result) {
+                        return { value: result.unique_name, data: result.ott_id };
+                    })
+                };
+            },
+            onSelect: function (suggestion) {
+               console.log(suggestion.data);
+               treeRequest.ottId = suggestion.data;
+               treeRequest.readyToAnalyze();
+            }
+//            onSearchComplete: function(query, suggestions) { console.log(query); console.log(suggestions); }
+//            lookup: ["Test result 1","Test result 2", "another one"]
+        });
+
         $("#send-tree-request").click(function() {
             $("#send-tree-request").attr("disabled","disabled");
             $("#send-tree-request").text("Search for a different tree");
             $("#tree-notice").text("Requesting tree...");
 
             var inputs = {
-                ott_id: {type: "string", format: "text", data: $("#ott-id-input").val()}
+                ott_id: {type: "string", format: "text", data: treeRequest.ottId}
             };
             
             console.log(inputs);
