@@ -84,7 +84,7 @@ function getFlowAppByNameLookup(name) {
             }
 //            onSearchComplete: function(query, suggestions) { console.log(query); console.log(suggestions); }
 //            lookup: ["Test result 1","Test result 2", "another one"]
-        }).focus(function() { this.value(""); });
+        }).focus(function() { $(this).val(""); });
 
         $("#send-tree-request").click(function() {
             $("#send-tree-request").attr("disabled","disabled");
