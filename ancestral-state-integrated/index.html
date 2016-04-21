@@ -65,7 +65,8 @@ html, body {
             <div id="collect-tree">
                 <h4>Step 1: Get a tree from Open Tree of Life </h4>
                 <div id="taxon-lookup">
-                    <input type="text" id="ott-id-input">
+                    <input type="text" id="ott-id-select">
+                    <input type="hidden" id="ott-id-input">
                 </div>
                 <span id="send-tree-request" class="btn btn-success spacer disabled">
                     Get tree for taxon ids
@@ -141,6 +142,10 @@ html, body {
                         })
                     };
                 },
+                onSelect: function (suggestion) {
+                   console.log(suggestion.data);
+                   $("#ott-id-input").val(suggestion.data);
+                }
     //            onSearchComplete: function(query, suggestions) { console.log(query); console.log(suggestions); }
     //            lookup: ["Test result 1","Test result 2", "another one"]
             });
