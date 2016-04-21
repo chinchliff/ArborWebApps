@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Ancestral State Reconstruction</title>
+
         <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Droid+Sans:400,700">
         <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="../app.min.css">
@@ -37,8 +38,35 @@ html, body {
 #analyze {
     padding-top: 20px;
     padding-bottom: 20px;
+} #ott-id-input {
+    width: 300px;
+} #send-tree-request, #send-trait-request, #send-filter-request, #send-asr-request {
+    width: 350px;
 }
         </style>
+        
+    <script src="../lib/jquery.autocomplete.min.js"></script>
+    <link rel="stylesheet" href="../lib/jquery.autocomplete.css">
+    <script> // using devbridge jquery autocomplete for taxon name suggestions
+    $(document).ready(function () {
+        $('#taxon-id').autocomplete({
+            serviceUrl: "https://api.opentreeoflife.org/v3/tnrs/autocomplete_name",
+            type: "POST",
+            paramName: "name",
+            minChars: 2,
+            transformResult: function(response) {
+                return {
+                    suggestions: $.map(JSON.parse(response), function(result) {
+                        return { value: result.unique_name, data: result.ott_id };
+                    })
+                };
+            },
+//            onSearchComplete: function(query, suggestions) { console.log(query); console.log(suggestions); }
+//            lookup: ["Test result 1","Test result 2", "another one"]
+        });
+    });
+    </script>
+        
     </head>
     <body>
 
@@ -59,10 +87,9 @@ html, body {
             <div id="collect-tree">
                 <h4>Step 1: Get a tree from Open Tree of Life </h4>
                 <div id="taxon-lookup">
-                    <input type="text" id="taxon-name-input" value="<lookup taxon - not yet supported>"></input>
-                    <input type="text" id="complete-subtree-ott-id-input" value="698424"></input>
+                    <input type="text" id="ott-id-input">
                 </div>
-                <span id="send-tree-request" class="btn btn-success spacer disabled" style="width:350px">
+                <span id="send-tree-request" class="btn btn-success spacer disabled">
                     Get tree for taxon ids
                 </span>
                 <div id="tree-notice" class="spacer">
@@ -73,7 +100,7 @@ html, body {
 
             <div id="collect-trait-data">
                 <h4>Step 2: collect available trait data from EOL TraitBank</h4>
-                <span id="send-trait-request" class="btn btn-success spacer disabled" style="width:350px">
+                <span id="send-trait-request" class="btn btn-success spacer disabled">
                     Gather trait data for tree taxa
                 </span>
                 <div id="trait-notice" class="spacer">
@@ -87,11 +114,10 @@ html, body {
                     </div>
                 </div>
             </div>
-
             
             <div id="run-asr">
                 <h4>Step 3: run ancestral state reconstruction using selected tree and data</h4>
-                <span id="send-filter-request" class="btn btn-success spacer disabled" style="width:350px">
+                <span id="send-filter-request" class="btn btn-success spacer disabled">
                     Filter tree and estimate branch lengths
                 </span>
                 <div id="filter-notice" class="spacer"></div>
@@ -104,7 +130,7 @@ html, body {
                         <input type="radio" name="select-asr-type" id="select-continuous" autocomplete="off" disabled="disabled"> Continuous
                     </label>
                 </div>
-                <span id="send-asr-request" class="btn btn-success spacer disabled" style="width:350px">
+                <span id="send-asr-request" class="btn btn-success spacer disabled">
                     Run ancestral character estimation!
                 </span>
                 <div id="asr-notice" class="spacer"></div>

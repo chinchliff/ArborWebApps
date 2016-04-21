@@ -70,7 +70,7 @@ function getFlowAppByNameLookup(name) {
             $("#tree-notice").text("Requesting tree...");
 
             var inputs = {
-                ott_id: {type: "string", format: "text", data: $("#complete-subtree-ott-id-input").val()}
+                ott_id: {type: "string", format: "text", data: $("#ott-id-input").val()}
             };
             
             var outputs = {
