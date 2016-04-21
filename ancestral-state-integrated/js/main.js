@@ -252,7 +252,7 @@ function setTrait(traitName) {
                             var taxCountsForTrait = {}
                             for (var i = 0; i < rowData["rows"].length; i++) {
                                 if (rowData["rows"][i]["name"] == "(number of tips with trait)") {
-                                    for (traitName in rowData["rows"][i]) {
+                                    for (var traitName in rowData["rows"][i]) {
                                         if (traitName != "name") {
                                             taxCountsForTrait[traitName] = rowData["rows"][i][traitName];
                                         }
