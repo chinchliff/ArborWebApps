@@ -247,8 +247,8 @@ function getFlowAppByNameLookup(name) {
                                         asrRequest.table = filteredData;
 
                                         // temporary hack to circumvent table conversion issue
-                                        asrRequest.measurements_string = measurements.join();
-                                        asrRequest.names_string = filterRequest.namesToKeep; 
+                                        asrRequest.measurements_string = measurements.join('\t');
+                                        asrRequest.names_string = names.join('\t'); 
 
                                         filterRequest.readyToAnalyze();
                                     });
