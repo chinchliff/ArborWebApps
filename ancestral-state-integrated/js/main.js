@@ -91,7 +91,7 @@ function getFlowAppByNameLookup(name) {
 
         $("#send-tree-request").click(function() {
             $("#send-tree-request").attr("disabled","disabled");
-            $("#send-tree-request").text("Search for a different tree");
+            $("#send-tree-request").text("Request tree");
             $("#tree-notice").text("Requesting tree...");
 
             var inputs = {
@@ -140,8 +140,6 @@ function getFlowAppByNameLookup(name) {
 //                            $('html, body').animate({
 //                                scrollTop: $("#tree-plot").offset().top
 //                            }, 1000);
-
-                            $("#send-tree-request").text("Request tree");
                         }, this));
 
                     } else if (result.status === 'FAILURE') {
