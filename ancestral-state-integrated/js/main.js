@@ -214,11 +214,16 @@ function getFlowAppByNameLookup(name) {
                                         asrRequest.column = traitName;
                                         
                                         // collect the taxon names that have data for this trait 
+                                        // WARNING: cannot seem to use tables with R scripts in arbor
+                                        // right now, conversion issues
                                         var names = [];
                                         var filteredData = {
                                             "fields": ["name", traitName],
                                             "rows": []
                                         };
+
+                                        // temporary hack to circumvent table conversion issue
+                                        var measurements = []
                                         
                                         for (var i = 0; i < rowData["rows"].length; i++) {
 //                                            console.log(rowData["rows"][i]);
@@ -229,6 +234,9 @@ function getFlowAppByNameLookup(name) {
                                                 var r = {"name": name}
                                                 r[traitName] = traitValue;
                                                 filteredData.rows.push(r);
+                                                
+                                                // temporary hack to circumvent table conversion issue
+                                                measurements.push(traitValue);
                                             }
                                         }
                                         filterRequest.namesToKeep = names.join();
@@ -236,6 +244,11 @@ function getFlowAppByNameLookup(name) {
                                         console.log("filtered data: ");
                                         console.log(filteredData)
                                         asrRequest.table = filteredData;
+
+                                        // temporary hack to circumvent table conversion issue
+                                        asrRequest.measurements_string = measurements.join();
+                                        asrRequest.names_string = filterRequest.namesToKeep; 
+
                                         filterRequest.readyToAnalyze();
                                     });
                                 }
@@ -324,17 +337,19 @@ function getFlowAppByNameLookup(name) {
                 column:      {type: "string", format: "text",                    data: asrRequest.column},
                 type:        {type: "string", format: "text",                    data: asrRequest.type},
                 name_column: {type: "string", format: "text",                    data: "name"},
-                method:      {type: "string", format: "text",                    data: "marginal"}
+                method:      {type: "string", format: "text",                    data: "marginal"},
+                
+                // temporary hack to circumvent table conversion issue
+                measurements_string: {type: "string", format: "text", data: asrRequest.measurements_string},
+                names_string: {type: "string", format: "text", data: asrRequest.names_string},
             };
-
-            console.log('will use column: "'+inputs.column.data+'"');
  
             var outputs = {
                 res: {type: "table", format: "rows"},
                 treePlot: {type: "image", format: "png.base64"}
             };
 
-//            console.log(inputs);
+            console.log(inputs);
 //            console.log(outputs);
 
             flow.performAnalysis(asrRequest.analysisId, inputs, outputs,
@@ -346,7 +361,6 @@ function getFlowAppByNameLookup(name) {
             asrRequest.checkASRResult = function () {
                 var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
                 girder.restRequest({path: check_url}).done(_.bind(function (result) {
-//                    console.log(result.status);
                     console.log(asrRequest);
                     console.log(result);
                     if (result.status === 'SUCCESS') {
