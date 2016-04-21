@@ -38,7 +38,7 @@ html, body {
 #analyze {
     padding-top: 20px;
     padding-bottom: 20px;
-} #ott-id-input {
+} #ott-id-select {
     width: 300px;
 } #send-tree-request, #send-trait-request, #send-filter-request, #send-asr-request {
     width: 350px;
@@ -74,7 +74,9 @@ html, body {
             
             <div id="collect-tree">
                 <h4>Step 1: Get a tree from Open Tree of Life </h4>
-                <input type="text" id="ott-id-select" value="<search for a taxon name>">
+                <div id="taxon-lookup">
+                    <input type="text" id="ott-id-select" value="<search for a taxon name>">
+                </div>
                 <span id="send-tree-request" class="btn btn-success spacer disabled">
                     Get tree for taxon ids
                 </span>
