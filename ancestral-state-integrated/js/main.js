@@ -259,7 +259,7 @@ function setTrait(traitName) {
                             // enable buttons to select the trait to be used for ASR
                             $.each($("#trait-table").find("th"), function(i, headerCell) {
                                 var traitName = headerCell.textContent;
-                                console.log('"'+traitName+'"');
+                                console.log('processing trait: ' + traitName);
                                 if (traitName != "name") {
 
                                     // add a button to the table header
@@ -279,6 +279,7 @@ function setTrait(traitName) {
                                     // add a button to the trait list
                                     var selectTraitButtonForList = $.clone(selectTraitButtonForTable)
                                     .html(traitName + " " + rowData["(number of tips with trait)"][traitName]);
+                                    console.log(selectTraitButtonForList);
                                     
                                     $("#trait-list").append(selectTraitButtonForList);
                                 }
