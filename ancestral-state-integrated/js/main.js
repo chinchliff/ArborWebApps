@@ -278,7 +278,7 @@ function setTrait(traitName) {
 
                                     // add a button to the trait list
                                     var selectTraitButtonForList = $.clone(selectTraitButtonForTable)
-                                    .html(traitName + " " + rowData["(number of tips with trait)"][traitName];
+                                    .html(traitName + " " + rowData["(number of tips with trait)"][traitName]);
                                     
                                     $("#trait-list").append(selectTraitButtonForList);
                                 }
