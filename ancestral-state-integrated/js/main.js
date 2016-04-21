@@ -81,9 +81,9 @@ function getFlowAppByNameLookup(name) {
             onSelect: function (suggestion) {
                 console.log(suggestion.data);
                 treeRequest.ottId = suggestion.data.toString();
+                treeRequest.taxonName = suggestion.value;
                 treeRequest.readyToAnalyze(function() {
                     $("#send-tree-request").html("Request tree for: " + suggestion.value);
-                    $("#send-trait-request").html("Request trait data for: " + suggestion.value);
                 });
             }
 //            onSearchComplete: function(query, suggestions) { console.log(query); console.log(suggestions); }
@@ -137,6 +137,8 @@ function getFlowAppByNameLookup(name) {
 
                             d3.select("#tree-notice").html('Tree loaded successfully from OpenTree ' + 
                                     ' <span class="glyphicon glyphicon-ok-circle"></span>');
+
+                            $("#send-trait-request").html("Request trait data for: " + this.taxonName);
 
 //                            $('html, body').animate({
 //                                scrollTop: $("#tree-plot").offset().top
@@ -331,7 +333,7 @@ function getFlowAppByNameLookup(name) {
             $("#asr-notice").text("Performing ancestral state reconstruction analysis...");
 
             var inputs = {
-                table:       {type: "table",  format: asrRequest.tableFormat,    data: asrRequest.table},
+//                table:       {type: "table",  format: asrRequest.tableFormat,    data: asrRequest.table},
                 tree:        {type: "tree",   format: "newick",                  data: asrRequest.tree},
                 column:      {type: "string", format: "text",                    data: asrRequest.column},
                 type:        {type: "string", format: "text",                    data: asrRequest.type},
