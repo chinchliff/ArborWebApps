@@ -73,6 +73,8 @@ function getFlowAppByNameLookup(name) {
                 ott_id: {type: "string", format: "text", data: $("#ott-id-input").val()}
             };
             
+            console.log(inputs);
+            
             var outputs = {
                 newick_result: {type: "string", format: "text"},
                 tree:          {type: "tree", format: "newick"},
