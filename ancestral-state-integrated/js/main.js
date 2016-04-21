@@ -159,6 +159,7 @@ function getFlowAppByNameLookup(name) {
             $("#send-trait-request").attr("disabled","disabled");
             $("#send-trait-request").text("Re-submit trait request");
             $("#trait-notice").text("Gathering available trait data...");
+            $("#trait-table-vis").html(""); // clear any previous results
 
             var inputs = {
                 taxon_names: {type: "string", format: "text", data: traitRequest.taxonNames}
