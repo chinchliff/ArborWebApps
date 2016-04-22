@@ -97,9 +97,15 @@ html, body {
                 </div>
                 <div id="trait-selection"></div>
                 <div class="row hidden spacer" id="trait-table-container">
-                    <span id="trait-table-toggle" class="btn btn-primary disabled">Show full trait table</span>
                     <div id="trait-list-and-table">
-                        <div class="spacer" id="trait-list"></div>
+
+                    <div class="btn-toolbar" role="toolbar" aria-label="Trait list">
+                        <div class="btn-group" role="group" data-toggle="buttons" id="trait-table-toggle-group">
+                            <button type="button" class="btn btn-primary" id="trait-table-toggle">Show full trait table</button>
+                        </div>
+                        <div class="btn-group" role="group" data-toggle="buttons" id="trait-list"></div>
+                    </div>
+
                         <div class="spacer" id="trait-table"></div>
                         <!--div class="spacer" id="trait-table" style="display:none"></div-->
                     </div>

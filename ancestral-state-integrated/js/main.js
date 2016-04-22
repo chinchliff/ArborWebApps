@@ -289,9 +289,13 @@ function getFlowAppByNameLookup(name) {
                                     if (taxCountsForTrait[traitName] > 2) {
                                         // add a button to the trait list
                                         var listButton = $(tableButton).clone()
+                                        
+                                        var listButton = $('<button></button>')
+                                        .addClass("btn btn-primary :hover")
                                         .html(traitName + " (" + taxCountsForTrait[traitName] + ")")
                                         .click(function() { $(tableButton).click(); });
-                                        console.log(listButton);
+
+//                                        console.log(listButton);
                                     
                                         $("#trait-list").append(listButton);
                                     }
