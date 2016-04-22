@@ -12,7 +12,7 @@ function getFlowAppByNameLookup(name) {
     }).done(function (results) {
 //        console.log(JSON.stringify(results["item"][0]));
         app.analysisId = results["item"][0]._id;
-        app.readyToAnalyze();
+        app.ready();
     });
     return app;
 }
@@ -42,29 +42,43 @@ function getFlowAppByNameLookup(name) {
         console.log(asrRequest);
 
         // control access to ui elements
-        treeRequest.readyToAnalyze = function (callback) {
+        treeRequest.ready = function (callback) {
             if ("ottId" in this && "analysisId" in this) {
                 d3.select("#send-tree-request").classed('disabled', false);
                 $("#send-tree-request").removeAttr("disabled");
                 callback();
             }
         };
-        traitRequest.readyToAnalyze = function () {
+        treeRequest.notReady = function () {
+            $("#send-tree-request").addAttr("disabled").addClass("disabled");
+        };
+        traitRequest.ready = function () {
             if ("taxonNames" in this && "analysisId" in this) {
-                d3.select("#send-trait-request").classed('disabled', false);
+                $("#send-trait-request").addClass('disabled');
             }
         };
-        treeRenderRequest.readyToAnalyze = function () {};
-        filterRequest.readyToAnalyze = function () {
+        traitRequest.notReady = function () {
+            $("#send-trait-request").addClass("disabled");
+        };
+
+        treeRenderRequest.ready = function () {};
+
+        filterRequest.ready = function () {
             if ("namesToKeep" in this && "tree" in this && "analysisId" in this) {
-                d3.select("#send-filter-request").classed('disabled', false);
+                $("#send-filter-request").addClass('disabled');
             }
         };
-        asrRequest.readyToAnalyze = function () {
+        filterRequest.notReady = function () {
+            $("#send-filter-request").addClass("disabled");
+        };
+        asrRequest.ready = function () {
             console.log(asrRequest);
             if ("column" in this && "table" in this && "tree" in this && "analysisId" in this && "type" in this) {
                 $("#send-asr-request").removeClass('disabled').removeAttr("disabled");
             }
+        };
+        asrRequest.notReady = function () {
+            $("#send-asr-request").addClass("disabled").addAttr("disabled");
         };
 
         // using devbridge jquery.autocomplete.js for taxon name suggestions
@@ -84,7 +98,7 @@ function getFlowAppByNameLookup(name) {
                 console.log(suggestion.data);
                 treeRequest.ottId = suggestion.data.toString();
                 treeRequest.taxonName = suggestion.value;
-                treeRequest.readyToAnalyze(function() {
+                treeRequest.ready(function() {
                     $("#send-tree-request").html("Request tree for: " + suggestion.value);
                 });
             }
@@ -139,7 +153,7 @@ function getFlowAppByNameLookup(name) {
 //                            console.log(traitRequest.taxonNames);
                             traitRequest.taxonNames = data.result.taxon_names.data;
                             console.log(traitRequest.taxonNames);
-                            traitRequest.readyToAnalyze();
+                            traitRequest.ready();
                             $("#send-trait-request").html("Request trait data for: " + this.taxonName);
 
 //                            $('html, body').animate({
@@ -287,7 +301,7 @@ function getFlowAppByNameLookup(name) {
                                             asrRequest.measurements_string = measurements.join('\t');
                                             asrRequest.names_string = names.join('\t'); 
 
-                                            filterRequest.readyToAnalyze();
+                                            filterRequest.ready();
                                     });
 
                                     $(headerCell).html(tableButton);                                    
@@ -451,14 +465,14 @@ function getFlowAppByNameLookup(name) {
         
         $("#select-continuous").click(function() {
             asrRequest.type = 'continuous';
-            asrRequest.readyToAnalyze();
+            asrRequest.ready();
 //            console.log(asrRequest);
 //            $("#select-continuous").button('toggle')
         });
 
         $("#select-discrete").click(function() {
             asrRequest.type = 'discrete';
-            asrRequest.readyToAnalyze();
+            asrRequest.ready();
 //            console.log(asrRequest);
 //            $("#select-continuous").button('toggle')
         });
@@ -545,7 +559,7 @@ function getFlowAppByNameLookup(name) {
                     console.log(asrRequest.tree);
                     d3.select("#tree-name").html('Tree: ' + file.name + ' <span class="glyphicon glyphicon-ok-circle"></span>');
                 }
-                asrRequest.readyToAnalyze();
+                asrRequest.ready();
 
                 this.datasets.off('add', null, 'set-collection').add(dataset);
             }, this);
@@ -566,7 +580,7 @@ function getFlowAppByNameLookup(name) {
                     .classed('btn-success', false)
                     .classed('bg-warning', false)
                     .html(COI + ' <span class="glyphicon glyphicon-ok-circle"></span>');
-                asrRequest.readyToAnalyze();
+                asrRequest.ready();
             },
             over: function (event, ui) {
                 d3.select("#column-input")
