@@ -172,6 +172,7 @@ function getFlowAppByNameLookup(name) {
             $("#send-trait-request").attr("disabled","disabled");
             $("#send-trait-request").text("Re-submit trait request");
             $("#trait-notice").text("Gathering available trait data...");
+            $("#trait-selection").html("");
             $("#trait-table").html(""); // clear any previous results
             $("#trait-list").html("");
             $("#trait-table-toggle-group").hide();
@@ -201,10 +202,8 @@ function getFlowAppByNameLookup(name) {
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
-                            // display the available data to the user
                             var rowData = data.result.trait_name_table.data;
-//                            asrRequest.table = rowData;
-                            asrRequest.tableFormat = 'rows';
+                            console.log(rowData);
 
                             // collect the number of taxa represented for each trait
                             var taxCountsForTrait = {}
@@ -279,7 +278,10 @@ function getFlowAppByNameLookup(name) {
                                             console.log("will filter tree to contain only: " + filterRequest.namesToKeep);
                                             console.log("filtered data: ");
                                             console.log(filteredData)
+
+                                            // currently not being used - table conversion issues
                                             asrRequest.table = filteredData;
+                                            asrRequest.tableFormat = 'rows';
 
                                             // temporary hack to circumvent table conversion issue
                                             asrRequest.measurements_string = measurements.join('\t');
