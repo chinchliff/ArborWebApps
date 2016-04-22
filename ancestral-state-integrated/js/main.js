@@ -62,7 +62,7 @@ function getFlowAppByNameLookup(name) {
         };
         asrRequest.readyToAnalyze = function () {
             if ("column" in this && "table" in this && "tree" in this && "analysisId" in this && "type" in this) {
-                d3.select("#send-asr-request").classed('disabled', false);
+                $("#send-asr-request").removeClass('disabled').removeAttr("disabled");
             }
         };
 
