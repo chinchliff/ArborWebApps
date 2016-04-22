@@ -290,7 +290,7 @@ function getFlowAppByNameLookup(name) {
                                         // add a button to the trait list
                                         var listButton = $(tableButton).clone()
                                         .html(traitName + " (" + taxCountsForTrait[traitName] + ")")
-                                        .click(function() { $(tableButton.click(); });
+                                        .click(function() { $(tableButton).click(); });
                                         console.log(listButton);
                                     
                                         $("#trait-list").append(listButton);
