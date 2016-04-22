@@ -216,7 +216,7 @@ function getFlowAppByNameLookup(name) {
                                 }
                             }
 
-                            $("#trait-table").table({ data: rowData });
+                            $("#trait-table").hide().table({ data: rowData });
 
                             d3.select("#trait-table-container").classed('hidden', false);
                             
