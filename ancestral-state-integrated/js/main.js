@@ -229,7 +229,8 @@ function getFlowAppByNameLookup(name) {
                                                         
                             // enable buttons to select the trait to be used for ASR
                             $.each($("#trait-table").find("th"), function(i, headerCell) {
-                                var traitName = headerCell.textContent.replace(" ","_");
+                                var traitName = headerCell.textContent;
+                                var traitNameNoSpaces = traitName.replace(/ /g,"_");
                                 console.log('processing trait: ' + traitName);
                                 if (traitName != "name") {
 
@@ -244,14 +245,14 @@ function getFlowAppByNameLookup(name) {
                                                 traitName + ' <span class="glyphicon glyphicon-exclamation-sign"></span>');
 
                                             // set the column to be used for the ASR request
-                                            asrRequest.column = traitName;
+                                            asrRequest.column = traitNameNoSpaces;
 
                                             // collect the taxon names that have data for this trait 
                                             // WARNING: cannot seem to use tables with R scripts in arbor
                                             // right now, conversion issues
                                             var names = [];
                                             var filteredData = {
-                                                "fields": ["name", traitName],
+                                                "fields": ["name", traitNameNoSpaces],
                                                 "rows": []
                                             };
 
@@ -266,7 +267,7 @@ function getFlowAppByNameLookup(name) {
                                                 if (traitValue != null && name != "(number of tips with trait)") {
                                                     names.push(name);
                                                     var r = {"name": name}
-                                                    r[traitName] = traitValue;
+                                                    r[traitNameNoSpaces] = traitValue;
                                                     filteredData.rows.push(r);
         
                                                     // temporary hack to circumvent table conversion issue
