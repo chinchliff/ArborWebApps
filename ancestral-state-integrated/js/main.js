@@ -232,7 +232,7 @@ function getFlowAppByNameLookup(name) {
                                 if (traitName != "name") {
 
                                     // add a button to the table header
-                                    var selectTraitButtonForTable = $('<span></span>')
+                                    var tableButton = $('<span></span>')
                                     .addClass("btn btn-primary :hover")
                                     .html(traitName)
                                     .click(function() {
@@ -284,15 +284,16 @@ function getFlowAppByNameLookup(name) {
                                             filterRequest.readyToAnalyze();
                                     });
 
-                                    $(headerCell).html(selectTraitButtonForTable);                                    
+                                    $(headerCell).html(tableButton);                                    
 
                                     if (taxCountsForTrait[traitName] > 2) {
                                         // add a button to the trait list
-                                        var selectTraitButtonForList = $(selectTraitButtonForTable).clone()
-                                        .html(traitName + " (" + taxCountsForTrait[traitName] + ")");
-                                        console.log(selectTraitButtonForList);
+                                        var listButton = $(tableButton).clone()
+                                        .html(traitName + " (" + taxCountsForTrait[traitName] + ")")
+                                        .click(function() { $(tableButton.click(); });
+                                        console.log(listButton);
                                     
-                                        $("#trait-list").append(selectTraitButtonForList);
+                                        $("#trait-list").append(listButton);
                                     }
                                 }
                             });
@@ -303,6 +304,8 @@ function getFlowAppByNameLookup(name) {
                                     '<span class="glyphicon glyphicon-exclamation-sign"></span>');
 
                             $("#send-trait-request").removeAttr("disabled");
+                            $("#trait-table-toggle").removeClass('disabled');
+
                         }, this));
 
                     } else if (result.status === 'FAILURE') {
