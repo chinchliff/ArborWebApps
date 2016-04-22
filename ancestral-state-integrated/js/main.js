@@ -172,6 +172,8 @@ function getFlowAppByNameLookup(name) {
             $("#send-trait-request").text("Re-submit trait request");
             $("#trait-notice").text("Gathering available trait data...");
             $("#trait-table").html(""); // clear any previous results
+            $("#trait-list").html("");
+            $("#trait-table-toggle-group").hide();
 
             var inputs = {
                 taxon_names: {type: "string", format: "text", data: traitRequest.taxonNames}
@@ -309,6 +311,7 @@ function getFlowAppByNameLookup(name) {
 
                             $("#send-trait-request").removeAttr("disabled");
                             $("#trait-table-toggle").removeClass('disabled');
+                            $("#trait-table-toggle-group").show();
 
                         }, this));
 
