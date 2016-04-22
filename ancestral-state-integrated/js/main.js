@@ -123,11 +123,6 @@ function getFlowAppByNameLookup(name) {
                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
 //                            treeRequest.treePlot = data.result.treePlot.data;
 
-                            // record the taxon names
-//                            console.log(traitRequest.taxonNames);
-                            traitRequest.taxonNames = data.result.taxon_names.data;
-                            traitRequest.readyToAnalyze();
-
                             // record the tree
                             filterRequest.tree = data.result.tree.data;
                             console.log("will use tree: " + filterRequest.tree);
@@ -139,6 +134,11 @@ function getFlowAppByNameLookup(name) {
                             d3.select("#tree-notice").html('Tree loaded successfully from OpenTree ' + 
                                     ' <span class="glyphicon glyphicon-ok-circle"></span>');
 
+                            // record the taxon names
+//                            console.log(traitRequest.taxonNames);
+                            traitRequest.taxonNames = data.result.taxon_names.data;
+                            console.log(traitRequest.taxonNames);
+                            traitRequest.readyToAnalyze();
                             $("#send-trait-request").html("Request trait data for: " + this.taxonName);
 
 //                            $('html, body').animate({
