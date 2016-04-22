@@ -54,7 +54,7 @@ function getFlowAppByNameLookup(name) {
         };
         traitRequest.ready = function () {
             if ("taxonNames" in this && "analysisId" in this) {
-                $("#send-trait-request").addClass('disabled');
+                $("#send-trait-request").removeClass('disabled');
             }
         };
         traitRequest.notReady = function () {
@@ -65,7 +65,7 @@ function getFlowAppByNameLookup(name) {
 
         filterRequest.ready = function () {
             if ("namesToKeep" in this && "tree" in this && "analysisId" in this) {
-                $("#send-filter-request").addClass('disabled');
+                $("#send-filter-request").removeClass('disabled');
             }
         };
         filterRequest.notReady = function () {
