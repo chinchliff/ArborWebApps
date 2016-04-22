@@ -61,6 +61,7 @@ function getFlowAppByNameLookup(name) {
             }
         };
         asrRequest.readyToAnalyze = function () {
+            console.log(asrRequest);
             if ("column" in this && "table" in this && "tree" in this && "analysisId" in this && "type" in this) {
                 $("#send-asr-request").removeClass('disabled').removeAttr("disabled");
             }
