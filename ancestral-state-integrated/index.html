@@ -117,17 +117,15 @@ html, body {
                 </span>
                 <div id="filter-notice" class="spacer"></div>
                 <div id="filtered-tree-vis"></div>
-                <div class="btn-group" data-toggle="buttons" id="select-asr-type">
-                    <label class="btn btn-primary disabled" id="select-discrete-label">
-                        <input type="radio" name="select-asr-type" id="select-discrete" autocomplete="off" disabled="disabled"> Discrete
-                    </label>
-                    <label class="btn btn-primary disabled" id="select-continuous-label">
-                        <input type="radio" name="select-asr-type" id="select-continuous" autocomplete="off" disabled="disabled"> Continuous
-                    </label>
+                <div class="btn-toolbar" role="toolbar" aria-label="Trait list and table toggle">
+                    <div class="btn-group" data-toggle="buttons" id="select-asr-type">
+                        <button class="btn btn-primary disabled" id="select-discrete" disabled="disabled">Discrete</button>
+                        <button class="btn btn-primary disabled" id="select-continuous" disabled="disabled">Continuous</button>
+                    </div>
+                    <div>
+                        <button id="send-asr-request" class="btn btn-success disabled">Run ancestral character estimation!</button>
+                    </div>
                 </div>
-                <span id="send-asr-request" class="btn btn-success spacer disabled">
-                    Run ancestral character estimation!
-                </span>
                 <div id="asr-notice" class="spacer"></div>
                 <div id="asr-vis"></div>
                 <div id="tree-plot"></div>

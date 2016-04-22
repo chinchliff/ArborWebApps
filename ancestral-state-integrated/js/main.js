@@ -229,7 +229,7 @@ function getFlowAppByNameLookup(name) {
                                                         
                             // enable buttons to select the trait to be used for ASR
                             $.each($("#trait-table").find("th"), function(i, headerCell) {
-                                var traitName = headerCell.textContent;
+                                var traitName = headerCell.textContent.replace(" ","_");
                                 console.log('processing trait: ' + traitName);
                                 if (traitName != "name") {
 
