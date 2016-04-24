@@ -75,7 +75,7 @@ html, body {
             
                 <div class="col-sm-3">
                     <h5 data-toggle="collapse" data-target="#collect-tree">Step 1: Get a tree from Open Tree of Life </h5>
-                    <div id="collect-tree">
+                    <div id="collect-tree" class="collapse">
                         <div id="taxon-lookup">
                             <input type="text" id="ott-id-select" value="<search for a taxon name>">
                         </div>
@@ -89,7 +89,7 @@ html, body {
                     </div>
 
                     <h5 data-toggle="collapse" data-target="#collect-trait-data">Step 2: collect available trait data from EOL TraitBank</h5>
-                    <div id="collect-trait-data">
+                    <div id="collect-trait-data" class="collapse">
                         <span id="send-trait-request" class="btn btn-success disabled">
                             Request trait data
                         </span>
@@ -99,8 +99,8 @@ html, body {
                         </div>
                     </div> 
 
-                    <h5 data-toggle="collapse" data-target="#run-ast">Step 3: run ancestral state reconstruction using selected tree and data</h5>
-                    <div id="run-asr">
+                    <h5 data-toggle="collapse" data-target="#run-asr">Step 3: run ancestral state reconstruction using selected tree and data</h5>
+                    <div id="run-asr" class="collapse">
                         <span id="send-filter-request" class="btn btn-success spacer disabled">
                             Filter tree and estimate branch lengths
                         </span>

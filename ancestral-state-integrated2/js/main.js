@@ -23,6 +23,10 @@ function getFlowAppByNameLookup(name) {
     $(document).ready(function () {
         girder.apiRoot = '/girder/api/v1';
         
+        // initial setup
+        $("#collect-trait-data").collapse();
+        $("#run-asr").collapse();
+        
         // Look up the ids of the analyses we wish to perform
 
         // this analysis generates an ultrametric tree with arbitrary branch lengths
