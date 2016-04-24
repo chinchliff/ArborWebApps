@@ -72,10 +72,18 @@ html, body {
         <div class="container-fluid">
             <!--div class="btn btn-default" id="help" data-toggle="button">Show help</div-->
             <div class="row">
+
+
+<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#demo">
+  simple collapsible
+</button>
+
+<!--div id="demo" class="collapse in"> collapse </div-->​
+
             
                 <div class="col-sm-3">
+                    <h4 data-toggle="collapse" data-target="#collect-tree">Step 1: Get a tree from Open Tree of Life </h4>
                     <div id="collect-tree">
-                        <h4>Step 1: Get a tree from Open Tree of Life </h4>
                         <div id="taxon-lookup">
                             <input type="text" id="ott-id-select" value="<search for a taxon name>">
                         </div>
@@ -121,7 +129,7 @@ html, body {
                 </div>
                 <div class="col-sm-9">
                     <div id="results" class="spacer">
-                        Results go here
+                        <!-- Results go here -->
                         <div id="asr-vis"></div>
                         <div id="tree-plot"></div>
                         
