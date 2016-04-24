@@ -24,8 +24,9 @@ function getFlowAppByNameLookup(name) {
         girder.apiRoot = '/girder/api/v1';
         
         // initial setup
-        $("#collect-trait-data").collapse();
-        $("#run-asr").collapse();
+        $("#collect-tree").collapse(); // uncollapse the first panel
+//        $("#collect-trait-data").collapse();
+//        $("#run-asr").collapse();
         
         // Look up the ids of the analyses we wish to perform
 
