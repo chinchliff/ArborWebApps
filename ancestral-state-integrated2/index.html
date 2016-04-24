@@ -97,19 +97,6 @@ html, body {
                             No trait data have been loaded.
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                         </div>
-                        <div id="trait-selection"></div>
-                        <div class="hidden spacer" id="trait-table-container">
-                            <div id="trait-list-and-table">
-                                <div class="btn-toolbar" role="toolbar" aria-label="Trait list and table toggle">
-                                    <div class="btn-group" role="group" id="trait-table-toggle-group">
-                                        <button type="button" class="btn btn-primary" id="trait-table-toggle">Show full trait table</button>
-                                    </div>
-                                    <div class="btn-group" role="group" id="trait-list"></div>
-                                </div>
-                                <div class="spacer" id="trait-table">
-                                </div>
-                            </div>
-                        </div>
                     </div> 
 
                     <div id="run-asr">
@@ -124,17 +111,35 @@ html, body {
                                 <button class="btn btn-primary disabled" id="select-discrete" disabled="disabled">Discrete</button>
                                 <button class="btn btn-primary disabled" id="select-continuous" disabled="disabled">Continuous</button>
                             </div>
-                            <div>
+                            <div class="spacer">
                                 <button id="send-asr-request" class="btn btn-success disabled" disabled="disabled">Run ancestral character estimation!</button>
                             </div>
                         </div>
                         <div id="asr-notice" class="spacer"></div>
-                        <div id="asr-vis"></div>
-                        <div id="tree-plot"></div>
+                        <div id="trait-selection"></div>
                     </div>
                 </div>
                 <div class="col-sm-9">
-                    <div class="spacer">Results go here</div>
+                    <div id="results" class="spacer">
+                        Results go here
+                        <div id="asr-vis"></div>
+                        <div id="tree-plot"></div>
+                        
+                        
+                        <div class="hidden spacer" id="trait-table-container">
+                            <div id="trait-list-and-table">
+                                <div class="btn-toolbar" role="toolbar" aria-label="Trait list and table toggle">
+                                    <div class="btn-group" role="group" id="trait-table-toggle-group">
+                                        <button type="button" class="btn btn-primary" id="trait-table-toggle">Show full trait table</button>
+                                    </div>
+                                    <div class="btn-group" role="group" id="trait-list"></div>
+                                </div>
+                                <div class="spacer" id="trait-table">
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
 
             </div>
