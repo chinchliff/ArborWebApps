@@ -310,6 +310,10 @@ function getFlowAppByNameLookup(name) {
                                             asrRequest.names_string = names.join('\t'); 
 
                                             filterRequest.ready();
+                                            
+                                            $("#collect-trait-data").collapse("hide");
+                                            $("#run-asr").collapse("show");
+
                                     });
 
                                     $(headerCell).html(tableButton);                                    
@@ -334,9 +338,6 @@ function getFlowAppByNameLookup(name) {
                                     "Select the data to be used for ancestral character estimation:");
                             $("#trait-selection").html('No trait has been selected. ' + 
                                     '<span class="glyphicon glyphicon-exclamation-sign"></span>');
-
-                            $("#collect-trait-data").collapse("hide");
-                            $("#run-asr").collapse("show");
 
                             $("#send-trait-request").removeAttr("disabled");
                             $("#trait-table-toggle").removeClass('disabled');
