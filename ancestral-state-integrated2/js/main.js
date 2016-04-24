@@ -161,6 +161,9 @@ function getFlowAppByNameLookup(name) {
                             traitRequest.ready();
                             $("#send-trait-request").html("Request trait data for: " + this.taxonName);
 
+                            $("#collect-tree").collapse("hide");
+                            $("#collect-trait-data").collapse("show");
+
 //                            $('html, body').animate({
 //                                scrollTop: $("#tree-plot").offset().top
 //                            }, 1000);
@@ -331,6 +334,9 @@ function getFlowAppByNameLookup(name) {
                                     "Select the data to be used for ancestral character estimation:");
                             $("#trait-selection").html('No trait has been selected. ' + 
                                     '<span class="glyphicon glyphicon-exclamation-sign"></span>');
+
+                            $("#collect-trait-data").collapse("hide");
+                            $("#run-asr").collapse("show");
 
                             $("#send-trait-request").removeAttr("disabled");
                             $("#trait-table-toggle").removeClass('disabled');
