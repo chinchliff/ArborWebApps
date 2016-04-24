@@ -73,13 +73,13 @@ html, body {
             <!--div class="btn btn-default" id="help" data-toggle="button">Show help</div-->
             <div class="row">
             
-                <div class="column-sm-4">
+                <div class="column-sm-3">
                     <div id="collect-tree">
                         <h4>Step 1: Get a tree from Open Tree of Life </h4>
                         <div id="taxon-lookup">
                             <input type="text" id="ott-id-select" value="<search for a taxon name>">
                         </div>
-                        <span id="send-tree-request" class="btn btn-success spacer disabled">
+                        <span id="send-tree-request" class="btn btn-success disabled">
                             Request tree
                         </span>
                         <div id="tree-notice" class="spacer">
@@ -90,7 +90,7 @@ html, body {
 
                     <div id="collect-trait-data">
                         <h4>Step 2: collect available trait data from EOL TraitBank</h4>
-                        <span id="send-trait-request" class="btn btn-success spacer disabled">
+                        <span id="send-trait-request" class="btn btn-success disabled">
                             Request trait data
                         </span>
                         <div id="trait-notice" class="spacer">
@@ -98,7 +98,7 @@ html, body {
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                         </div>
                         <div id="trait-selection"></div>
-                        <div class="row hidden spacer" id="trait-table-container">
+                        <div class="hidden spacer" id="trait-table-container">
                             <div id="trait-list-and-table">
                                 <div class="btn-toolbar" role="toolbar" aria-label="Trait list and table toggle">
                                     <div class="btn-group" role="group" id="trait-table-toggle-group">
@@ -133,7 +133,9 @@ html, body {
                         <div id="tree-plot"></div>
                     </div>
                 </div>
-                <div class="column-sm-8">Results go here</div>
+                <div class="column-sm-9">
+                    <div class="spacer" style="border:1px solid red">Results go here</div>
+                </div>
 
             </div>
         </div>
