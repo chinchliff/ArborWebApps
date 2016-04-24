@@ -240,6 +240,8 @@ function getFlowAppByNameLookup(name) {
                                 }
                             }
 
+                            $("#trait-table-container").prepend
+                            ("<p>Select the data to be used for ancestral character estimation:</p>");
                             $("#trait-table").hide().table({ data: rowData });
 
                             d3.select("#trait-table-container").classed('hidden', false);
@@ -334,10 +336,9 @@ function getFlowAppByNameLookup(name) {
                                 }
                             });
 
-                            $("#trait-notice").text("Trait data request was successful! " + 
-                                    "Select the data to be used for ancestral character estimation:");
-                            $("#trait-selection").html('No trait has been selected. ' + 
-                                    '<span class="glyphicon glyphicon-exclamation-sign"></span>');
+                            $("#trait-notice").text("Trait data request was successful!");
+//                            $("#trait-selection").html('No trait has been selected. ' + 
+//                                    '<span class="glyphicon glyphicon-exclamation-sign"></span>');
 
                             $("#send-trait-request").removeAttr("disabled");
                             $("#trait-table-toggle").removeClass('disabled');
