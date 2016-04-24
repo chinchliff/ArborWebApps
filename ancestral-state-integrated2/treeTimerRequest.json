@@ -1,0 +1,23 @@
+{
+    "name": "treeTimerRequest",
+    "mode": "r",
+    "inputs": [
+        {   "name": "ott_id_string",
+            "format": "string"
+        }
+    ],
+    "outputs": [
+        {
+            "description": "A phylogram for the input ott ids",
+            "format": "r.apetree",
+            "name": "newTimetree",
+            "type": "tree"
+        },
+        {
+            "format": "png.base64",
+            "name": "treePlot",
+            "type": "image"
+        }
+    ],
+    "script": "require(treetimer)\nrequire(cardoonTools)\n\n## # Load data from the timetree of life\n## All the different subsets in the future. For now:\ndata(ttolData)\n\n#taxalist <- table[,column]\ntaxalist <- strsplit(ott_id_string, ',')\ntimeslices <- sort(as.numeric(gsub(\" \", \"\", strsplit(times, \",\")[[1]])), decreasing=TRUE)\nttPhynd <- phyndrTTOL(ttolData, taxalist, timeslices, ottids=TRUE, prune=TRUE, ncores=ncores)\nnewTimetree <- phyndr_sample(ttPhynd$phyndr)\n\n\n\nplotfn <- function() {\n    plot(newTimetree, label.offset = 50, y.lim = c(-1, length(newTimetree$tip.label)))\n    TH <- max(branching.times(newTimetree))\n    seq1 <- seq(TH,0, length.out=5)\n    axis(1, rev(signif(seq1, 2)), labels=signif(seq1,2), lwd=1)\n    }\n    \nottTNRS <- ttPhynd$otts\n    \ntreePlot <- cardoonPlot(expression(plotfn()), width=1000, height=1000, res=100)\ntreePlot <- treePlot$png\n"
+}

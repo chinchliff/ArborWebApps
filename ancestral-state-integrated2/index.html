@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Ancestral State Reconstruction</title>
+
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Droid+Sans:400,700">
+        <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../app.min.css">
+        <style>
+
+html, body {
+    height: 100%;
+}
+#upload, #help {
+    width: 100%;
+    padding: 20px;
+}
+#editor, #vis {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+.spacer {
+    margin-top: 20px;
+}
+.draggable {
+    text-align: center;
+    padding: 10px;
+}
+#column-input {
+    padding: 50px;
+}
+.full-width {
+    width: 100%;
+}
+#analyze {
+    padding-top: 20px;
+    padding-bottom: 20px;
+} #ott-id-select {
+    width: 300px;
+} #send-tree-request, #send-trait-request, #send-filter-request, #send-asr-request {
+    width: 350px;
+}
+
+/* styles for autcomplete results */
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { padding: 3px 5px; white-space: nowrap; overflow: hidden; font-family: "Droid Sans",Arial,Helvetica,sans-serif;}
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+
+
+        </style>
+        
+    </head>
+    <body>
+
+        <nav class="navbar navbar-default navbar-static-top" id="nav" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        <img src="../brands/Arbor.png" height="24px" alt="Arbor Logo">
+                        Easy Mode - Ancestral State Reconstruction
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <!--div class="btn btn-default" id="help" data-toggle="button">Show help</div-->
+            <div class="row">
+            
+                <div class="column-sm-4">
+                    <div id="collect-tree">
+                        <h4>Step 1: Get a tree from Open Tree of Life </h4>
+                        <div id="taxon-lookup">
+                            <input type="text" id="ott-id-select" value="<search for a taxon name>">
+                        </div>
+                        <span id="send-tree-request" class="btn btn-success spacer disabled">
+                            Request tree
+                        </span>
+                        <div id="tree-notice" class="spacer">
+                            No tree has been loaded.
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                        </div>
+                    </div>
+
+                    <div id="collect-trait-data">
+                        <h4>Step 2: collect available trait data from EOL TraitBank</h4>
+                        <span id="send-trait-request" class="btn btn-success spacer disabled">
+                            Request trait data
+                        </span>
+                        <div id="trait-notice" class="spacer">
+                            No trait data have been loaded.
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                        </div>
+                        <div id="trait-selection"></div>
+                        <div class="row hidden spacer" id="trait-table-container">
+                            <div id="trait-list-and-table">
+                                <div class="btn-toolbar" role="toolbar" aria-label="Trait list and table toggle">
+                                    <div class="btn-group" role="group" id="trait-table-toggle-group">
+                                        <button type="button" class="btn btn-primary" id="trait-table-toggle">Show full trait table</button>
+                                    </div>
+                                    <div class="btn-group" role="group" id="trait-list"></div>
+                                </div>
+                                <div class="spacer" id="trait-table">
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+
+                    <div id="run-asr">
+                        <h4>Step 3: run ancestral state reconstruction using selected tree and data</h4>
+                        <span id="send-filter-request" class="btn btn-success spacer disabled">
+                            Filter tree and estimate branch lengths
+                        </span>
+                        <div id="filter-notice" class="spacer"></div>
+                        <div id="filtered-tree-vis"></div>
+                        <div class="btn-toolbar" role="toolbar" aria-label="Trait list and table toggle">
+                            <div class="btn-group" data-toggle="buttons" id="select-asr-type">
+                                <button class="btn btn-primary disabled" id="select-discrete" disabled="disabled">Discrete</button>
+                                <button class="btn btn-primary disabled" id="select-continuous" disabled="disabled">Continuous</button>
+                            </div>
+                            <div>
+                                <button id="send-asr-request" class="btn btn-success disabled" disabled="disabled">Run ancestral character estimation!</button>
+                            </div>
+                        </div>
+                        <div id="asr-notice" class="spacer"></div>
+                        <div id="asr-vis"></div>
+                        <div id="tree-plot"></div>
+                    </div>
+                </div>
+                <div class="column-sm-8">Results go here</div>
+
+            </div>
+        </div>
+        <div id="vis" class="hidden"></div>
+        <div id="code-editor" class="hidden"></div>
+        <div id="template-container" class="hidden"></div>
+        <script src="../libs.min.js" charset="utf-8"></script>
+        <script src="../lib/ace-builds/src-noconflict/ace.js" charset="utf-8"></script>
+        <script src="/girder/static/built/app.min.js" charset="utf-8"></script>
+        <script src="../app.min.js" charset="utf-8"></script>
+        <script src="js/main.js" charset="utf-8"></script>
+
+        <script src="../lib/jquery.autocomplete.min.js"></script>
+        <link rel="stylesheet" href="../lib/jquery.autocomplete.css">
+        </script>
+    </body>
+</html>
