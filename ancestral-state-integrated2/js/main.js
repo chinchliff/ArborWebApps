@@ -26,7 +26,7 @@ function getFlowAppByNameLookup(name) {
         // initial setup
         $("#collect-tree").collapse(); // uncollapse the first panel
 //        $("#collect-trait-data").collapse();
-//        $("#run-asr").collapse();
+//        $("#filter-tree").collapse();
         
         // Look up the ids of the analyses we wish to perform
 
@@ -314,7 +314,7 @@ function getFlowAppByNameLookup(name) {
                                             filterRequest.ready();
                                             
                                             $("#collect-trait-data").collapse("hide");
-                                            $("#run-asr").collapse("show");
+                                            $("#filter-tree").collapse("show");
 
                                     });
 
@@ -391,13 +391,12 @@ function getFlowAppByNameLookup(name) {
 
                             $("#filter-notice").html('Tree was successfully filtered for taxa with ' + 
                                     asrRequest.column + ' data. <span class="glyphicon glyphicon-ok-circle"></span>');
-
-                            $("#select-discrete").removeAttr("disabled").removeClass("disabled");
-                            $("#select-continuous").removeAttr("disabled").removeClass("disabled");
                             
                             $("#send-filter-request").removeAttr("disabled");
-                            
+
                             // reveal the final analysis interface elements
+                            $("#select-discrete").removeAttr("disabled").removeClass("disabled");
+                            $("#select-continuous").removeAttr("disabled").removeClass("disabled");
                             $("#final-asr-request").removeClass("hidden");
                             
                         }, this));

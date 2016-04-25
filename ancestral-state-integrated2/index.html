@@ -88,7 +88,7 @@ html, body {
                         </div>
                     </div>
 
-                    <h5 data-toggle="collapse" data-target="#collect-trait-data">2. collect available trait data from EOL TraitBank</h5>
+                    <h5 data-toggle="collapse" data-target="#collect-trait-data">2. Collect available trait data from EOL TraitBank</h5>
                     <div id="collect-trait-data" class="collapse">
                         <span id="send-trait-request" class="btn btn-success disabled spacer">
                             Request trait data
@@ -99,24 +99,28 @@ html, body {
                         </div>
                     </div> 
 
-                    <h5 data-toggle="collapse" data-target="#run-asr">3. run ancestral state reconstruction using selected tree and data</h5>
-                    <div id="run-asr" class="collapse">
+                    <h5 data-toggle="collapse" data-target="#filter-tree">3. Filter tree and estimate branch lengths</h5>
+                    <div id="filter-tree" class="collapse">
                         <div id="trait-selection"></div>
                         <span id="send-filter-request" class="btn btn-success spacer disabled">
                             Filter tree and estimate branch lengths
                         </span>
                         <div id="filter-notice" class="spacer"></div>
-                        <div id="final-asr-request" class="spacer hidden">
-                            <div class="btn-toolbar" role="toolbar" aria-label="Trait list and table toggle">
-                                <div class="btn-group" data-toggle="buttons" id="select-asr-type">
-                                    <button class="btn btn-primary disabled" id="select-discrete" disabled="disabled">Discrete</button>
-                                    <button class="btn btn-primary disabled" id="select-continuous" disabled="disabled">Continuous</button>
-                                </div>
+                    </div>
+
+                    <h5 data-toggle="collapse" data-target="#final-asr-request">4. Run ancestral state reconstruction using selected tree and data</h5>
+                    <div id="final-asr-request" class="collapse">
+                        <div class="btn-toolbar" role="toolbar" aria-label="Trait list and table toggle">
+                            <div class="btn-group" data-toggle="buttons" id="select-asr-type">
+                                <button class="btn btn-primary disabled" id="select-discrete" disabled="disabled">Discrete</button>
+                                <button class="btn btn-primary disabled" id="select-continuous" disabled="disabled">Continuous</button>
                             </div>
-                            <button id="send-asr-request" class="btn btn-success disabled" disabled="disabled">Run ancestral character estimation!</button>
                         </div>
+                        <button id="send-asr-request" class="btn btn-success disabled" disabled="disabled">Run ancestral character estimation!</button>
                         <div id="asr-notice" class="spacer"></div>
                     </div>
+
+
                 </div>
                 <div class="col-sm-9">
                     <div id="results" class="spacer">
