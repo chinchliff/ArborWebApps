@@ -397,8 +397,8 @@ function getFlowAppByNameLookup(name) {
                             
                             $("#send-filter-request").removeAttr("disabled");
                             
-                            // reveal the final analysis commands
-                            $("final-asr-request").removeClass("hidden");
+                            // reveal the final analysis interface elements
+                            $("#final-asr-request").removeClass("hidden");
                             
                         }, this));
 

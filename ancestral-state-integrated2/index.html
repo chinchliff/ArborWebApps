@@ -63,7 +63,7 @@ html, body {
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">
                         <img src="../brands/Arbor.png" height="24px" alt="Arbor Logo">
-                        Arbor App: ancestral state reconstruction
+                        Arbor apps: ancestral state reconstruction
                     </a>
                 </div>
             </div>
@@ -74,21 +74,23 @@ html, body {
             <div class="row">
             
                 <div class="col-sm-3">
-                    <h5 data-toggle="collapse" data-target="#collect-tree">Step 1: Get a tree from Open Tree of Life</h5>
+                    <h5 data-toggle="collapse" data-target="#collect-tree">1. Get a tree from Open Tree of Life</h5>
                     <div id="collect-tree" class="collapse">
                         <div id="taxon-lookup">
                             <input type="text" id="ott-id-select" value="<search for a taxon name>">
                         </div>
-                        <span id="send-tree-request" class="btn btn-success disabled">
-                            Request tree
-                        </span>
+                        <div class="spacer">
+                            <span id="send-tree-request" class="btn btn-success disabled">
+                                Request tree
+                            </span>
+                        </div>
                         <div id="tree-notice" class="spacer">
                             No tree has been loaded.
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                         </div>
                     </div>
 
-                    <h5 data-toggle="collapse" data-target="#collect-trait-data">Step 2: collect available trait data from EOL TraitBank</h5>
+                    <h5 data-toggle="collapse" data-target="#collect-trait-data">2. collect available trait data from EOL TraitBank</h5>
                     <div id="collect-trait-data" class="collapse">
                         <span id="send-trait-request" class="btn btn-success disabled">
                             Request trait data
@@ -99,7 +101,7 @@ html, body {
                         </div>
                     </div> 
 
-                    <h5 data-toggle="collapse" data-target="#run-asr">Step 3: run ancestral state reconstruction using selected tree and data</h5>
+                    <h5 data-toggle="collapse" data-target="#run-asr">3. run ancestral state reconstruction using selected tree and data</h5>
                     <div id="run-asr" class="collapse">
                         <div id="trait-selection"></div>
                         <span id="send-filter-request" class="btn btn-success spacer disabled">
