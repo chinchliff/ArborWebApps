@@ -36,10 +36,12 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, logElement=nu
 
     renderRequest.checkRenderResult = function () {
         var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
+        console.log(check_url);
         girder.restRequest({path: check_url}).done(_.bind(function (result) {
             console.log(result.status);
             if (result.status === 'SUCCESS') {
                 var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
+                console.log(result_url);
                 girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
                     // render tree plot
