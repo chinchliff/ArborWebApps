@@ -24,7 +24,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, logElement=nu
     console.log(inputs);
     console.log(outputs);
 
-    window.flow.performAnalysis(renderRequest.analysisId, inputs, outputs,
+    flow.performAnalysis(renderRequest.analysisId, inputs, outputs,
         _.bind(function (error, result) {
             renderRequest.taskId = result._id;
             setTimeout(_.bind(renderRequest.checkTreeResult, renderRequest), 1000);
@@ -32,11 +32,11 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, logElement=nu
 
     renderRequest.checkRenderResult = function () {
         var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
-        window.girder.restRequest({path: check_url}).done(_.bind(function (result) {
+        girder.restRequest({path: check_url}).done(_.bind(function (result) {
             console.log(result.status);
             if (result.status === 'SUCCESS') {
                 var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
-                window.girder.restRequest({path: result_url}).done(_.bind(function (data) {
+                girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
                     // render tree plot
                     target.image({ data: treeImageRequest.treePlot });
