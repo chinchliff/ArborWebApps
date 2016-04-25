@@ -17,14 +17,14 @@ function getFlowAppByNameLookup(name) {
     return app;
 }
 
-function renderTreePlot(target, tree, renderRequest, logElement=null) {
+function renderTreePlot(target, tree, renderRequest, window, logElement=null) {
     
     var inputs = { tree: {type: "tree", format: "newick", data: tree} };
     var outputs = { treePlot: {type: "image", format: "png.base64"} };
     console.log(inputs);
     console.log(outputs);
 
-    flow.performAnalysis(renderRequest.analysisId, inputs, outputs,
+    window.flow.performAnalysis(renderRequest.analysisId, inputs, outputs,
         _.bind(function (error, result) {
             renderRequest.taskId = result._id;
             setTimeout(_.bind(renderRequest.checkTreeResult, renderRequest), 1000);
@@ -32,11 +32,11 @@ function renderTreePlot(target, tree, renderRequest, logElement=null) {
 
     renderRequest.checkRenderResult = function () {
         var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
-        girder.restRequest({path: check_url}).done(_.bind(function (result) {
+        window.girder.restRequest({path: check_url}).done(_.bind(function (result) {
             console.log(result.status);
             if (result.status === 'SUCCESS') {
                 var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
-                girder.restRequest({path: result_url}).done(_.bind(function (data) {
+                window.girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
                     // render tree plot
                     target.image({ data: treeImageRequest.treePlot });
@@ -185,7 +185,7 @@ function renderTreePlot(target, tree, renderRequest, logElement=null) {
                             filterRequest.tree = data.result.tree.data;
                             console.log("will use tree: " + filterRequest.tree);
 
-                            renderTreePlot($("#original-tree-vis"), filterRequest.tree, treeRenderRequest);  
+                            renderTreePlot($("#original-tree-vis"), filterRequest.tree, treeRenderRequest, window);
 
                             d3.select("#tree-notice").html('Tree loaded successfully from OpenTree ' + 
                                     ' <span class="glyphicon glyphicon-ok-circle"></span>');
