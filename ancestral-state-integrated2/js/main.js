@@ -21,8 +21,12 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, logElement=nu
     
     var inputs = { tree: {type: "tree", format: "newick", data: tree} };
     var outputs = { treePlot: {type: "image", format: "png.base64"} };
+
     console.log(inputs);
     console.log(outputs);
+    console.log(renderRequest);
+    console.log(flow);
+    console.log(girder);
 
     flow.performAnalysis(renderRequest.analysisId, inputs, outputs,
         _.bind(function (error, result) {
