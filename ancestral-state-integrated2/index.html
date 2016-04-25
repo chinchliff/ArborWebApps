@@ -79,7 +79,7 @@ html, body {
                         <div id="taxon-lookup">
                             <input type="text" id="ott-id-select" value="<search for a taxon name>">
                         </div>
-                        <div class="spacer">
+                        <div>
                             <span id="send-tree-request" class="btn btn-success disabled">
                                 Request tree
                             </span>
@@ -92,9 +92,11 @@ html, body {
 
                     <h5 data-toggle="collapse" data-target="#collect-trait-data">2. collect available trait data from EOL TraitBank</h5>
                     <div id="collect-trait-data" class="collapse">
-                        <span id="send-trait-request" class="btn btn-success disabled">
-                            Request trait data
-                        </span>
+                        <div>
+                            <span id="send-trait-request" class="btn btn-success disabled">
+                                Request trait data
+                            </span>
+                        </div>
                         <div id="trait-notice" class="spacer">
                             No trait data have been loaded.
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -104,9 +106,11 @@ html, body {
                     <h5 data-toggle="collapse" data-target="#run-asr">3. run ancestral state reconstruction using selected tree and data</h5>
                     <div id="run-asr" class="collapse">
                         <div id="trait-selection"></div>
-                        <span id="send-filter-request" class="btn btn-success spacer disabled">
-                            Filter tree and estimate branch lengths
-                        </span>
+                        <div>
+                            <span id="send-filter-request" class="btn btn-success spacer disabled">
+                                Filter tree and estimate branch lengths
+                            </span>
+                        </div>
                         <div id="filter-notice" class="spacer"></div>
                         <div id="final-asr-request" class="spacer hidden">
                             <div class="btn-toolbar" role="toolbar" aria-label="Trait list and table toggle">
