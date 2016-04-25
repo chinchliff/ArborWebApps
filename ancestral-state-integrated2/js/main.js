@@ -17,6 +17,44 @@ function getFlowAppByNameLookup(name) {
     return app;
 }
 
+function renderTreePlot(target, tree, renderRequest, logElement=null) {
+    
+    var inputs = { tree: {type: "tree", format: "newick", data: tree} };
+    var outputs = { treePlot: {type: "image", format: "png.base64"} };
+    console.log(inputs);
+    console.log(outputs);
+
+    flow.performAnalysis(renderRequest.analysisId, inputs, outputs,
+        _.bind(function (error, result) {
+            renderRequest.taskId = result._id;
+            setTimeout(_.bind(renderRequest.checkTreeResult, renderRequest), 1000);
+        }, renderRequest));
+
+    renderRequest.checkRenderResult = function () {
+        var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
+        girder.restRequest({path: check_url}).done(_.bind(function (result) {
+            console.log(result.status);
+            if (result.status === 'SUCCESS') {
+                var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
+                girder.restRequest({path: result_url}).done(_.bind(function (data) {
+
+                    // render tree plot
+                    target.image({ data: treeImageRequest.treePlot });
+                    
+                }, this));
+            } else if (result.status === 'FAILURE' && logElement != null) {
+                var msg = "Could not render tree. " + result.message;
+                console.log(msg);
+                logElement.text(msg);
+            } else {
+                setTimeout(_.bind(this.checkRenderResult, this), 1000);
+            }
+        }, this));
+    };
+
+
+}
+
 (function (flow, $, girder) {
     'use strict';
 
@@ -146,10 +184,8 @@ function getFlowAppByNameLookup(name) {
                             // record the tree
                             filterRequest.tree = data.result.tree.data;
                             console.log("will use tree: " + filterRequest.tree);
-                            
-                            // render tree plot
-//                            $("#tree-plot").image({ data: treeRequest.treePlot });
-//                            $("#analyze").removeAttr("disabled");
+
+                            renderTreePlot($("#original-tree-vis"), filterRequest.tree, treeRenderRequest);  
 
                             d3.select("#tree-notice").html('Tree loaded successfully from OpenTree ' + 
                                     ' <span class="glyphicon glyphicon-ok-circle"></span>');
@@ -165,7 +201,7 @@ function getFlowAppByNameLookup(name) {
                             $("#collect-trait-data").collapse("show");
 
 //                            $('html, body').animate({
-//                                scrollTop: $("#tree-plot").offset().top
+//                                scrollTop: $("#original-tree-vis").offset().top
 //                            }, 1000);
                         }, this));
 
@@ -464,7 +500,7 @@ function getFlowAppByNameLookup(name) {
                                     ' <span class="glyphicon glyphicon-ok-circle"></span>');
 
 //                            $('html, body').animate({
-//                                scrollTop: $("#tree-plot").offset().top
+//                                scrollTop: $("#original-tree-vis").offset().top
 //                            }, 1000);
 
                         $("#send-asr-request").removeAttr("disabled");
