@@ -110,13 +110,14 @@ html, body {
 
                     <h5 data-toggle="collapse" data-target="#final-asr-request">4. Run ancestral state reconstruction using selected tree and data</h5>
                     <div id="final-asr-request" class="collapse">
-                        <div class="btn-toolbar" role="toolbar" aria-label="Trait list and table toggle">
+                        <span>Select analysis type:</span>
+                        <div class="btn-toolbar" role="toolbar" aria-label="Select analysis type">
                             <div class="btn-group" data-toggle="buttons" id="select-asr-type">
                                 <button class="btn btn-primary disabled" id="select-discrete" disabled="disabled">Discrete</button>
                                 <button class="btn btn-primary disabled" id="select-continuous" disabled="disabled">Continuous</button>
                             </div>
-                        </div>
-                        <button id="send-asr-request" class="btn btn-success disabled" disabled="disabled">Run ancestral character estimation!</button>
+                        </div> 
+                        <button id="send-asr-request" class="btn btn-success disabled spacer" disabled="disabled">Run ancestral character estimation!</button>
                         <div id="asr-notice" class="spacer"></div>
                     </div>
 
