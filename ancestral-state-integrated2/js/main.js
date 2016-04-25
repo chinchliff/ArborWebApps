@@ -76,6 +76,7 @@ function renderTreePlot(target, tree, renderRequest, logElement=null) {
 
         // this analysis just renders a tree into a PNG graphic
         var treeRenderRequest = getFlowAppByNameLookup("Render tree");
+        console.log(treeRenderRequest);
 
         // this analysis filters a tree using a list of names
         var filterRequest = getFlowAppByNameLookup("Filter tree based on taxon list");
