@@ -83,7 +83,6 @@ function renderTreePlot(target, tree, renderRequest, logElement=null) {
 
         // this analysis performs asr using the specified tree and trait data
         var asrRequest = getFlowAppByNameLookup("Do ancestral state reconstruction using aRbor");
-        console.log(asrRequest);
 
         // control access to ui elements
         treeRequest.ready = function (callback) {
