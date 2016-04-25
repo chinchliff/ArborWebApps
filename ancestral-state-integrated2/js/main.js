@@ -17,7 +17,7 @@ function getFlowAppByNameLookup(name) {
     return app;
 }
 
-function renderTreePlot(target, tree, renderRequest, window, logElement=null) {
+function renderTreePlot(target, tree, renderRequest, flow, girder, logElement=null) {
     
     var inputs = { tree: {type: "tree", format: "newick", data: tree} };
     var outputs = { treePlot: {type: "image", format: "png.base64"} };
@@ -185,7 +185,7 @@ function renderTreePlot(target, tree, renderRequest, window, logElement=null) {
                             filterRequest.tree = data.result.tree.data;
                             console.log("will use tree: " + filterRequest.tree);
 
-                            renderTreePlot($("#original-tree-vis"), filterRequest.tree, treeRenderRequest, window);
+                            renderTreePlot($("#original-tree-vis"), filterRequest.tree, treeRenderRequest, flow, girder);
 
                             d3.select("#tree-notice").html('Tree loaded successfully from OpenTree ' + 
                                     ' <span class="glyphicon glyphicon-ok-circle"></span>');
