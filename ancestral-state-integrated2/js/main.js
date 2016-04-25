@@ -396,6 +396,10 @@ function getFlowAppByNameLookup(name) {
                             $("#select-continuous").removeAttr("disabled").removeClass("disabled");
                             
                             $("#send-filter-request").removeAttr("disabled");
+                            
+                            // reveal the final analysis commands
+                            $("final-asr-request").removeClass("hidden");
+                            
                         }, this));
 
                     } else if (result.status === 'FAILURE') {
@@ -453,7 +457,7 @@ function getFlowAppByNameLookup(name) {
                             asrRequest.treePlot = data.result.treePlot.data;
 
                             // render tree plot
-                            $("#tree-plot").image({ data: asrRequest.treePlot });
+                            $("#asr-vis").image({ data: asrRequest.treePlot });
                             $("#send-asr-request").removeAttr("disabled");
                             $("#asr-notice").html("Ancestral state reconstruction succeeded!" + 
                                     ' <span class="glyphicon glyphicon-ok-circle"></span>');
