@@ -191,11 +191,9 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, logElement=nu
                             filterRequest.tree = data.result.tree.data;
                             console.log("will use tree: " + filterRequest.tree);
 
-                            renderTreePlot($("#original-tree-vis"), filterRequest.tree, treeRenderRequest, flow, girder);
+//                            renderTreePlot($("#original-tree-vis"), filterRequest.tree, treeRenderRequest, flow, girder);
 
 
-
-/*
 
 
                             var inputs = { tree: {type: "tree", format: "newick", data: tree} };
@@ -204,13 +202,13 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, logElement=nu
                                console.log(inputs);
                                console.log(outputs);
 
-                               flow.performAnalysis(renderRequest.analysisId, inputs, outputs,
+                               flow.performAnalysis(treeRenderRequest.analysisId, inputs, outputs,
                                    _.bind(function (error, result) {
-                                       renderRequest.taskId = result._id;
-                                       setTimeout(_.bind(renderRequest.checkTreeResult, renderRequest), 1000);
-                                   }, renderRequest));
+                                       treeRenderRequest.taskId = result._id;
+                                       setTimeout(_.bind(treeRenderRequest.checkTreeResult, treeRenderRequest), 1000);
+                                   }, treeRenderRequest));
 
-                               renderRequest.checkRenderResult = function () {
+                               treeRenderRequest.checkRenderResult = function () {
                                    var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
                                    console.log(check_url);
                                    girder.restRequest({path: check_url}).done(_.bind(function (result) {
@@ -221,7 +219,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, logElement=nu
                                            girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
                                                // render tree plot
-                                               $("#original-tree-vis").image({ data: renderRequest.treePlot });
+                                               $("#original-tree-vis").image({ data: treeRenderRequest.treePlot });
                    
                                            }, this));
                                        } else if (result.status === 'FAILURE' && logElement != null) {
@@ -237,7 +235,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, logElement=nu
 
 
 
-*/
+/**/
 
 
 
