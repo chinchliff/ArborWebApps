@@ -303,7 +303,8 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null, p
                             // enable buttons to select the trait to be used for ASR
                             $.each($("#trait-table").find("th"), function(i, headerCell) {
                                 var traitName = headerCell.textContent;
-                                var traitNameNoSpaces = traitName.replace(/ /g,"_");
+//                                var traitNameNoSpaces = traitName.replace(/ /g,"_");
+                                var traitNameNoSpaces = traitName.replace(/[^a-z]+/ig, "_");
                                 console.log('processing trait: ' + traitName);
                                 if (traitName != "name") {
 
