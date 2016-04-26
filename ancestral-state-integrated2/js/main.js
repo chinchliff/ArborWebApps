@@ -191,7 +191,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
                             filterRequest.tree = data.result.tree.data;
                             console.log("will use tree: " + filterRequest.tree);
 
-                            renderTreePlot($("#original-tree-vis"), filterRequest.tree, treeRenderRequest, flow, girder, "<h6>Complete tree from Open Tree of Life:</h6>");
+                            renderTreePlot($("#original-tree-vis"), filterRequest.tree, treeRenderRequest, flow, girder, "Complete tree from Open Tree of Life:");
 
                             d3.select("#tree-notice").html('Tree loaded successfully from OpenTree ' + 
                                     ' <span class="glyphicon glyphicon-ok-circle"></span>');
@@ -431,7 +431,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
                             asrRequest.tree = data.result.filtered_tree.data
                             console.log(asrRequest.tree);
 
-                            renderTreePlot($("#filtered-tree-vis"), asrRequest.tree, treeRenderRequest, flow, girder, "<h6>Tree filtered to include only tips with ':" + asrRequest.column + "' data</h6>");
+                            renderTreePlot($("#filtered-tree-vis"), asrRequest.tree, treeRenderRequest, flow, girder, "Tree filtered to include only tips with ':" + asrRequest.column + "' data");
 
                             $("#filter-notice").html('Tree was successfully filtered for taxa with ' + 
                                     asrRequest.column + ' data. <span class="glyphicon glyphicon-ok-circle"></span>');
