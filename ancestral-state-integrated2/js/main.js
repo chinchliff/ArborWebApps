@@ -45,7 +45,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, logElement=nu
                 girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
                     // render tree plot
-                    target.image({ data: renderRequest.treePlot });
+                    target.image({ data: renderRequest.treePlot.data });
                     
                 }, this));
             } else if (result.status === 'FAILURE' && logElement != null) {
@@ -217,9 +217,10 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, logElement=nu
                                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
-                                            console.log(data.result.treePlot);
+                                            var treePlot = data.result.treePlot.data;
+                                            console.log(treePlot);
                                             // render tree plot
-                                            $("#original-tree-vis").image({ data: data.result.treePlot });
+                                            $("#original-tree-vis").image({ data: treePlot });
                
                                         }, this));
                                     } else if (result.status === 'FAILURE' && logElement != null) {
