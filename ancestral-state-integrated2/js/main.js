@@ -44,6 +44,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
                     console.log(treePlot);
                     // render tree plot
 //                    $("#original-tree-vis").image({ data: treePlot });
+                    target.html("");
                     target.image({ data: treePlot });
                     if (title) { target.prepend(title); }
 
