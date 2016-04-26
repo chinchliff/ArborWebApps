@@ -431,7 +431,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
                             asrRequest.tree = data.result.filtered_tree.data
                             console.log(asrRequest.tree);
 
-                            renderTreePlot($("#filtered-tree-vis"), asrRequest.tree, treeRenderRequest, flow, girder, "Tree filtered to include only tips with ':" + asrRequest.column + "' data");
+                            renderTreePlot($("#filtered-tree-vis"), asrRequest.tree, treeRenderRequest, flow, girder, "Tree filtered to include only tips with '" + asrRequest.column + "' data:");
 
                             $("#filter-notice").html('Tree was successfully filtered for taxa with ' + 
                                     asrRequest.column + ' data. <span class="glyphicon glyphicon-ok-circle"></span>');
@@ -503,6 +503,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
 
                             // render tree plot
                             $("#asr-vis").image({ data: asrRequest.treePlot });
+                            $("#asr-vis").prepend("Results of ancestral state reconstruction:");
                             $("#send-asr-request").removeAttr("disabled");
                             $("#asr-notice").html("Ancestral state reconstruction succeeded!" + 
                                     ' <span class="glyphicon glyphicon-ok-circle"></span>');
