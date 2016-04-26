@@ -215,9 +215,9 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, logElement=nu
                                     console.log(result.status);
                                     if (result.status === 'SUCCESS') {
                                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
-                                        console.log(result_url);
                                         girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
+                                            console.log(data.result.treePlot);
                                             // render tree plot
                                             $("#original-tree-vis").image({ data: treeRenderRequest.treePlot });
                
