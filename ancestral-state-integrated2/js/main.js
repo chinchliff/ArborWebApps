@@ -196,41 +196,41 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, logElement=nu
 
 
 
-                            var inputs = { tree: {type: "tree", format: "newick", data: tree} };
-                               var outputs = { treePlot: {type: "image", format: "png.base64"} };
+                            var inputs = { tree: {type: "tree", format: "newick", data: filterRequest.tree} };
+                            var outputs = { treePlot: {type: "image", format: "png.base64"} };
 
-                               console.log(inputs);
-                               console.log(outputs);
+                            console.log(inputs);
+                            console.log(outputs);
 
-                               flow.performAnalysis(treeRenderRequest.analysisId, inputs, outputs,
-                                   _.bind(function (error, result) {
-                                       treeRenderRequest.taskId = result._id;
-                                       setTimeout(_.bind(treeRenderRequest.checkTreeResult, treeRenderRequest), 1000);
-                                   }, treeRenderRequest));
+                            flow.performAnalysis(treeRenderRequest.analysisId, inputs, outputs,
+                                _.bind(function (error, result) {
+                                    treeRenderRequest.taskId = result._id;
+                                    setTimeout(_.bind(treeRenderRequest.checkTreeResult, treeRenderRequest), 1000);
+                                }, treeRenderRequest));
 
-                               treeRenderRequest.checkRenderResult = function () {
-                                   var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
-                                   console.log(check_url);
-                                   girder.restRequest({path: check_url}).done(_.bind(function (result) {
-                                       console.log(result.status);
-                                       if (result.status === 'SUCCESS') {
-                                           var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
-                                           console.log(result_url);
-                                           girder.restRequest({path: result_url}).done(_.bind(function (data) {
+                            treeRenderRequest.checkRenderResult = function () {
+                                var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
+                                console.log(check_url);
+                                girder.restRequest({path: check_url}).done(_.bind(function (result) {
+                                    console.log(result.status);
+                                    if (result.status === 'SUCCESS') {
+                                        var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
+                                        console.log(result_url);
+                                        girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
-                                               // render tree plot
-                                               $("#original-tree-vis").image({ data: treeRenderRequest.treePlot });
-                   
-                                           }, this));
-                                       } else if (result.status === 'FAILURE' && logElement != null) {
-                                           var msg = "Could not render tree. " + result.message;
-                                           console.log(msg);
-                                           logElement.text(msg);
-                                       } else {
-                                           setTimeout(_.bind(this.checkRenderResult, this), 1000);
-                                       }
-                                   }, this));
-                               };
+                                            // render tree plot
+                                            $("#original-tree-vis").image({ data: treeRenderRequest.treePlot });
+               
+                                        }, this));
+                                    } else if (result.status === 'FAILURE' && logElement != null) {
+                                        var msg = "Could not render tree. " + result.message;
+                                        console.log(msg);
+                                        logElement.text(msg);
+                                    } else {
+                                        setTimeout(_.bind(this.checkRenderResult, this), 1000);
+                                    }
+                                }, this));
+                            };
 
 
 
