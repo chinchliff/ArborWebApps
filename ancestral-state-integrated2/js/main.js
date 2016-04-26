@@ -44,7 +44,6 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
                     console.log(treePlot);
                     // render tree plot
 //                    $("#original-tree-vis").image({ data: treePlot });
-                    target.html("");
                     target.image({ data: treePlot });
                     if (title) { target.prepend(title); }
 
@@ -160,6 +159,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
             $("#send-tree-request").attr("disabled","disabled");
             $("#send-tree-request").text("Request tree");
             $("#tree-notice").text("Requesting tree...");
+            $("#original-tree-vis").html("Loading complete tree from Open Tree of Life...");
 
             var inputs = {
                 ott_id: {type: "string", format: "text", data: treeRequest.ottId}
@@ -192,7 +192,9 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
                             filterRequest.tree = data.result.tree.data;
                             console.log("will use tree: " + filterRequest.tree);
 
-                            renderTreePlot($("#original-tree-vis"), filterRequest.tree, treeRenderRequest, flow, girder, "Complete tree from Open Tree of Life:");
+                            $("#original-tree-vis").html("");
+                            renderTreePlot($("#original-tree-vis"), filterRequest.tree, treeRenderRequest, flow, girder, 
+                                    "Complete tree from Open Tree of Life:",);
 
                             d3.select("#tree-notice").html('Tree loaded successfully from OpenTree ' + 
                                     ' <span class="glyphicon glyphicon-ok-circle"></span>');
@@ -403,6 +405,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
         $("#send-filter-request").click(function() {
             $("#send-filter-request").attr("disabled", "disabled");
             $("#send-filter-request").text("Re-filter tree");
+            $("#filtered-tree-vis").html("Loading filtered tree...");
             $("#filter-notice").text("Filtering tree based on availability of trait data...");
 
             var inputs = {
@@ -432,7 +435,9 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
                             asrRequest.tree = data.result.filtered_tree.data
                             console.log(asrRequest.tree);
 
-                            renderTreePlot($("#filtered-tree-vis"), asrRequest.tree, treeRenderRequest, flow, girder, "Tree filtered to include only tips with '" + asrRequest.column + "' data:");
+                            $("#filtered-tree-vis").html("");
+                            renderTreePlot($("#filtered-tree-vis"), asrRequest.tree, treeRenderRequest, flow, girder,
+                                    "Tree filtered to include only tips with '" + asrRequest.column + "' data:");
 
                             $("#filter-notice").html('Tree was successfully filtered for taxa with ' + 
                                     asrRequest.column + ' data. <span class="glyphicon glyphicon-ok-circle"></span>');
@@ -462,6 +467,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
             $("#send-asr-request").attr("disabled", "disabled");
             $("#send-asr-request").text("Re-run ancestral state reconstruction");
             $("#asr-notice").text("Performing ancestral state reconstruction analysis...");
+            $("#asr-vis").prepend($('<div id="temp-asr-message">Loading ancestral state reconstruction...</div>'));
 
             var inputs = {
 //                table:       {type: "table",  format: asrRequest.tableFormat,    data: asrRequest.table},
@@ -503,6 +509,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
                             asrRequest.treePlot = data.result.treePlot.data;
 
                             // render tree plot
+                            $("#temp-asr-message").remove();
                             $("#asr-vis").image({ data: asrRequest.treePlot });
                             $("#asr-vis").prepend("Results of ancestral state reconstruction:");
                             $("#send-asr-request").removeAttr("disabled");
