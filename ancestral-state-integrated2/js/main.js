@@ -194,7 +194,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
 
                             $("#original-tree-vis").html("");
                             renderTreePlot($("#original-tree-vis"), filterRequest.tree, treeRenderRequest, flow, girder, 
-                                    "Complete tree from Open Tree of Life:",);
+                                    "Complete tree from Open Tree of Life:");
 
                             d3.select("#tree-notice").html('Tree loaded successfully from OpenTree ' + 
                                     ' <span class="glyphicon glyphicon-ok-circle"></span>');
