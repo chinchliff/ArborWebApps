@@ -219,7 +219,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, logElement=nu
 
                                             console.log(data.result.treePlot);
                                             // render tree plot
-                                            $("#original-tree-vis").image({ data: treeRenderRequest.treePlot });
+                                            $("#original-tree-vis").image({ data: data.result.treePlot });
                
                                         }, this));
                                     } else if (result.status === 'FAILURE' && logElement != null) {
