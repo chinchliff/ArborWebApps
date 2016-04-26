@@ -40,11 +40,11 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null, p
                 var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                 girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
-                    var treePlot = data.result.treePlot.data;
                     console.log(treePlot);
+
                     // render tree plot
-//                    $("#original-tree-vis").image({ data: treePlot });
-                    target.image({ data: treePlot });
+                    var treePlot = data.result.treePlot.data;
+                    target.html("").image({ data: treePlot });
                     if (title) { target.prepend(title); }
 
                 }, this));
