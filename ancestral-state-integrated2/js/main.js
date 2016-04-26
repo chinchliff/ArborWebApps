@@ -254,6 +254,8 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null, p
             var outputs = {
                 trait_name_table: {type: "table", format: "rows"}
             };
+            
+            var traitDataCounter = 0;
 
             flow.performAnalysis(traitRequest.analysisId, inputs, outputs,
                 _.bind(function (error, result) {
@@ -272,6 +274,8 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null, p
 
                             var rowData = data.result.trait_name_table.data;
                             console.log(rowData);
+
+                            $("#trait-loading-message").html("");
 
                             // collect the number of taxa represented for each trait
                             var taxCountsForTrait = {}
@@ -397,6 +401,8 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null, p
                         $("#send-trait-request").removeAttr("disabled");
                     } else {
                         setTimeout(_.bind(this.checkTraitResult, this), 1000);
+                        $("#trait-loading-message").html("Waiting for trait data: " + traitDataCounter + "...");
+                        traitDataCounter++;
                     }
                 }, this));
             };
