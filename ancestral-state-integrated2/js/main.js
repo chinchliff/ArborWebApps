@@ -17,7 +17,7 @@ function getFlowAppByNameLookup(name) {
     return app;
 }
 
-function renderTreePlot(target, tree, renderRequest, flow, girder) {
+function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
     
     var inputs = { tree: {type: "tree", format: "newick", data: tree} };
     var outputs = { treePlot: {type: "image", format: "png.base64"} };
@@ -45,6 +45,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder) {
                     // render tree plot
 //                    $("#original-tree-vis").image({ data: treePlot });
                     target.image({ data: treePlot });
+                    if (title) { target.prepend(title); }
 
                 }, this));
             } else if (result.status === 'FAILURE' && logElement != null) {
@@ -190,7 +191,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder) {
                             filterRequest.tree = data.result.tree.data;
                             console.log("will use tree: " + filterRequest.tree);
 
-                            renderTreePlot($("#original-tree-vis"), filterRequest.tree, treeRenderRequest, flow, girder);
+                            renderTreePlot($("#original-tree-vis"), filterRequest.tree, treeRenderRequest, flow, girder, title="Complete tree from Open Tree of Life");
 
                             d3.select("#tree-notice").html('Tree loaded successfully from OpenTree ' + 
                                     ' <span class="glyphicon glyphicon-ok-circle"></span>');
