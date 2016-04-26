@@ -17,7 +17,7 @@ function getFlowAppByNameLookup(name) {
     return app;
 }
 
-function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
+function renderTreePlot(target, tree, renderRequest, flow, girder, title=null, pendingMessage=null) {
     
     var inputs = { tree: {type: "tree", format: "newick", data: tree} };
     var outputs = { treePlot: {type: "image", format: "png.base64"} };
@@ -54,6 +54,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
                 logElement.text(msg);
             } else {
                 setTimeout(_.bind(this.checkRenderResult, this), 1000);
+                if (pendingMessage) { target.html(pendingMessage); }
             }
         }, this));
     };
@@ -159,7 +160,6 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
             $("#send-tree-request").attr("disabled","disabled");
             $("#send-tree-request").text("Request tree");
             $("#tree-notice").text("Requesting tree...");
-            $("#original-tree-vis").html("Loading complete tree from Open Tree of Life...");
 
             var inputs = {
                 ott_id: {type: "string", format: "text", data: treeRequest.ottId}
@@ -194,7 +194,8 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
 
                             $("#original-tree-vis").html("");
                             renderTreePlot($("#original-tree-vis"), filterRequest.tree, treeRenderRequest, flow, girder, 
-                                    "Complete tree from Open Tree of Life:");
+                                    "Complete tree from Open Tree of Life:",
+                                    "Loading tree from Open Tree of Life...");
 
                             d3.select("#tree-notice").html('Tree loaded successfully from OpenTree ' + 
                                     ' <span class="glyphicon glyphicon-ok-circle"></span>');
@@ -437,7 +438,8 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
 
                             $("#filtered-tree-vis").html("");
                             renderTreePlot($("#filtered-tree-vis"), asrRequest.tree, treeRenderRequest, flow, girder,
-                                    "Tree filtered to include only tips with '" + asrRequest.column + "' data:");
+                                    "Tree filtered to include only tips with '" + asrRequest.column + "' data:",
+                                    "Loading filtered tree...");
 
                             $("#filter-notice").html('Tree was successfully filtered for taxa with ' + 
                                     asrRequest.column + ' data. <span class="glyphicon glyphicon-ok-circle"></span>');
@@ -467,7 +469,6 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
             $("#send-asr-request").attr("disabled", "disabled");
             $("#send-asr-request").text("Re-run ancestral state reconstruction");
             $("#asr-notice").text("Performing ancestral state reconstruction analysis...");
-            $("#asr-vis").prepend($('<div id="temp-asr-message">Loading ancestral state reconstruction...</div>'));
 
             var inputs = {
 //                table:       {type: "table",  format: asrRequest.tableFormat,    data: asrRequest.table},
@@ -509,7 +510,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
                             asrRequest.treePlot = data.result.treePlot.data;
 
                             // render tree plot
-                            $("#temp-asr-message").remove();
+                            $("#asr-loading-message").html("");
                             $("#asr-vis").image({ data: asrRequest.treePlot });
                             $("#asr-vis").prepend("Results of ancestral state reconstruction:");
                             $("#send-asr-request").removeAttr("disabled");
@@ -528,6 +529,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null) {
                         $("#send-asr-request").removeAttr("disabled");
                     } else {
                         setTimeout(_.bind(this.checkASRResult, this), 1000);
+                        $("#asr-loading-message").html("Loading ancestral state reconstruction...");
                     }
                 }, this));
             };
