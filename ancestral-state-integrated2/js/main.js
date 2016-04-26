@@ -205,7 +205,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, logElement=nu
                             flow.performAnalysis(treeRenderRequest.analysisId, inputs, outputs,
                                 _.bind(function (error, result) {
                                     treeRenderRequest.taskId = result._id;
-                                    setTimeout(_.bind(treeRenderRequest.checkTreeResult, treeRenderRequest), 1000);
+                                    setTimeout(_.bind(treeRenderRequest.checkRenderResult, treeRenderRequest), 1000);
                                 }, treeRenderRequest));
 
                             treeRenderRequest.checkRenderResult = function () {
