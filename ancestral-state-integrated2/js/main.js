@@ -47,10 +47,10 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null, p
                     if (title) { target.prepend(title); }
 
                 }, this));
-            } else if (result.status === 'FAILURE' && logElement != null) {
+            } else if (result.status === 'FAILURE') {
                 var msg = "Could not render tree. " + result.message;
                 console.log(msg);
-                logElement.text(msg);
+                target.text(msg);
             } else {
                 setTimeout(_.bind(this.checkRenderResult, this), 1000);
                 if (pendingMessage) { target.html(pendingMessage); }
@@ -413,7 +413,6 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null, p
         $("#send-filter-request").click(function() {
             $("#send-filter-request").attr("disabled", "disabled");
             $("#send-filter-request").text("Re-filter tree");
-            $("#filtered-tree-vis").html("Loading filtered tree...");
             $("#filter-notice").text("Filtering tree based on availability of trait data...");
 
             var inputs = {
