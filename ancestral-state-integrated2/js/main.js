@@ -40,10 +40,9 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null, p
                 var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
                 girder.restRequest({path: result_url}).done(_.bind(function (data) {
 
-                    console.log(treePlot);
-
                     // render tree plot
                     var treePlot = data.result.treePlot.data;
+//                    console.log(treePlot);
                     target.html("").image({ data: treePlot });
                     if (title) { target.prepend(title); }
 
@@ -266,7 +265,7 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null, p
             traitRequest.checkTraitResult = function () {
                 var check_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/status'
                 girder.restRequest({path: check_url}).done(_.bind(function (result) {
-//                    console.log(result.status);
+                    console.log(result.status);
                     if (result.status === 'SUCCESS') {
                         // get result data
                         var result_url = '/item/' + this.analysisId + '/romanesco/' + this.taskId + '/result'
