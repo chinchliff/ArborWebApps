@@ -400,9 +400,9 @@ function renderTreePlot(target, tree, renderRequest, flow, girder, title=null, p
                         $("#send-trait-request").removeAttr("disabled");
                     } else {
                         setTimeout(_.bind(this.checkTraitResult, this), 1000);
-                        var msg = "Waiting for trait data: " + traitDataCounter + "...";
-                        console.log(msg);
-                        $("#trait-loading-message").html("Waiting for trait data: " + traitDataCounter + "...");
+                        var msg = "Waiting for trait data... " + traitDataCounter;
+//                        console.log(msg);
+                        $("#trait-loading-message").html(msg);
                         traitDataCounter++;
                     }
                 }, this));
